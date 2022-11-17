@@ -1,0 +1,15 @@
+.order-container {
+  background-image: url('../../images.jfif');
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+}
+
+.order-container h3 {
+  padding: 10px;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  color: rgb(236, 47, 79);
+  margin-bottom: 0.5rem;
+}

@@ -1,0 +1,176 @@
+.single-order-container {
+  margin: 0px 1rem;
+  border: 2px solid white;
+  border-radius: 1rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  font-size: 1rem;
+}
+
+.order-ul {
+  padding: 10px;
+  display: grid;
+  row-gap: 10px;
+}
+
+.order-ul li {
+  padding: 5px;
+  background-color: white;
+  border-radius: 0.5rem;
+  display: grid;
+  grid-template-columns: 80px auto 1fr;
+  column-gap: 10px;
+
+}
+
+.order-ul .name-count-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.message-box, .address-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: justify;
+  position: relative;
+}
+
+.message-text, .address-text {
+  height: 34px;
+  line-height: 1;
+  overflow: hidden
+}
+
+.message-button-down, .address-button-down {
+  position: absolute;
+  bottom: 50%;
+  right: 0px;
+  transform: translateY(50%);
+}
+
+.message-button-down button {
+  border: none;
+  color: rgba(71, 116, 232, 0.784);
+  font-size: 1.2rem;
+  background-color: white;
+  font-weight: bold;
+}
+.address-button-down button {
+  border: none;
+  color: rgba(71, 116, 232, 0.784);
+  font-size: 1.2rem;
+  background-color: white;
+  font-weight: bold;
+}
+
+.single-order-hr {
+  border: 1px solid gray;
+  width: 90vw;
+  margin: 1rem auto;
+}
+
+.custom-select select {
+  font-family: Arial, Helvetica, sans-serif;
+  width: 50%;
+  border-radius: 5px;
+  color:rgba(71, 116, 232, 0.784);
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 3px 0px;
+  border-color: rgb(236, 35, 35);
+}
+
+option:checked {
+  display: none;
+}
+
+option:not(:checked) {
+  color: black
+}
+
+.payment-box {
+  display: flex;
+  justify-content: space-between;
+}
+
+.payment-method-name {
+  text-transform: capitalize;
+}
+
+.payment-box select {
+  border-radius: 5px;
+}
+
+select:focus {
+  outline: none;
+}
+
+select:hover {
+  cursor: pointer;
+}
+
+.payment-select-received {
+  border: 2px solid green
+}
+
+.payment-select-pending {
+  border: 2px solid gray
+}
+
+.order-btn-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.remove-order-btn:hover {
+  cursor: pointer;
+  background-color: red;
+  color: white;
+}
+
+
+
+/* .remove-btn-container {
+  margin-left: 10px;
+}
+
+.save-cancel-container {
+  margin-right: 10px;
+} */
+
+.remove-order-btn {
+  border-radius: 5px;
+  border: 2px solid red;
+  background-color: white;
+  color: red;
+  padding: 5px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.remove-order-btn svg {
+  margin-right: 5px;
+}
+
+.save-cancel-container button{
+  border-radius: 5px;
+  border: 2px solid rgb(124, 86, 236);
+  background-color: white;
+  color: rgb(124, 86, 236);
+  padding: 5px;
+  font-weight: bold;
+  text-transform: capitalize;
+  width: 80px;
+}
+
+.save-cancel-container button:hover {
+  cursor: pointer;
+  background-color: rgb(124, 86, 236);
+  color: white;
+}
+
+.save-change-btn {
+  margin-right: 10px;
+}
