@@ -24,10 +24,75 @@
 
 .order-ul .name-count-container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
+.name-count-container input {
+  width: 100%;
+  display: flex;
+}
+
+.name-count-container div {
+  flex-grow: 1;
+  text-align: right;
+}
+
+.food-name {
+  flex-grow: 4;
+}
+
+.food-name input {
+  font-family: Arial, Helvetica, sans-serif;
+  border-radius: 5px;
+  color: rgba(71, 116, 232, 0.784);
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 3px 3px;
+  border: none;
+  border-left: 2px solid rgb(236, 35, 35);
+  border-right: 2px solid rgb(236, 35, 35);
+}
+
+.food-name input:focus {
+  outline: none;
+}
+
+.food-count select {
+  font-family: Arial, Helvetica, sans-serif;
+  width: 50%;
+  border-radius: 5px;
+  color: rgba(71, 116, 232, 0.784);
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 3px 0px;
+  border-color: rgb(236, 35, 35);
+}
+
+.food-count select option {
+  border-bottom: 1px solid gray;
+}
+
+.food-count input {
+  font-family: Arial, Helvetica, sans-serif;
+  border-radius: 5px;
+  color: rgba(71, 116, 232, 0.784);
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 3px 3px;
+  border: none;
+  border-left: 2px solid rgb(236, 35, 35);
+  border-right: 2px solid rgb(236, 35, 35);
+  text-align: center;
+  width: 50%;
+}
+
+
+.food-count {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
 .message-box, .address-box {
   display: flex;
   flex-direction: column;
@@ -70,7 +135,7 @@
   margin: 1rem auto;
 }
 
-.custom-select select {
+.status-select select {
   font-family: Arial, Helvetica, sans-serif;
   width: 50%;
   border-radius: 5px;
@@ -87,6 +152,24 @@ option:checked {
 
 option:not(:checked) {
   color: black
+}
+
+.status-time {
+  margin-left: 15px;
+  display: inline;
+  font-family: Arial, Helvetica, sans-serif;
+  border-radius: 5px;
+  color: gray;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 3px 3px;
+  border: none;
+  border-left: 2px solid rgb(236, 35, 35);
+  border-right: 2px solid rgb(236, 35, 35);
+}
+
+.status-time span {
+  margin-left: 5px;
 }
 
 .payment-box {

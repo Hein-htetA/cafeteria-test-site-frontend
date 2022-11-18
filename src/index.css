@@ -136,6 +136,10 @@ p {
   }
 }
 
+input:focus {
+  outline: none;
+}
+
 /*  global classes */
 
 
