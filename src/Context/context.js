@@ -6,7 +6,7 @@ const appState = {
   foodCountOthers: false,
   messageHide: true,
   statusState: "accepted",
-  addressHide: true,
+  addressHide: false,
   paymentState: "received",
   detailHide: false,
 };
@@ -41,9 +41,22 @@ const AppContextProvider = ({ children }) => {
     });
   };
 
+  // const detailHideFun = (id) => {
+  //   dispatch({
+  //     type: "DETAIL_HIDE",
+  //     payload: {
+  //       id,
+  //     },
+  //   });
+  // };
+
   return (
     <AppContext.Provider
-      value={{ data: [...state], onChangeInputSelect, onClickHideShow }}
+      value={{
+        data: [...state],
+        onChangeInputSelect,
+        onClickHideShow,
+      }}
     >
       {children}
     </AppContext.Provider>

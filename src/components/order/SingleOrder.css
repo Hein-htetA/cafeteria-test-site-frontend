@@ -9,7 +9,6 @@
 .order-ul {
   padding: 10px;
   display: grid;
-  row-gap: 10px;
 }
 
 .order-ul li {
@@ -19,18 +18,7 @@
   display: grid;
   grid-template-columns: 80px auto 1fr;
   column-gap: 10px;
-}
-
-.order-ul .detail-container {
-  display: grid;
-  row-gap: 10px;
-  max-height: 1000px;
-  transition: height 2s linear;
-}
-
-.order-ul .detail-container-hidden {
-  height: 0px;
-  overflow: hidden;
+  margin-bottom: 7px;
 }
 
 .order-ul .name-count-container {
@@ -96,6 +84,7 @@
   display: flex;
   justify-content: flex-end;
 }
+
 .message-box, .address-box {
   display: flex;
   flex-direction: column;
@@ -235,18 +224,10 @@ select:hover {
   border: 2px solid gray
 }
 
-.order-btn-container-margin-hidden {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 0px;
-}
-
 .order-btn-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
 }
 
 .remove-order-btn:hover {

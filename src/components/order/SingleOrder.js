@@ -11,6 +11,7 @@ import {
   faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAppContext } from "../../Context/context";
+import CollapsibleContainer from "./CollapsibleContainer";
 
 const getAmPmTime = (dateString) => {
   const date = new Date(dateString);
@@ -23,16 +24,6 @@ const getAmPmTime = (dateString) => {
   }
   const string = `${hour}:${minute} ${amPm}`;
   return string;
-};
-
-const detailContainer = {};
-
-const styleHeight = () => {
-  const detailContainer = document.querySelector(".detail-container");
-  console.log(detailContainer);
-  return {
-    height: "300px",
-  };
 };
 
 const SingleOrder = (props) => {
@@ -53,13 +44,6 @@ const SingleOrder = (props) => {
   } = props;
 
   const { onChangeInputSelect, onClickHideShow } = useAppContext();
-
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const x = ref.current.style.height;
-    console.log("offsetHeight", ref.current.offsetHeight);
-  }, []);
 
   return (
     <>
@@ -94,7 +78,7 @@ const SingleOrder = (props) => {
               )}
             </div>
           </li>
-          <li>
+          <li className="message-container">
             <div>Message</div>
             <div>:</div>
             <div className="message-box">
@@ -120,13 +104,11 @@ const SingleOrder = (props) => {
               </div>
             </div>
           </li>
-          <div
-            className={
-              detailHide
-                ? " detail-container detail-container-hidden"
-                : "detail-container"
-            }
-            ref={ref}
+          <CollapsibleContainer
+            hide={detailHide}
+            id={id}
+            onClickHideShow={onClickHideShow}
+            addressHide={addressHide}
           >
             <li>
               <div>Status</div>
@@ -203,8 +185,9 @@ const SingleOrder = (props) => {
               <div>:</div>
               <div>{phoneNumber}</div>
             </li>
-          </div>
-          <div className="order-btn-container-margin-hidden">
+          </CollapsibleContainer>
+
+          <div className={"order-btn-container"}>
             <div className="remove-btn-container">
               <button className="remove-order-btn">
                 <FontAwesomeIcon icon={faXmark} />
