@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import "./SingleOrder.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowsUpDown,
   faXmark,
   faClock,
+  faSquareCaretDown,
+  faSquareCaretUp,
+  faChevronUp,
+  faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
+import { useAppContext } from "../../Context/context";
 
-const getAmPmTime = (date) => {
+const getAmPmTime = (dateString) => {
+  const date = new Date(dateString);
   let hour = date.getHours();
   let amPm = "AM";
   const minute = date.getMinutes();
@@ -19,96 +25,208 @@ const getAmPmTime = (date) => {
   return string;
 };
 
-const SingleOrder = () => {
+const detailContainer = {};
+
+const styleHeight = () => {
+  const detailContainer = document.querySelector(".detail-container");
+  console.log(detailContainer);
+  return {
+    height: "300px",
+  };
+};
+
+const SingleOrder = (props) => {
+  const {
+    id,
+    foodName,
+    foodCount,
+    message,
+    statusState,
+    statusDate,
+    address,
+    paymentMethod,
+    paymentState,
+    phoneNumber,
+    messageHide,
+    addressHide,
+    detailHide,
+  } = props;
+
+  const { onChangeInputSelect, onClickHideShow } = useAppContext();
+
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const x = ref.current.style.height;
+    console.log("offsetHeight", ref.current.offsetHeight);
+  }, []);
+
   return (
     <>
       <div className="single-order-container">
         <ul className="order-ul">
           <li className="name-count-container">
             <div className="food-name">
-              <input defaultValue={"chinese fried rice"} placeholder="Name" />
+              <input
+                value={foodName}
+                placeholder="Name"
+                onChange={(e) => onChangeInputSelect(id, "foodName", e)}
+              />
             </div>
-            <div>x</div>
             <div className="food-count">
-              <select name="foodCount" id="foodCount">
-                <option value={1}>1</option>
-                <option value={1}>2</option>
-                <option value={1}>3</option>
-                <option value={1}>4</option>
-                <option value={1}>5</option>
-                <option value={6}>Others...</option>
-              </select>
-              <input type="text" style={{ display: "none" }} />
+              <div style={{ marginRight: "20px" }}>x</div>
+              {foodCount === "others" ? (
+                <input type="text" />
+              ) : (
+                <select
+                  value={foodCount}
+                  name="foodCount"
+                  id="foodCount"
+                  onChange={(e) => onChangeInputSelect(id, "foodCount", e)}
+                >
+                  <option value={1}>1</option>
+                  <option value={2}>2</option>
+                  <option value={3}>3</option>
+                  <option value={4}>4</option>
+                  <option value={5}>5</option>
+                  <option value={"others"}>Others...</option>
+                </select>
+              )}
             </div>
           </li>
           <li>
             <div>Message</div>
             <div>:</div>
             <div className="message-box">
-              <div className="message-text">
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
+              <div
+                className={
+                  messageHide
+                    ? "message-text message-text-hidden"
+                    : "message-text"
+                }
+              >
+                {message}
               </div>
-              <div className="message-button-down">
-                <button>
-                  <FontAwesomeIcon icon={faArrowsUpDown} beat />
-                </button>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div>Status</div>
-            <div>:</div>
-            <div className="status-select">
-              <select>
-                <option value="orderReceived">Order Received</option>
-                <option value="orderAccepted">Order Accepted</option>
-                <option value="delivered">Delievered</option>
-              </select>
-              <div className="status-time">
-                <FontAwesomeIcon icon={faClock} />
-                <span>{getAmPmTime(new Date())}</span>
+              <div className="message-button-toggle">
+                {messageHide ? (
+                  <button onClick={() => onClickHideShow(id, "messageHide")}>
+                    <FontAwesomeIcon icon={faSquareCaretDown} />
+                  </button>
+                ) : (
+                  <button onClick={() => onClickHideShow(id, "messageHide")}>
+                    <FontAwesomeIcon icon={faSquareCaretUp} />
+                  </button>
+                )}
               </div>
             </div>
           </li>
-          <li>
-            <div>Address</div>
-            <div>:</div>
-            <div className="address-box">
-              <div className="address-text">
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
+          <div
+            className={
+              detailHide
+                ? " detail-container detail-container-hidden"
+                : "detail-container"
+            }
+            ref={ref}
+          >
+            <li>
+              <div>Status</div>
+              <div>:</div>
+              <div className={"status-select"}>
+                <select
+                  className={
+                    statusState === "received"
+                      ? "status-select status-select-received"
+                      : statusState === "accepted"
+                      ? "status-select status-select-accepted"
+                      : "status-select status-select-delievery"
+                  }
+                  onChange={(e) => onChangeInputSelect(id, "statusState", e)}
+                  value={statusState}
+                >
+                  <option value="received">Order Received</option>
+                  <option value="accepted">Order Accepted</option>
+                  <option value="delivery">On Delivery</option>
+                </select>
+                <div className="status-time">
+                  <FontAwesomeIcon icon={faClock} />
+                  {getAmPmTime(statusDate)}
+                </div>
               </div>
-              <div className="address-button-down">
-                <button>
-                  <FontAwesomeIcon icon={faArrowsUpDown} beat />
-                </button>
+            </li>
+            <li>
+              <div>Address</div>
+              <div>:</div>
+              <div className="address-box">
+                <div
+                  className={
+                    addressHide
+                      ? "address-text address-text-hidden"
+                      : "address-text"
+                  }
+                >
+                  {address}
+                </div>
+                <div className="address-button-toggle">
+                  {addressHide ? (
+                    <button onClick={() => onClickHideShow(id, "addressHide")}>
+                      <FontAwesomeIcon icon={faSquareCaretDown} />
+                    </button>
+                  ) : (
+                    <button onClick={() => onClickHideShow(id, "addressHide")}>
+                      <FontAwesomeIcon icon={faSquareCaretUp} />
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
-          </li>
-          <li>
-            <div>Payment</div>
-            <div>:</div>
-            <div className="payment-box">
-              <div className="payment-method-name">cash on delievery</div>
-              <select className="payment-select-received">
-                <option value="notReceived">Pending</option>
-                <option value="received">Received</option>
-              </select>
-            </div>
-          </li>
-          <li>
-            <div>Phone</div>
-            <div>:</div>
-            <div>09788888677</div>
-          </li>
-          <div className="order-btn-container">
+            </li>
+            <li>
+              <div>Payment</div>
+              <div>:</div>
+              <div className="payment-box">
+                <div className="payment-method-name">{paymentMethod}</div>
+                <select
+                  onChange={(e) => onChangeInputSelect(id, "paymentState", e)}
+                  value={paymentState}
+                  className={
+                    paymentState === "received"
+                      ? "payment-select-received"
+                      : "payment-select-pending"
+                  }
+                >
+                  <option value={"pending"}>Pending</option>
+                  <option value={"received"}>Received</option>
+                </select>
+              </div>
+            </li>
+            <li>
+              <div>Phone</div>
+              <div>:</div>
+              <div>{phoneNumber}</div>
+            </li>
+          </div>
+          <div className="order-btn-container-margin-hidden">
             <div className="remove-btn-container">
               <button className="remove-order-btn">
                 <FontAwesomeIcon icon={faXmark} />
                 Remove
+              </button>
+            </div>
+            <div className="toggle-detail-btn-container">
+              <button
+                className="toggle-detail-btn"
+                onClick={() => onClickHideShow(id, "detailHide")}
+              >
+                {detailHide ? (
+                  <>
+                    <FontAwesomeIcon icon={faChevronDown} />
+                    <FontAwesomeIcon icon={faChevronDown} />
+                  </>
+                ) : (
+                  <>
+                    <FontAwesomeIcon icon={faChevronUp} />
+                    <FontAwesomeIcon icon={faChevronUp} />
+                  </>
+                )}
               </button>
             </div>
             <div className="save-cancel-container">

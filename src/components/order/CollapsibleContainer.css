@@ -1,0 +1,11 @@
+.order-ul .detail-container {
+  display: grid;
+  row-gap: 10px;
+  max-height: 1000px;
+  transition: height 2s linear;
+}
+
+.order-ul .detail-container-hidden {
+  height: 0px;
+  overflow: hidden;
+}

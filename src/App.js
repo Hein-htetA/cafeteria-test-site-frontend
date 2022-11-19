@@ -2,14 +2,14 @@ import React from "react";
 import Navbar from "./components/navbar/navbar";
 import Order from "./components/order";
 import "./App.css";
-import { Container } from "@mui/material";
+import { AppContextProvider } from "./Context/context";
 
 const App = () => {
   return (
-    <div>
+    <AppContextProvider>
       <Navbar />
       <Order />
-    </div>
+    </AppContextProvider>
   );
 };
 

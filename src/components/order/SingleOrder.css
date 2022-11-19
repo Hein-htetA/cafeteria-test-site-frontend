@@ -19,27 +19,29 @@
   display: grid;
   grid-template-columns: 80px auto 1fr;
   column-gap: 10px;
+}
 
+.order-ul .detail-container {
+  display: grid;
+  row-gap: 10px;
+  max-height: 1000px;
+  transition: height 2s linear;
+}
+
+.order-ul .detail-container-hidden {
+  height: 0px;
+  overflow: hidden;
 }
 
 .order-ul .name-count-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto auto;
+  text-align: right;
 }
 
 .name-count-container input {
   width: 100%;
   display: flex;
-}
-
-.name-count-container div {
-  flex-grow: 1;
-  text-align: right;
-}
-
-.food-name {
-  flex-grow: 4;
 }
 
 .food-name input {
@@ -52,6 +54,7 @@
   border: none;
   border-left: 2px solid rgb(236, 35, 35);
   border-right: 2px solid rgb(236, 35, 35);
+  text-transform: capitalize;
 }
 
 .food-name input:focus {
@@ -84,7 +87,7 @@
   border-left: 2px solid rgb(236, 35, 35);
   border-right: 2px solid rgb(236, 35, 35);
   text-align: center;
-  width: 50%;
+  width: 40px;
 }
 
 
@@ -101,32 +104,52 @@
   position: relative;
 }
 
-.message-text, .address-text {
-  height: 34px;
-  line-height: 1;
+.message-text,
+.address-text {
+  height: 100px;
+  overflow-y: scroll;
+  transition: height 0.3s linear;
+}
+
+.message-text-hidden, .address-text-hidden {
+  height: 2.7em;
   overflow: hidden
 }
 
-.message-button-down, .address-button-down {
+.message-button-toggle, .address-button-toggle {
   position: absolute;
-  bottom: 50%;
+  bottom: -5px;
   right: 0px;
-  transform: translateY(50%);
 }
 
-.message-button-down button {
-  border: none;
+.message-button-toggle button {
+  display: flex;
   color: rgba(71, 116, 232, 0.784);
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   background-color: white;
   font-weight: bold;
+  width: 30px;
+  height: 30px;
+  justify-content: flex-end;
+  align-items: center;
+  border-radius: 5px;
+  border: 3px solid rgb(253, 250, 252);
+  border-right: none;
 }
-.address-button-down button {
-  border: none;
+
+.address-button-toggle button {
+  display: flex;
   color: rgba(71, 116, 232, 0.784);
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   background-color: white;
   font-weight: bold;
+  width: 30px;
+  height: 30px;
+  justify-content: flex-end;
+  align-items: center;
+  border-radius: 5px;
+  border: 3px solid rgb(253, 250, 252);
+  border-right: none;
 }
 
 .single-order-hr {
@@ -137,13 +160,24 @@
 
 .status-select select {
   font-family: Arial, Helvetica, sans-serif;
-  width: 50%;
+  width: 60%;
   border-radius: 5px;
   color:rgba(71, 116, 232, 0.784);
   font-size: 0.8rem;
   font-weight: bold;
   padding: 3px 0px;
-  border-color: rgb(236, 35, 35);
+}
+
+.status-select-received {
+  border: 2px solid red;
+}
+
+.status-select-accepted {
+  border: 2px solid rgb(60, 36, 240);
+}
+
+.status-select-delievery {
+  border: 2px solid green;
 }
 
 option:checked {
@@ -155,17 +189,17 @@ option:not(:checked) {
 }
 
 .status-time {
-  margin-left: 15px;
+  margin-left: 5px;
   display: inline;
   font-family: Arial, Helvetica, sans-serif;
   border-radius: 5px;
   color: gray;
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: bold;
-  padding: 3px 3px;
+  /* padding: 3px 3px;
   border: none;
   border-left: 2px solid rgb(236, 35, 35);
-  border-right: 2px solid rgb(236, 35, 35);
+  border-right: 2px solid rgb(236, 35, 35); */
 }
 
 .status-time span {
@@ -201,10 +235,18 @@ select:hover {
   border: 2px solid gray
 }
 
+.order-btn-container-margin-hidden {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0px;
+}
+
 .order-btn-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 10px;
 }
 
 .remove-order-btn:hover {
@@ -256,4 +298,23 @@ select:hover {
 
 .save-change-btn {
   margin-right: 10px;
+}
+
+.toggle-detail-btn {
+  display: flex;
+  border-radius: 5px;
+  border: 2px solid rgb(1, 43, 15);
+  background-color: rgba(71, 116, 232, 0.784);
+  color: white;
+  padding: 5px;
+  font-weight: bold;
+  text-transform: capitalize;
+  width: 50px;
+  justify-content: center;
+  align-items: center;
+}
+
+.toggle-detail-btn:hover {
+  background-color: rgb(124, 86, 236);
+  color: white
 }
