@@ -1,8 +1,8 @@
 import { createContext, useContext, useReducer } from "react";
 import { data } from "../data";
-import { reducer } from "./reducer";
+import { reducer } from "./OrderReducer";
 
-const appState = {
+const orderState = {
   foodCountOthers: false,
   messageHide: true,
   statusState: "accepted",
@@ -12,12 +12,12 @@ const appState = {
 };
 
 const initialState = data.map((order) => {
-  return { ...order, ...appState };
+  return { ...order, ...orderState };
 });
 
-const AppContext = createContext();
+const OrderContext = createContext();
 
-const AppContextProvider = ({ children }) => {
+const OrderContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const onChangeInputSelect = (id, item, event) => {
@@ -51,7 +51,7 @@ const AppContextProvider = ({ children }) => {
   // };
 
   return (
-    <AppContext.Provider
+    <OrderContext.Provider
       value={{
         data: [...state],
         onChangeInputSelect,
@@ -59,12 +59,12 @@ const AppContextProvider = ({ children }) => {
       }}
     >
       {children}
-    </AppContext.Provider>
+    </OrderContext.Provider>
   );
 };
 
-const useAppContext = () => {
-  return useContext(AppContext);
+const useOrderContext = () => {
+  return useContext(OrderContext);
 };
 
-export { AppContext, AppContextProvider, useAppContext };
+export { OrderContext, OrderContextProvider, useOrderContext };

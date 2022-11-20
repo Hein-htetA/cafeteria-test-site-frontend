@@ -10,7 +10,7 @@ import {
   faChevronUp,
   faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
-import { useAppContext } from "../../Context/context";
+import { useOrderContext } from "../../Context/OrderContext";
 import CollapsibleContainer from "./CollapsibleContainer";
 
 const getAmPmTime = (dateString) => {
@@ -43,7 +43,19 @@ const SingleOrder = (props) => {
     detailHide,
   } = props;
 
-  const { onChangeInputSelect, onClickHideShow } = useAppContext();
+  const { onChangeInputSelect, onClickHideShow } = useOrderContext();
+
+  const scrollRef = useRef(null);
+
+  const hideShowScroll = () => {
+    onClickHideShow(id, "messageHide");
+    scrollRef.current.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  };
+  console.log("single order rerender");
 
   return (
     <>
@@ -88,16 +100,17 @@ const SingleOrder = (props) => {
                     ? "message-text message-text-hidden"
                     : "message-text"
                 }
+                ref={scrollRef}
               >
                 {message}
               </div>
               <div className="message-button-toggle">
                 {messageHide ? (
-                  <button onClick={() => onClickHideShow(id, "messageHide")}>
+                  <button onClick={hideShowScroll}>
                     <FontAwesomeIcon icon={faSquareCaretDown} />
                   </button>
                 ) : (
-                  <button onClick={() => onClickHideShow(id, "messageHide")}>
+                  <button onClick={hideShowScroll}>
                     <FontAwesomeIcon icon={faSquareCaretUp} />
                   </button>
                 )}
@@ -130,7 +143,10 @@ const SingleOrder = (props) => {
                   <option value="delivery">On Delivery</option>
                 </select>
                 <div className="status-time">
-                  <FontAwesomeIcon icon={faClock} />
+                  <FontAwesomeIcon
+                    icon={faClock}
+                    style={{ marginRight: "2px" }}
+                  />
                   {getAmPmTime(statusDate)}
                 </div>
               </div>
@@ -139,16 +155,8 @@ const SingleOrder = (props) => {
               <div>Address</div>
               <div>:</div>
               <div className="address-box">
-                <div
-                  className={
-                    addressHide
-                      ? "address-text address-text-hidden"
-                      : "address-text"
-                  }
-                >
-                  {address}
-                </div>
-                <div className="address-button-toggle">
+                <div className={"address-text"}>{address}</div>
+                {/* <div className="address-button-toggle">
                   {addressHide ? (
                     <button onClick={() => onClickHideShow(id, "addressHide")}>
                       <FontAwesomeIcon icon={faSquareCaretDown} />
@@ -158,7 +166,7 @@ const SingleOrder = (props) => {
                       <FontAwesomeIcon icon={faSquareCaretUp} />
                     </button>
                   )}
-                </div>
+                </div> */}
               </div>
             </li>
             <li>

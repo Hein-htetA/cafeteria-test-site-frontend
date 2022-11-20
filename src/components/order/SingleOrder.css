@@ -93,8 +93,7 @@
   position: relative;
 }
 
-.message-text,
-.address-text {
+.message-text {
   height: 100px;
   overflow-y: scroll;
   transition: height 0.3s linear;
@@ -178,7 +177,7 @@ option:not(:checked) {
 }
 
 .status-time {
-  margin-left: 5px;
+  margin-left: 8px;
   display: inline;
   font-family: Arial, Helvetica, sans-serif;
   border-radius: 5px;

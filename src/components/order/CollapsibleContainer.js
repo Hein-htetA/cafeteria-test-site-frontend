@@ -10,19 +10,12 @@ const CollapsibleContainer = ({
 }) => {
   const collapseContainerRef = useRef(null);
   const heightRef = useRef(null);
-  const isFirstRender = useRef(true);
+  console.log("collapse container re render");
 
   useEffect(() => {
-    if (isFirstRender.current) {
-      onClickHideShow(id, "detailHide");
-      isFirstRender.current = false;
-    }
+    onClickHideShow(id, "detailHide");
     heightRef.current = collapseContainerRef.current.offsetHeight;
-    console.log("in useeffect");
-    console.log("max", heightRef.current);
-    console.log("conta", collapseContainerRef.current.offsetHeight);
-    console.log("-------");
-  }, [addressHide]);
+  }, []);
 
   return (
     <div

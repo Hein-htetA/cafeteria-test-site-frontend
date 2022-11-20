@@ -1,15 +1,18 @@
 import React from "react";
-import Navbar from "./components/navbar/navbar";
+import Navbar from "./components/navbar";
 import Order from "./components/order";
 import "./App.css";
-import { AppContextProvider } from "./Context/context";
+import { OrderContextProvider } from "./Context/OrderContext";
+import { UiContextProvider } from "./Context/UiContext";
 
 const App = () => {
   return (
-    <AppContextProvider>
+    <UiContextProvider>
       <Navbar />
-      <Order />
-    </AppContextProvider>
+      <OrderContextProvider>
+        <Order />
+      </OrderContextProvider>
+    </UiContextProvider>
   );
 };
 

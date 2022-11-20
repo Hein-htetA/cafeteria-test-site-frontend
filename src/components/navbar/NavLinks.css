@@ -1,0 +1,45 @@
+.navlinks-container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  justify-content: flex-start;
+  align-items: flex-start;
+  position: fixed;
+  top: 106px;
+  width: 100%;
+  bottom: 0px;
+  z-index: 9;
+  height: 100vh;
+  transition: height 0.25s linear;
+  opacity: 1;
+}
+
+.navlinks-container-hidden {
+  opacity: 0;
+  height: 0px;
+  overflow: hidden;
+  transition: all 0.25s linear;
+}
+
+.navlinks-ul {
+  width: 100%;
+}
+
+/********Single Link*********/
+
+.navlinks-ul li {
+  padding-bottom: 0.5rem;
+  font-size: 1rem;
+  padding: 1rem;
+}
+
+.navlinks-ul hr {
+  width: 100vw;
+}
+
+/*****Restaurant Name(p tag)******/
+
+.restaurant-name {
+  align-self: center;
+  margin-top: 30px;
+}

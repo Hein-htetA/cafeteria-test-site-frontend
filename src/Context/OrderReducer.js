@@ -20,14 +20,14 @@ export const reducer = (state, action) => {
       });
 
       return tempState2;
-    case "DETAIL_HIDE":
-      const tempState3 = copyState.map((order) => {
-        if (order.id === action.payload.id) {
-          order.detailHide = true;
-        }
-        return order;
-      });
-      return tempState3;
+    // case "DETAIL_HIDE":
+    //   const tempState3 = copyState.map((order) => {
+    //     if (order.id === action.payload.id) {
+    //       order.detailHide = true;
+    //     }
+    //     return order;
+    //   });
+    //   return tempState3;
 
     default:
       throw new Error("action type not supported yet");

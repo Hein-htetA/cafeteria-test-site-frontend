@@ -1,0 +1,84 @@
+.nav-container {
+
+  position: relative;
+}
+
+/* logo-text-container **************/
+
+.logo-text-container {
+  padding: 0.5rem 0px 20px 0px;
+  letter-spacing: 3px;
+  position: fixed;
+  width: 100%;
+  border-bottom: 3px solid rgb(238, 94, 118);
+  background-color: pink;
+  text-align: center;
+  z-index: 99;
+}
+
+.logo-text-space {
+  height: 103px;
+  width: 100%;
+}
+
+.logo-text-container p {
+  margin: 0px
+}
+
+.primary-logo-text {
+  font-size: 2rem;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.secondary-logo-text {
+  color: white;
+  font-size: 1.5rem;
+}
+
+/**********toggle-btn************/
+
+.nav-button {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  font-size: 2rem;
+  border: none;
+  background-color: transparent;
+  color: white;
+  z-index: 999;
+}
+
+.nav-button .fa-xmark {
+  color: red;
+  position: absolute;
+  font-size: 2.5rem;
+  left: 1px;
+  bottom: 1px;
+  opacity: 1;
+  transform: rotate(0deg);
+  transition: all 0.25s linear;
+}
+
+.nav-button .fa-xmark-hidden {
+  color: white;
+  opacity: 0;
+  transform: rotate(-45deg);
+}
+
+.fa-bar {
+  color: white;
+  opacity: 1;
+  transform: rotate(0deg);
+  transition: all 0.25s linear;
+}
+
+.fa-bar-hidden {
+  transform: rotate(45deg);
+  opacity: 0;
+}
+
+
+
+
