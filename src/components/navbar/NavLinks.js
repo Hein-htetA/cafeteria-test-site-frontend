@@ -1,11 +1,10 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import "./NavLinks.css";
 import { useUiContext } from "../../Context/UiContext";
+import { Link } from "react-router-dom";
 
 const NavLinks = () => {
-  const { navbar } = useUiContext();
+  const { navbar, toggleNavbar } = useUiContext();
   return (
     <div
       className={
@@ -15,7 +14,9 @@ const NavLinks = () => {
       }
     >
       <ul className="navlinks-ul">
-        <li>Menu</li>
+        <Link to="/menu" onClick={toggleNavbar}>
+          <li>Menu</li>
+        </Link>
         <hr />
         <li>Trash Bin</li>
         <hr />

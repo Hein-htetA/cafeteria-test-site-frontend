@@ -1,0 +1,46 @@
+.single-menu-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: white;
+  width: 80%;
+  height: 80px;
+  border-radius: 0.5rem;
+  border: 2px solid rgb(123 121 83);
+  margin: 0px auto 10px auto;
+  box-sizing: content-box;
+}
+
+.item-img-container {
+  width: 80px;
+  height: 80px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.item-img-container img {
+  width: 80px;
+  height: 80px;
+  
+}
+
+.item-info-container {
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+.item-name {
+  margin-bottom: 5px;
+  font-size: 1.2rem;
+  text-transform: capitalize;
+  letter-spacing: 1px;
+  color: #3e3738;
+}
+
+.item-price {
+  color: #ae06f5
+}

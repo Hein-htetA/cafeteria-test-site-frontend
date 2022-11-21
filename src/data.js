@@ -1,4 +1,4 @@
-export const data = [
+export const orderData = [
   {
     id: 1,
     foodName: "chinese fried rice",
@@ -48,5 +48,39 @@ export const data = [
     paymentMethod: "kpay(4806)",
     paymentStatus: "Received",
     phoneNumber: "09776219247",
+  },
+];
+
+export const menuData = [
+  {
+    id: 1,
+    name: "Mala Xiagn",
+    imgUrl: "./img/img1.jpg",
+    price: 2000,
+    description:
+      "Upload a selected file using the FormData object. Append the name and file using the append method of the formData object.",
+  },
+  {
+    id: 2,
+    name: "hotpot",
+    imgUrl: "./img/img2.jfif",
+    price: 3000,
+    description:
+      "Upload a selected file using the FormData object. Append the name and file using",
+  },
+  {
+    id: 3,
+    name: "Banana snack",
+    imgUrl: "./img/img3.jfif",
+    price: 2500,
+    description:
+      "That's pretty much it. You have successfully created and added a custom file upload componen",
+  },
+  {
+    id: 4,
+    name: "Pathein Halawar",
+    imgUrl: "./img/img4.jpeg",
+    price: 1500,
+    description: "asfasrwrweieatjoewitaweoitjaeowitweohto",
   },
 ];

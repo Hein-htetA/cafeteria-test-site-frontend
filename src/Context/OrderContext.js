@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer } from "react";
-import { data } from "../data";
+import { orderData } from "../data";
 import { reducer } from "./OrderReducer";
 
 const orderState = {
@@ -11,7 +11,7 @@ const orderState = {
   detailHide: false,
 };
 
-const initialState = data.map((order) => {
+const initialState = orderData.map((order) => {
   return { ...order, ...orderState };
 });
 
