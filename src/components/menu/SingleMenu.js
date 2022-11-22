@@ -1,14 +1,13 @@
 import React from "react";
 import "./SingleMenu.css";
-import myImg from "./img1.jpg";
 
 const SingleMenu = (props) => {
-  const { id, name, imgUrl, price } = props;
+  const { id, name, image, price } = props;
 
   return (
     <div className="single-menu-container">
       <div className="item-img-container">
-        <img src={myImg} alt="mala" />
+        <img src={image} alt="mala" />
       </div>
       <div className="item-info-container">
         <h4 className="item-name">{name}</h4>

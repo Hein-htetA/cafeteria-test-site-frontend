@@ -4,7 +4,7 @@
   align-items: flex-start;
   background-color: white;
   width: 80%;
-  height: 80px;
+  height: 100px;
   border-radius: 0.5rem;
   border: 2px solid rgb(123 121 83);
   margin: 0px auto 10px auto;
@@ -12,8 +12,8 @@
 }
 
 .item-img-container {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   background-color: white;
   display: flex;
   align-items: center;
@@ -23,9 +23,9 @@
 }
 
 .item-img-container img {
-  width: 80px;
-  height: 80px;
-  
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
 }
 
 .item-info-container {

@@ -1,55 +1,141 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./SingleMenuDetail.css";
 import { useParams } from "react-router-dom";
 import { useMenuContext } from "../../Context/MenuContext";
-import image from "./img1.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faXmark, faCamera } from "@fortawesome/free-solid-svg-icons";
 
 const SingleMenuDetail = () => {
   const { menuId } = useParams();
-  const menuData = useMenuContext();
+  const { menuData, editInput, stopAnimation, onChangeInput, onChangeImage } =
+    useMenuContext();
   const menu = menuData.find((menu) => menu.id === parseInt(menuId));
-  console.log("menu", menu);
+  const nameRef = useRef();
+  const priceRef = useRef();
+  const descriptionRef = useRef();
+
+  //console.log("menu", menu);
   return (
     <div className="detail-container">
       <div className="image-info-container">
         <div className="img-container">
-          <img src={image} alt="food" width="100" height="100" />
-          <label for="inputTag">
+          <img src={menu.image} alt="uploadImg" />
+          <label htmlFor="inputTag">
             <FontAwesomeIcon icon={faCamera} bounce />
             <input
               id="inputTag"
               type="file"
               accept="image/png, image/jpg, image/gif, image/jpeg"
+              onChange={(e) => onChangeImage(menu.id, e.target.files[0])}
               style={{ display: "none" }}
             />
           </label>
+          {menu.imageError && (
+            <div className="image-error-message">
+              <div className="image-error-message-first">
+                Image Size {">"} 6MB
+              </div>
+              <div className="image-error-message-second">
+                Upload Unsuccessful!
+              </div>
+            </div>
+          )}
         </div>
         <div className="info-container">
           <div className="food-title-box">
-            <input className="food-title" value={menu.name} />
-            <div className="title-icon">
+            <input
+              className={
+                menu.nameEdit ? "food-title food-title-edit" : "food-title"
+              }
+              value={menu.name}
+              readOnly={menu.nameEdit ? false : true}
+              ref={nameRef}
+              onChange={(e) => onChangeInput(menu.id, "name", e.target.value)}
+            />
+            <button
+              className={
+                menu.beatOnce.firstBtn
+                  ? "title-icon icon-animation"
+                  : "title-icon"
+              }
+              onClick={() =>
+                editInput(menu.id, "nameEdit", "name", "firstBtn", nameRef)
+              }
+              onAnimationEnd={() => stopAnimation(menu.id, "firstBtn")}
+            >
               <FontAwesomeIcon icon={faPenToSquare} />
-            </div>
+            </button>
           </div>
           <div className="food-price-box">
-            <div className="price-postfix">
-              <input className="food-price" value={menu.price} />
+            <div
+              className={
+                menu.priceEdit
+                  ? "price-postfix price-postfix-edit"
+                  : "price-postfix"
+              }
+            >
+              <input
+                type={"number"}
+                className={"food-price"}
+                value={menu.price}
+                readOnly={menu.priceEdit ? false : true}
+                ref={priceRef}
+                onChange={(e) =>
+                  onChangeInput(menu.id, "price", e.target.value)
+                }
+              />
               <span className="postfix">MMK</span>
             </div>
-            <div className="price-icon">
+            <button
+              className={
+                menu.beatOnce.secondBtn
+                  ? "price-icon icon-animation"
+                  : "price-icon"
+              }
+              onClick={() =>
+                editInput(menu.id, "priceEdit", "price", "secondBtn", priceRef)
+              }
+              onAnimationEnd={() => stopAnimation(menu.id, "secondBtn")}
+            >
               <FontAwesomeIcon icon={faPenToSquare} />
-            </div>
+            </button>
           </div>
           <div className="textarea-container">
-            <textarea className="description" value={menu.description}>
+            <textarea
+              className={
+                menu.descriptionEdit
+                  ? "description description-edit"
+                  : "description"
+              }
+              value={menu.description}
+              readOnly={menu.descriptionEdit ? false : true}
+              ref={descriptionRef}
+              onChange={(e) =>
+                onChangeInput(menu.id, "description", e.target.value)
+              }
+            >
               <FontAwesomeIcon icon={faPenToSquare} />
             </textarea>
-            <span className="textarea-icon">
+            <button
+              className={
+                menu.beatOnce.thirdBtn
+                  ? "textarea-icon icon-animation"
+                  : "textarea-icon"
+              }
+              onClick={() =>
+                editInput(
+                  menu.id,
+                  "descriptionEdit",
+                  "description",
+                  "thirdBtn",
+                  descriptionRef
+                )
+              }
+              onAnimationEnd={() => stopAnimation(menu.id, "thirdBtn")}
+            >
               <FontAwesomeIcon icon={faPenToSquare} />
-            </span>
+            </button>
           </div>
         </div>
       </div>

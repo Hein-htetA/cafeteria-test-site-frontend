@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import "./index.css";
 
 const Menu = () => {
-  const menuData = useMenuContext();
+  const { menuData } = useMenuContext();
   console.log("menudata", menuData);
   return (
     <>
