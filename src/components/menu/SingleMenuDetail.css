@@ -26,6 +26,8 @@
   width: 100px;
   height: 100px;
   object-fit: cover;
+  background-color: white;
+  text-align: center;
 }
 
 .image-error-message {
@@ -76,8 +78,6 @@
   font-size: 1rem;
   width: calc(100% - 30px);
   padding: 5px;
-  border: none;
-  border-radius: 0.5rem;
 }
 
 .price-postfix {
@@ -130,16 +130,16 @@
 }
 
 .description-edit, .food-title-edit, .price-postfix-edit {
-  border: 2px solid #8600fb;
+  border: 1px solid #8600fb;
 }
 
 .textarea-icon {
   position: absolute;
   top: 5px;
   right: 0px;
-  border: none;
   color: inherit;
   font-size: inherit;
+  border: none;
 }
 
 /************Button Group**********/

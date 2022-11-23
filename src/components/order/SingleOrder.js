@@ -34,6 +34,7 @@ const SingleOrder = (props) => {
     message,
     statusState,
     statusDate,
+    customerName,
     address,
     paymentMethod,
     paymentState,
@@ -150,6 +151,11 @@ const SingleOrder = (props) => {
                   {getAmPmTime(statusDate)}
                 </div>
               </div>
+            </li>
+            <li>
+              <div>Name</div>
+              <div>:</div>
+              <div>{customerName}</div>
             </li>
             <li>
               <div>Address</div>

@@ -1,10 +1,11 @@
 import React from "react";
 import "./NavLinks.css";
 import { useUiContext } from "../../Context/UiContext";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const NavLinks = () => {
   const { navbar, toggleNavbar } = useUiContext();
+  let activeStyle = { color: "#0478f5" };
   return (
     <div
       className={
@@ -14,13 +15,37 @@ const NavLinks = () => {
       }
     >
       <ul className="navlinks-ul">
-        <Link to="/menu" onClick={toggleNavbar}>
+        <NavLink
+          to="/"
+          onClick={toggleNavbar}
+          style={({ isActive }) => (isActive ? activeStyle : undefined)}
+        >
+          <li>Orders</li>
+        </NavLink>
+        <hr />
+        <NavLink
+          to="menu"
+          onClick={toggleNavbar}
+          style={({ isActive }) => (isActive ? activeStyle : undefined)}
+        >
           <li>Menu</li>
-        </Link>
+        </NavLink>
         <hr />
-        <li>Trash Bin</li>
+        <NavLink
+          to="trashBin"
+          onClick={toggleNavbar}
+          style={({ isActive }) => (isActive ? activeStyle : undefined)}
+        >
+          <li>Trash Bin</li>
+        </NavLink>
         <hr />
-        <li>History</li>
+        <NavLink
+          to="history"
+          onClick={toggleNavbar}
+          style={({ isActive }) => (isActive ? activeStyle : undefined)}
+        >
+          <li>History</li>
+        </NavLink>
         <hr />
       </ul>
       <p className="restaurant-name">T-Food House</p>
