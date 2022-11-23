@@ -1,0 +1,25 @@
+.order-nav-container {
+  width: 100%;
+  padding: 10px 10px 0px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.order-nav-container div {
+  margin: 0px 5px;
+}
+
+.order-nav-btn {
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 2px;
+  outline: none;
+  background-color: transparent
+}
+
+.order-nav-btn-show {
+  background-color: white;
+  border: 2px solid #fc5574;
+}
+

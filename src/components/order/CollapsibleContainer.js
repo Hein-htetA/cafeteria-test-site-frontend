@@ -10,7 +10,6 @@ const CollapsibleContainer = ({
 }) => {
   const collapseContainerRef = useRef(null);
   const heightRef = useRef(null);
-  console.log("collapse container re render");
 
   useEffect(() => {
     onClickHideShow(id, "detailHide");

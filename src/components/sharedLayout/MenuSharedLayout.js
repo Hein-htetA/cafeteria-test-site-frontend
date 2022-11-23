@@ -5,7 +5,6 @@ import "./MenuSharedLayout.css";
 
 const MenuSharedLayout = () => {
   const menuData = useMenuContext();
-  console.log(menuData);
   return (
     <div className="menu-container">
       <h1>Our Menu</h1>

@@ -3,6 +3,7 @@
   background-position: center;
   background-size: cover;
   width: 100%;
+  position: relative;
 }
 
 .order-container h3 {
@@ -11,5 +12,4 @@
   text-transform: uppercase;
   font-size: 1.5rem;
   color: rgb(236, 47, 79);
-  margin-bottom: 0.5rem;
 }

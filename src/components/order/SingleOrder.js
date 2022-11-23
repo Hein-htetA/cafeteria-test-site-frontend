@@ -56,7 +56,6 @@ const SingleOrder = (props) => {
       behavior: "smooth",
     });
   };
-  console.log("single order rerender");
 
   return (
     <>
