@@ -5,7 +5,6 @@ import { reducer } from "./OrderReducer";
 const orderState = {
   foodCountOthers: false,
   messageHide: true,
-  statusState: "accepted",
   addressHide: false,
   paymentState: "received",
   detailHide: false,

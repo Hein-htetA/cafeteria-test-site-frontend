@@ -5,108 +5,69 @@ import "./index.css";
 import OrderNav from "./OrderNav";
 import SingleOrder from "./SingleOrder";
 
+const defaultStyle1 = {
+  queue: true,
+  newOrder: false,
+  delivery: false,
+};
+
+const defaultStyle2 = {
+  queue: false,
+  newOrder: true,
+  delivery: false,
+};
+
+const defaultStyle3 = {
+  queue: false,
+  newOrder: false,
+  delivery: true,
+};
+
 const Order = () => {
   const { data } = useOrderContext();
-  const [activeState, setActiveState] = useState({
-    queue: true,
-    newOrder: false,
-    delivery: false,
-  });
-
-  //console.log("order rerender");
-  console.log("active state outside", activeState);
   const orderReceivedRef = useRef(null);
   const orderAcceptedRef = useRef(null);
   const onDeliveryRef = useRef(null);
+  console.log("order rerender");
 
   const onClick1 = () => {
-    console.log("scrollY", window.scrollY);
-    console.log("offsetTop", orderReceivedRef.current.offsetTop);
-    // window.scrollTo(0, onDeliveryRef.current.offsetTop);
+    // console.log("onclick");
+    window.scrollTo(0, orderAcceptedRef.current.offsetTop);
   };
   const onClick2 = () => {
-    orderReceivedRef.current.scrollIntoView();
+    // console.log("onclick");
+    window.scrollTo(0, orderReceivedRef.current.offsetTop);
   };
   const onClick3 = () => {
-    onDeliveryRef.current.scrollIntoView();
+    // console.log("onclick");
+    window.scrollTo(0, onDeliveryRef.current.offsetTop);
   };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      // console.log("window.scrollY", window.scrollY);
-      // console.log("offsetTop acc", orderAcceptedRef.current.offsetTop);
-      // console.log("offsetTop rec", orderReceivedRef.current.offsetTop);
-      // console.log("offsetTop deli", onDeliveryRef.current.offsetTop);
-      let copyState = {
-        queue: false,
-        newOrder: false,
-        delivery: false,
-      };
-      if (orderAcceptedRef.current.offsetTop - window.scrollY < 150) {
-        console.log("scroll exceed orderAcctp by 150");
-        copyState = {
-          queue: true,
-          newOrder: false,
-          delivery: false,
-        };
-      }
-      if (orderReceivedRef.current.offsetTop - window.scrollY < 150) {
-        console.log("scroll exceed orderRec by 150");
-        copyState = {
-          queue: false,
-          newOrder: true,
-          delivery: false,
-        };
-      }
-      if (onDeliveryRef.current.offsetTop - window.scrollY < 150) {
-        console.log("scroll exceed dekuverty by 150");
-        copyState = {
-          queue: false,
-          newOrder: false,
-          delivery: true,
-        };
-      }
-      // console.log("copySTate", copyState);
-      // console.log("activeState", activeState);
-
-      for (const key in copyState) {
-        if (copyState[key] !== activeState[key]) {
-          console.log(key);
-          console.log(activeState[key]);
-          console.log("state updated");
-          setActiveState({ ...copyState });
-          break;
-        }
-      }
-    };
-
-    // console.log("useEffect run");
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [activeState]);
 
   return (
     <main className="order-container">
-      <OrderNav {...{ ...activeState, onClick1, onClick2, onClick3 }} />
+      <OrderNav {...{ ...defaultStyle1, onClick1, onClick2, onClick3 }} />
       <h3 ref={orderAcceptedRef}>Order Queue</h3>
-      {data.map((order) => {
-        return <SingleOrder {...order} key={order.id} />;
-      })}
+      {data
+        .filter((order) => order.status === "accepted")
+        .map((order) => {
+          return <SingleOrder {...order} key={order.id} />;
+        })}
 
-      <OrderNav {...{ ...activeState, onClick1, onClick2, onClick3 }} />
-      <h3 ref={orderReceivedRef}>New Orders</h3>
-      {data.map((order) => {
-        return <SingleOrder {...order} key={order.id} />;
-      })}
+      <OrderNav {...{ ...defaultStyle2, onClick1, onClick2, onClick3 }} />
+      <h3 ref={orderReceivedRef}>New Order</h3>
+      {data
+        .filter((order) => order.status === "received")
+        .map((order) => {
+          return <SingleOrder {...order} key={order.id} />;
+        })}
 
-      <OrderNav {...{ ...activeState, onClick1, onClick2, onClick3 }} />
-      <h3 ref={onDeliveryRef}>On Delievery</h3>
-      {data.map((order) => {
-        return <SingleOrder {...order} key={order.id} />;
-      })}
+      <OrderNav {...{ ...defaultStyle3, onClick1, onClick2, onClick3 }} />
+      <h3 ref={onDeliveryRef}>On Delivery</h3>
+      {data
+        .filter((order) => order.status === "onDelivery")
+        .map((order) => {
+          return <SingleOrder {...order} key={order.id} />;
+        })}
     </main>
   );
 };

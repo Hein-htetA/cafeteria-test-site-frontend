@@ -12,7 +12,8 @@ const CollapsibleContainer = ({
   const heightRef = useRef(null);
 
   useEffect(() => {
-    onClickHideShow(id, "detailHide");
+    console.log("collapse useEffect");
+    // onClickHideShow(id, "detailHide");
     heightRef.current = collapseContainerRef.current.offsetHeight;
   }, []);
 

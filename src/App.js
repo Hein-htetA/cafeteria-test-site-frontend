@@ -10,6 +10,7 @@ import Menu from "./components/menu";
 import MenuSharedLayout from "./components/sharedLayout/MenuSharedLayout";
 import { MenuContextProvider } from "./Context/MenuContext";
 import SingleMenuDetail from "./components/menu/SingleMenuDetail";
+import TrashBin from "./components/trashbin";
 
 const App = () => {
   return (
@@ -36,6 +37,14 @@ const App = () => {
               <Route index element={<Menu />} />
               <Route path=":menuId" element={<SingleMenuDetail />} />
             </Route>
+            <Route
+              path="trashBin"
+              element={
+                <OrderContextProvider>
+                  <TrashBin />
+                </OrderContextProvider>
+              }
+            />
           </Route>
         </Routes>
       </UiContextProvider>

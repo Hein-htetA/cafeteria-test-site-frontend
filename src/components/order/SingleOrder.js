@@ -32,7 +32,7 @@ const SingleOrder = (props) => {
     foodName,
     foodCount,
     message,
-    statusState,
+    status,
     statusDate,
     customerName,
     address,
@@ -42,6 +42,7 @@ const SingleOrder = (props) => {
     messageHide,
     addressHide,
     detailHide,
+    isTrashBin, //for Trash Bin Component
   } = props;
 
   const { onChangeInputSelect, onClickHideShow } = useOrderContext();
@@ -67,18 +68,20 @@ const SingleOrder = (props) => {
                 value={foodName}
                 placeholder="Name"
                 onChange={(e) => onChangeInputSelect(id, "foodName", e)}
+                disabled={isTrashBin}
               />
             </div>
             <div className="food-count">
               <div style={{ marginRight: "20px" }}>x</div>
               {foodCount === "others" ? (
-                <input type="text" />
+                <input type="text" disabled={isTrashBin} />
               ) : (
                 <select
                   value={foodCount}
                   name="foodCount"
                   id="foodCount"
                   onChange={(e) => onChangeInputSelect(id, "foodCount", e)}
+                  disabled={isTrashBin}
                 >
                   <option value={1}>1</option>
                   <option value={2}>2</option>
@@ -129,18 +132,19 @@ const SingleOrder = (props) => {
               <div className={"status-select"}>
                 <select
                   className={
-                    statusState === "received"
+                    status === "received"
                       ? "status-select status-select-received"
-                      : statusState === "accepted"
+                      : status === "accepted"
                       ? "status-select status-select-accepted"
                       : "status-select status-select-delievery"
                   }
-                  onChange={(e) => onChangeInputSelect(id, "statusState", e)}
-                  value={statusState}
+                  onChange={(e) => onChangeInputSelect(id, "status", e)}
+                  value={status}
+                  disabled={isTrashBin}
                 >
                   <option value="received">Order Received</option>
                   <option value="accepted">Order Accepted</option>
-                  <option value="delivery">On Delivery</option>
+                  <option value="onDelivery">On Delivery</option>
                 </select>
                 <div className="status-time">
                   <FontAwesomeIcon
@@ -187,6 +191,7 @@ const SingleOrder = (props) => {
                       ? "payment-select-received"
                       : "payment-select-pending"
                   }
+                  disabled={isTrashBin}
                 >
                   <option value={"pending"}>Pending</option>
                   <option value={"received"}>Received</option>

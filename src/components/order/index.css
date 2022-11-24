@@ -1,13 +1,14 @@
 .order-container {
-  background-image: url('../../images.jfif');
+  /* background-image: url('../../images.jfif');
   background-position: center;
-  background-size: cover;
+  background-size: cover; */
   width: 100%;
   position: relative;
 }
 
 .order-container h3 {
-  padding: 10px;
+  padding-bottom: 10px;
+  padding-top: 5px;
   text-align: center;
   text-transform: uppercase;
   font-size: 1.5rem;
