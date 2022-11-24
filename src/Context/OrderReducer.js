@@ -20,6 +20,26 @@ export const reducer = (state, action) => {
       });
 
       return tempState2;
+
+    case "SEND_TO_ORDER_RECEIVED":
+      const tempState3 = copyState.map((order) => {
+        if (order.id === action.payload.id) {
+          order.status = "accepted";
+        }
+        return order;
+      });
+
+      return tempState3;
+
+    case "SEND_TO_RECYCLE_BIN":
+      const tempState4 = copyState.map((order) => {
+        if (order.id === action.payload.id) {
+          order.status = "recycleBin";
+        }
+        return order;
+      });
+
+      return tempState4;
     // case "DETAIL_HIDE":
     //   const tempState3 = copyState.map((order) => {
     //     if (order.id === action.payload.id) {

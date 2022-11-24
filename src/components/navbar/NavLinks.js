@@ -32,11 +32,11 @@ const NavLinks = () => {
         </NavLink>
         <hr />
         <NavLink
-          to="trashBin"
+          to="recycleBin"
           onClick={toggleNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
-          <li>Trash Bin</li>
+          <li>Recycle Bin</li>
         </NavLink>
         <hr />
         <NavLink

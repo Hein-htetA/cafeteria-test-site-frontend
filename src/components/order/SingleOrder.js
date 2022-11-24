@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import "./SingleOrder.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faArrowsUpDown,
+  faPaperPlane,
   faXmark,
   faClock,
   faSquareCaretDown,
@@ -42,10 +42,15 @@ const SingleOrder = (props) => {
     messageHide,
     addressHide,
     detailHide,
-    isTrashBin, //for Trash Bin Component
+    isRecycleBin, //for Trash Bin Component
   } = props;
 
-  const { onChangeInputSelect, onClickHideShow } = useOrderContext();
+  const {
+    onChangeInputSelect,
+    onClickHideShow,
+    sendToRecycleBin,
+    sendToOrderReceived,
+  } = useOrderContext();
 
   const scrollRef = useRef(null);
 
@@ -60,7 +65,13 @@ const SingleOrder = (props) => {
 
   return (
     <>
-      <div className="single-order-container">
+      <div
+        className={
+          isRecycleBin
+            ? "single-order-container single-order-container-bin"
+            : "single-order-container"
+        }
+      >
         <ul className="order-ul">
           <li className="name-count-container">
             <div className="food-name">
@@ -68,20 +79,20 @@ const SingleOrder = (props) => {
                 value={foodName}
                 placeholder="Name"
                 onChange={(e) => onChangeInputSelect(id, "foodName", e)}
-                disabled={isTrashBin}
+                disabled={isRecycleBin}
               />
             </div>
             <div className="food-count">
               <div style={{ marginRight: "20px" }}>x</div>
               {foodCount === "others" ? (
-                <input type="text" disabled={isTrashBin} />
+                <input type="text" disabled={isRecycleBin} />
               ) : (
                 <select
                   value={foodCount}
                   name="foodCount"
                   id="foodCount"
                   onChange={(e) => onChangeInputSelect(id, "foodCount", e)}
-                  disabled={isTrashBin}
+                  disabled={isRecycleBin}
                 >
                   <option value={1}>1</option>
                   <option value={2}>2</option>
@@ -140,7 +151,7 @@ const SingleOrder = (props) => {
                   }
                   onChange={(e) => onChangeInputSelect(id, "status", e)}
                   value={status}
-                  disabled={isTrashBin}
+                  disabled={isRecycleBin}
                 >
                   <option value="received">Order Received</option>
                   <option value="accepted">Order Accepted</option>
@@ -191,7 +202,7 @@ const SingleOrder = (props) => {
                       ? "payment-select-received"
                       : "payment-select-pending"
                   }
-                  disabled={isTrashBin}
+                  disabled={isRecycleBin}
                 >
                   <option value={"pending"}>Pending</option>
                   <option value={"received"}>Received</option>
@@ -206,10 +217,17 @@ const SingleOrder = (props) => {
           </CollapsibleContainer>
 
           <div className={"order-btn-container"}>
-            <div className="remove-btn-container">
-              <button className="remove-order-btn">
-                <FontAwesomeIcon icon={faXmark} />
-                Remove
+            <div className="recycle-bin-btn-container">
+              <button
+                className="recycle-bin-btn"
+                onClick={
+                  isRecycleBin
+                    ? () => sendToOrderReceived(id)
+                    : () => sendToRecycleBin(id)
+                }
+              >
+                {isRecycleBin ? "Send To Orders" : "Send To Recycle Bin"}
+                <FontAwesomeIcon icon={faPaperPlane} />
               </button>
             </div>
             <div className="toggle-detail-btn-container">
@@ -229,10 +247,6 @@ const SingleOrder = (props) => {
                   </>
                 )}
               </button>
-            </div>
-            <div className="save-cancel-container">
-              <button className="save-change-btn">Save</button>
-              <button className="cancel-change-btn">Cancel</button>
             </div>
           </div>
         </ul>

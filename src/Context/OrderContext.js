@@ -40,6 +40,24 @@ const OrderContextProvider = ({ children }) => {
     });
   };
 
+  const sendToRecycleBin = (id) => {
+    dispatch({
+      type: "SEND_TO_RECYCLE_BIN",
+      payload: {
+        id,
+      },
+    });
+  };
+
+  const sendToOrderReceived = (id) => {
+    dispatch({
+      type: "SEND_TO_ORDER_RECEIVED",
+      payload: {
+        id,
+      },
+    });
+  };
+
   // const detailHideFun = (id) => {
   //   dispatch({
   //     type: "DETAIL_HIDE",
@@ -55,6 +73,8 @@ const OrderContextProvider = ({ children }) => {
         data: [...state],
         onChangeInputSelect,
         onClickHideShow,
+        sendToRecycleBin,
+        sendToOrderReceived,
       }}
     >
       {children}

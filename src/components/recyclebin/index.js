@@ -5,18 +5,18 @@ import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import "./index.css";
 import SingleOrder from "../order/SingleOrder";
 
-const TrashBin = () => {
+const RecycleBin = () => {
   const { data } = useOrderContext();
   return (
     <div className="trashbin-container">
-      <div className="trashbin-title">Trash Bin</div>
+      <div className="trashbin-title">Recycle Bin</div>
       {data
-        .filter((order) => order.status === "trashBin")
+        .filter((order) => order.status === "recycleBin")
         .map((order) => (
-          <SingleOrder {...order} key={order.id} isTrashBin={true} />
+          <SingleOrder {...order} key={order.id} isRecycleBin={true} />
         ))}
     </div>
   );
 };
 
-export default TrashBin;
+export default RecycleBin;

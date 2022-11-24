@@ -6,6 +6,10 @@
   font-size: 1rem;
 }
 
+.single-order-container-bin {
+  border: 2px solid #be0c0c
+}
+
 .order-ul {
   padding: 10px;
   display: grid;
@@ -226,14 +230,6 @@ select:hover {
   align-items: center;
 }
 
-.remove-order-btn:hover {
-  cursor: pointer;
-  background-color: red;
-  color: white;
-}
-
-
-
 /* .remove-btn-container {
   margin-left: 10px;
 }
@@ -242,18 +238,18 @@ select:hover {
   margin-right: 10px;
 } */
 
-.remove-order-btn {
+.recycle-bin-btn {
   border-radius: 5px;
-  border: 2px solid red;
-  background-color: white;
-  color: red;
+  border: 2px solid rgb(124, 86, 236);
+  background-color: rgb(124, 86, 236);
+  color: white;
   padding: 5px;
   font-weight: bold;
   text-transform: capitalize;
 }
 
-.remove-order-btn svg {
-  margin-right: 5px;
+.recycle-bin-btn svg {
+  margin-left: 5px;
 }
 
 .save-cancel-container button{
@@ -280,8 +276,8 @@ select:hover {
 .toggle-detail-btn {
   display: flex;
   border-radius: 5px;
-  border: 2px solid rgb(1, 43, 15);
-  background-color: rgba(71, 116, 232, 0.784);
+  border: 2px solid rgb(124, 86, 236);
+  background-color: rgb(124, 86, 236);
   color: white;
   padding: 5px;
   font-weight: bold;
@@ -291,7 +287,20 @@ select:hover {
   align-items: center;
 }
 
-.toggle-detail-btn:hover {
+.toggle-detail-btn:active {
   background-color: rgb(124, 86, 236);
   color: white
+}
+
+
+
+@media (hover: hover) {
+
+  .toggle-detail-btn:hover {
+    cursor: pointer;
+  }
+
+  .recycle-bin-btn:hover {
+    cursor: pointer;
+  }
 }

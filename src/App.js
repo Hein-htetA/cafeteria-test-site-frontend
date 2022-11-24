@@ -10,7 +10,7 @@ import Menu from "./components/menu";
 import MenuSharedLayout from "./components/sharedLayout/MenuSharedLayout";
 import { MenuContextProvider } from "./Context/MenuContext";
 import SingleMenuDetail from "./components/menu/SingleMenuDetail";
-import TrashBin from "./components/trashbin";
+import RecycleBin from "./components/recyclebin";
 
 const App = () => {
   return (
@@ -38,10 +38,10 @@ const App = () => {
               <Route path=":menuId" element={<SingleMenuDetail />} />
             </Route>
             <Route
-              path="trashBin"
+              path="recycleBin"
               element={
                 <OrderContextProvider>
-                  <TrashBin />
+                  <RecycleBin />
                 </OrderContextProvider>
               }
             />

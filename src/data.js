@@ -185,9 +185,9 @@ export const orderData = [
   },
   {
     id: 14,
-    foodName: "chinese fried rice",
+    foodName: "chicken fried rice",
     foodCount: 4,
-    status: "trashBin",
+    status: "recycleBin",
     message:
       "pleasu can use the onChange event handler prop. Just like the input or textarea elements, you can use the onChange event handler to get the value from the event object.ease hurryTo fetch the selected value from the select element, you can use the onChange event handler prop. Just like the input or textarea elements, you can use the onChange event handler to get the value from the event object.",
     statusDate: "2022-11-19T03:40:52.975Z",

@@ -15,6 +15,15 @@ const CollapsibleContainer = ({
     console.log("collapse useEffect");
     // onClickHideShow(id, "detailHide");
     heightRef.current = collapseContainerRef.current.offsetHeight;
+    const reload = function (event) {
+      console.log("re load run");
+      document.location.reload(false);
+    };
+
+    window.screen.orientation.addEventListener("change", reload);
+
+    return () =>
+      window.screen.orientation.removeEventListener("change", reload);
   }, []);
 
   return (
