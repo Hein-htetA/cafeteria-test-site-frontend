@@ -8,6 +8,7 @@ const orderState = {
   addressHide: false,
   paymentState: "received",
   detailHide: false,
+  detailContainerHeight: 0,
 };
 
 const initialState = orderData.map((order) => {
@@ -36,6 +37,16 @@ const OrderContextProvider = ({ children }) => {
       payload: {
         id,
         item,
+      },
+    });
+  };
+
+  const setDetailContainerHeight = (id, value) => {
+    dispatch({
+      type: "SET_DETAIL_CONTAINER_HEIGHT",
+      payload: {
+        id,
+        value,
       },
     });
   };
@@ -75,6 +86,7 @@ const OrderContextProvider = ({ children }) => {
         onClickHideShow,
         sendToRecycleBin,
         sendToOrderReceived,
+        setDetailContainerHeight,
       }}
     >
       {children}

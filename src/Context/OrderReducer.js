@@ -40,6 +40,16 @@ export const reducer = (state, action) => {
       });
 
       return tempState4;
+
+    case "SET_DETAIL_CONTAINER_HEIGHT":
+      const tempState5 = copyState.map((order) => {
+        if (order.id === action.payload.id) {
+          order.detailContainerHeight = action.payload.value;
+        }
+        return order;
+      });
+
+      return tempState5;
     // case "DETAIL_HIDE":
     //   const tempState3 = copyState.map((order) => {
     //     if (order.id === action.payload.id) {
