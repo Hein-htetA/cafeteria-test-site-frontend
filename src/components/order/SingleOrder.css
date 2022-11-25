@@ -6,8 +6,20 @@
   font-size: 1rem;
 }
 
-.single-order-container-bin {
+.single-order-container-recycleBin {
+  margin: 0px 1rem;
+  border-radius: 1rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  font-size: 1rem;
   border: 2px solid #be0c0c
+}
+
+.single-order-container-history {
+  margin: 0px 1rem;
+  border-radius: 1rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  font-size: 1rem;
+  border: 2px solid #54c45f
 }
 
 .order-ul {
@@ -252,7 +264,11 @@ select:hover {
   margin-left: 5px;
 }
 
-.save-cancel-container button{
+.button-hide {
+  visibility: hidden;
+}
+
+/* .save-cancel-container button{
   border-radius: 5px;
   border: 2px solid rgb(124, 86, 236);
   background-color: white;
@@ -271,7 +287,7 @@ select:hover {
 
 .save-change-btn {
   margin-right: 10px;
-}
+} */
 
 .toggle-detail-btn {
   display: flex;

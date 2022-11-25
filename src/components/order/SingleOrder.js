@@ -3,12 +3,14 @@ import "./SingleOrder.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPaperPlane,
-  faXmark,
+  faTrashCan,
   faClock,
   faSquareCaretDown,
   faSquareCaretUp,
   faChevronUp,
   faChevronDown,
+  faCheck,
+  faPhoneFlip,
 } from "@fortawesome/free-solid-svg-icons";
 import { useOrderContext } from "../../Context/OrderContext";
 import CollapsibleContainer from "./CollapsibleContainer";
@@ -37,19 +39,22 @@ const SingleOrder = (props) => {
     customerName,
     address,
     paymentMethod,
-    paymentState,
+    paymentStatus,
     phoneNumber,
     messageHide,
-    addressHide,
+    detailContainerHeight,
     detailHide,
+    orderState,
     isRecycleBin, //for Trash Bin Component
   } = props;
+  console.log("detail heinght in single rder", detailContainerHeight);
 
   const {
     onChangeInputSelect,
     onClickHideShow,
     sendToRecycleBin,
     sendToOrderReceived,
+    sendToHistory,
   } = useOrderContext();
 
   const scrollRef = useRef(null);
@@ -67,9 +72,11 @@ const SingleOrder = (props) => {
     <>
       <div
         className={
-          isRecycleBin
-            ? "single-order-container single-order-container-bin"
-            : "single-order-container"
+          orderState === "order"
+            ? "single-order-container"
+            : orderState === "recycleBin"
+            ? "single-order-container-recycleBin"
+            : "single-order-container-history"
         }
       >
         <ul className="order-ul">
@@ -79,20 +86,18 @@ const SingleOrder = (props) => {
                 value={foodName}
                 placeholder="Name"
                 onChange={(e) => onChangeInputSelect(id, "foodName", e)}
-                disabled={isRecycleBin}
               />
             </div>
             <div className="food-count">
               <div style={{ marginRight: "20px" }}>x</div>
               {foodCount === "others" ? (
-                <input type="text" disabled={isRecycleBin} />
+                <input type="text" />
               ) : (
                 <select
                   value={foodCount}
                   name="foodCount"
                   id="foodCount"
                   onChange={(e) => onChangeInputSelect(id, "foodCount", e)}
-                  disabled={isRecycleBin}
                 >
                   <option value={1}>1</option>
                   <option value={2}>2</option>
@@ -131,41 +136,39 @@ const SingleOrder = (props) => {
               </div>
             </div>
           </li>
-          <CollapsibleContainer
-            hide={detailHide}
-            id={id}
-            onClickHideShow={onClickHideShow}
-            addressHide={addressHide}
-          >
-            <li>
-              <div>Status</div>
-              <div>:</div>
-              <div className={"status-select"}>
-                <select
-                  className={
-                    status === "received"
-                      ? "status-select status-select-received"
-                      : status === "accepted"
-                      ? "status-select status-select-accepted"
-                      : "status-select status-select-delievery"
-                  }
-                  onChange={(e) => onChangeInputSelect(id, "status", e)}
-                  value={status}
-                  disabled={isRecycleBin}
-                >
-                  <option value="received">Order Received</option>
-                  <option value="accepted">Order Accepted</option>
-                  <option value="onDelivery">On Delivery</option>
-                </select>
-                <div className="status-time">
-                  <FontAwesomeIcon
-                    icon={faClock}
-                    style={{ marginRight: "2px" }}
-                  />
-                  {getAmPmTime(statusDate)}
-                </div>
+          <li>
+            <div>Status</div>
+            <div>:</div>
+            <div className={"status-select"}>
+              <select
+                className={
+                  status === "received"
+                    ? "status-select status-select-received"
+                    : status === "accepted"
+                    ? "status-select status-select-accepted"
+                    : "status-select status-select-delievery"
+                }
+                onChange={(e) => onChangeInputSelect(id, "status", e)}
+                value={status}
+              >
+                <option value="received">Order Received</option>
+                <option value="accepted">Order Accepted</option>
+                <option value="onDelivery">On Delivery</option>
+              </select>
+              <div className="status-time">
+                <FontAwesomeIcon
+                  icon={faClock}
+                  style={{ marginRight: "2px" }}
+                />
+                {getAmPmTime(statusDate)}
               </div>
-            </li>
+            </div>
+          </li>
+          <CollapsibleContainer
+            id={id}
+            detailContainerHeight={detailContainerHeight}
+            detailHide={detailHide}
+          >
             <li>
               <div>Name</div>
               <div>:</div>
@@ -196,38 +199,44 @@ const SingleOrder = (props) => {
                 <div className="payment-method-name">{paymentMethod}</div>
                 <select
                   onChange={(e) => onChangeInputSelect(id, "paymentState", e)}
-                  value={paymentState}
+                  value={paymentStatus}
                   className={
-                    paymentState === "received"
+                    paymentStatus
                       ? "payment-select-received"
                       : "payment-select-pending"
                   }
-                  disabled={isRecycleBin}
                 >
-                  <option value={"pending"}>Pending</option>
-                  <option value={"received"}>Received</option>
+                  <option value={false}>Pending</option>
+                  <option value={true}>Received</option>
                 </select>
               </div>
             </li>
             <li>
               <div>Phone</div>
               <div>:</div>
-              <div>{phoneNumber}</div>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div>+{phoneNumber}</div>
+                <a href={`tel:+${phoneNumber}`}>
+                  <FontAwesomeIcon icon={faPhoneFlip} />
+                </a>
+              </div>
             </li>
           </CollapsibleContainer>
 
           <div className={"order-btn-container"}>
             <div className="recycle-bin-btn-container">
               <button
-                className="recycle-bin-btn"
+                className={"recycle-bin-btn"}
                 onClick={
-                  isRecycleBin
-                    ? () => sendToOrderReceived(id)
-                    : () => sendToRecycleBin(id)
+                  orderState === "order"
+                    ? () => sendToRecycleBin(id)
+                    : () => sendToOrderReceived(id)
                 }
               >
-                {isRecycleBin ? "Send To Orders" : "Send To Recycle Bin"}
-                <FontAwesomeIcon icon={faPaperPlane} />
+                {orderState === "order" ? "Recycle Bin" : "Orders"}
+                <FontAwesomeIcon
+                  icon={orderState === "order" ? faTrashCan : faPaperPlane}
+                />
               </button>
             </div>
             <div className="toggle-detail-btn-container">
@@ -248,6 +257,17 @@ const SingleOrder = (props) => {
                 )}
               </button>
             </div>
+            <button
+              className={
+                orderState !== "order"
+                  ? "recycle-bin-btn button-hide"
+                  : "recycle-bin-btn"
+              }
+              onClick={() => sendToHistory(id)}
+            >
+              Completed
+              <FontAwesomeIcon icon={faCheck} />
+            </button>
           </div>
         </ul>
       </div>

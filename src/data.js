@@ -11,12 +11,13 @@ export const orderData = [
     address:
       "E-block, E-224 ease hurryTo fetch the selected value from the select element, you can use the onChange event handler prop. Just like the input or textarea elements, you can use the onChange event handler to get the value from the event object.ease hurryTo fetch the selected value from the select element, you can use the onChange event handler prop. Just like the input or textarea elements, you can use the onChange event handler to get the value from the event object.",
     paymentMethod: "kpay(4806)",
-    paymentStatus: false,
-    phoneNumber: "09776219247",
+    paymentState: false,
+    phoneNumber: +95776239247,
+    orderState: "order",
   },
   {
     id: 2,
-    foodName: "chinese fried rice",
+    foodName: "Dan Pout",
     foodCount: 4,
     status: "accepted",
     message:
@@ -26,12 +27,13 @@ export const orderData = [
     address:
       "E-block, E-224 ease hurryTo fetch the selected value from the select element, you can use the onChange event handler prop. Just like the input or textarea elements, you can use the onChange event handler to get the value from the event object.ease hurryTo fetch the selected value from the select element, you can use the onChange event handler prop. Just like the input or textarea elements, you can use the onChange event handler to get the value from the event object.",
     paymentMethod: "kpay(4806)",
-    paymentStatus: true,
-    phoneNumber: "09776219247",
+    paymentState: true,
+    phoneNumber: +959776219247,
+    orderState: "recycleBin",
   },
   {
     id: 3,
-    foodName: "chinese fried rice",
+    foodName: "Hta Min Paung",
     foodCount: 4,
     status: "onDelivery",
     message: "p can use thler to get the va",
@@ -40,8 +42,9 @@ export const orderData = [
     address:
       "E-blo.ease hurryTo fetch the selected value from the select element, you can use the onChange event handler prop. Just like the input or textarea elements, you can use the onChange event handler to get the value from the event object.",
     paymentMethod: "kpay(4806)",
-    paymentStatus: true,
-    phoneNumber: "09776219247",
+    paymentState: true,
+    phoneNumber: +959776219247,
+    orderState: "history",
   },
   {
     id: 4,
@@ -55,7 +58,8 @@ export const orderData = [
     address: "E-block, E-224 ease hurryTo fetch the selected v",
     paymentMethod: "kpay(4806)",
     paymentStatus: false,
-    phoneNumber: "09776219247",
+    phoneNumber: +959776219247,
+    orderState: "history",
   },
   {
     id: 5,
@@ -69,7 +73,8 @@ export const orderData = [
     address: "E-block, E-224 ease hurryTo fetch the selected v",
     paymentMethod: "kpay(4806)",
     paymentStatus: false,
-    phoneNumber: "09776219247",
+    phoneNumber: +959776219247,
+    orderState: "history",
   },
   {
     id: 6,
@@ -83,7 +88,8 @@ export const orderData = [
     address: "E-block, E-224 ease hurryTo fetch the selected v",
     paymentMethod: "kpay(4806)",
     paymentStatus: true,
-    phoneNumber: "09776219247",
+    phoneNumber: +959776219247,
+    orderState: "history",
   },
   {
     id: 7,
@@ -97,7 +103,8 @@ export const orderData = [
     address: "E-block, E-224 ease hurryTo fetch the selected v",
     paymentMethod: "kpay(4806)",
     paymentStatus: true,
-    phoneNumber: "09776219247",
+    phoneNumber: +959776219247,
+    orderState: "history",
   },
   {
     id: 8,
@@ -111,7 +118,8 @@ export const orderData = [
     address: "E-block, E-224 ease hurryTo fetch the selected v",
     paymentMethod: "kpay(4806)",
     paymentStatus: true,
-    phoneNumber: "09776219247",
+    phoneNumber: +959776219247,
+    orderState: "order",
   },
   {
     id: 9,
@@ -125,7 +133,8 @@ export const orderData = [
     address: "E-block, E-224 ease hurryTo fetch the selected v",
     paymentMethod: "kpay(4806)",
     paymentStatus: false,
-    phoneNumber: "09776219247",
+    phoneNumber: +959776219247,
+    orderState: "order",
   },
   {
     id: 10,
@@ -139,7 +148,8 @@ export const orderData = [
     address: "E-block, E-224 ease hurryTo fetch the selected v",
     paymentMethod: "kpay(4806)",
     paymentStatus: true,
-    phoneNumber: "09776219247",
+    phoneNumber: +959776219247,
+    orderState: "order",
   },
   {
     id: 11,
@@ -153,7 +163,8 @@ export const orderData = [
     address: "E-block, E-224 ease hurryTo fetch the selected v",
     paymentMethod: "kpay(4806)",
     paymentStatus: true,
-    phoneNumber: "09776219247",
+    phoneNumber: +959776219247,
+    orderState: "order",
   },
   {
     id: 12,
@@ -167,7 +178,8 @@ export const orderData = [
     address: "E-block, E-224 ease hurryTo fetch the selected v",
     paymentMethod: "kpay(4806)",
     paymentStatus: false,
-    phoneNumber: "09776219247",
+    phoneNumber: +959776219247,
+    orderState: "order",
   },
   {
     id: 13,
@@ -181,7 +193,8 @@ export const orderData = [
     address: "E-block, E-224 ease hurryTo fetch the selected v",
     paymentMethod: "kpay(4806)",
     paymentStatus: false,
-    phoneNumber: "09776219247",
+    phoneNumber: +959776219247,
+    orderState: "order",
   },
   {
     id: 14,
@@ -195,7 +208,8 @@ export const orderData = [
     address: "E-block, E-224 ease hurryTo fetch the selected v",
     paymentMethod: "kpay(4806)",
     paymentStatus: false,
-    phoneNumber: "09776219247",
+    phoneNumber: +959776219247,
+    orderState: "order",
   },
   {
     id: 15,
@@ -209,7 +223,8 @@ export const orderData = [
     address: "E-block, E-224 ease hurryTo fetch the selected v",
     paymentMethod: "kpay(4806)",
     paymentStatus: true,
-    phoneNumber: "09776219247",
+    phoneNumber: +959776219247,
+    orderState: "order",
   },
   {
     id: 16,
@@ -223,7 +238,8 @@ export const orderData = [
     address: "E-block, E-224 ease hurryTo fetch the selected v",
     paymentMethod: "kpay(4806)",
     paymentStatus: true,
-    phoneNumber: "09776219247",
+    phoneNumber: +959776219247,
+    orderState: "recycleBin",
   },
   {
     id: 17,
@@ -237,7 +253,8 @@ export const orderData = [
     address: "E-block, E-224 ease hurryTo fetch the selected v",
     paymentMethod: "kpay(4806)",
     paymentStatus: true,
-    phoneNumber: "09776219247",
+    phoneNumber: +959776219247,
+    orderState: "recycleBin",
   },
   {
     id: 18,
@@ -251,7 +268,8 @@ export const orderData = [
     address: "E-block, E-224 ease hurryTo fetch the selected v",
     paymentMethod: "kpay(4806)",
     paymentStatus: true,
-    phoneNumber: "09776219247",
+    phoneNumber: +959776219247,
+    orderState: "recycleBin",
   },
   {
     id: 19,
@@ -265,7 +283,8 @@ export const orderData = [
     address: "E-block, E-224 ease hurryTo fetch the selected v",
     paymentMethod: "kpay(4806)",
     paymentStatus: true,
-    phoneNumber: "09776219247",
+    phoneNumber: 959776219247,
+    orderState: "recycleBin",
   },
   {
     id: 20,
@@ -279,7 +298,8 @@ export const orderData = [
     address: "E-block, E-224 ease hurryTo fetch the selected v",
     paymentMethod: "kpay(4806)",
     paymentStatus: true,
-    phoneNumber: "09776219247",
+    phoneNumber: +95776239247,
+    orderState: "recycleBin",
   },
 ];
 

@@ -11,42 +11,35 @@ import MenuSharedLayout from "./components/sharedLayout/MenuSharedLayout";
 import { MenuContextProvider } from "./Context/MenuContext";
 import SingleMenuDetail from "./components/menu/SingleMenuDetail";
 import RecycleBin from "./components/recyclebin";
+import History from "./components/history";
+import NewOrder from "./components/newOrder";
+import ScrollToTop from "./components/utils/ScrollToTop";
 
 const App = () => {
   return (
     <BrowserRouter>
       <UiContextProvider>
-        <Routes>
-          <Route path="/" element={<OrderSharedLayout />}>
-            <Route
-              index
-              element={
-                <OrderContextProvider>
-                  <Order />
-                </OrderContextProvider>
-              }
-            />
-            <Route
-              path="menu"
-              element={
-                <MenuContextProvider>
-                  <MenuSharedLayout />
-                </MenuContextProvider>
-              }
-            >
-              <Route index element={<Menu />} />
-              <Route path=":menuId" element={<SingleMenuDetail />} />
+        <OrderContextProvider>
+          <Routes>
+            <Route path="/" element={<OrderSharedLayout />}>
+              <Route index element={<Order />} />
+              <Route
+                path="menu"
+                element={
+                  <MenuContextProvider>
+                    <MenuSharedLayout />
+                  </MenuContextProvider>
+                }
+              >
+                <Route index element={<Menu />} />
+                <Route path=":menuId" element={<SingleMenuDetail />} />
+              </Route>
+              <Route path="recycleBin" element={<RecycleBin />} />
+              <Route path="history" element={<History />} />
+              <Route path="newOrder" element={<NewOrder />} />
             </Route>
-            <Route
-              path="recycleBin"
-              element={
-                <OrderContextProvider>
-                  <RecycleBin />
-                </OrderContextProvider>
-              }
-            />
-          </Route>
-        </Routes>
+          </Routes>
+        </OrderContextProvider>
       </UiContextProvider>
     </BrowserRouter>
   );

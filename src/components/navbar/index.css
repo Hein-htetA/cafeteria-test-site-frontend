@@ -79,6 +79,37 @@
   opacity: 0;
 }
 
+.envolope-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 99;
+}
+
+.envolope-link {
+  display: block;
+  position: relative;
+}
+
+.envolope-icon {
+  font-size: 2rem;
+  color: white;
+}
+
+.new-order-count {
+  background-color: white;
+  color: rgb(238, 94, 118);
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+}
+
+
+
 
 
 

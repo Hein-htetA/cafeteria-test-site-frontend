@@ -5,8 +5,6 @@ import { reducer } from "./OrderReducer";
 const orderState = {
   foodCountOthers: false,
   messageHide: true,
-  addressHide: false,
-  paymentState: "received",
   detailHide: false,
   detailContainerHeight: 0,
 };
@@ -41,6 +39,15 @@ const OrderContextProvider = ({ children }) => {
     });
   };
 
+  const onClickDetailHide = (id) => {
+    dispatch({
+      type: "ON_CLICK_DETAIL_HIDE",
+      payload: {
+        id,
+      },
+    });
+  };
+
   const setDetailContainerHeight = (id, value) => {
     dispatch({
       type: "SET_DETAIL_CONTAINER_HEIGHT",
@@ -62,21 +69,21 @@ const OrderContextProvider = ({ children }) => {
 
   const sendToOrderReceived = (id) => {
     dispatch({
-      type: "SEND_TO_ORDER_RECEIVED",
+      type: "SEND_TO_ORDER",
       payload: {
         id,
       },
     });
   };
 
-  // const detailHideFun = (id) => {
-  //   dispatch({
-  //     type: "DETAIL_HIDE",
-  //     payload: {
-  //       id,
-  //     },
-  //   });
-  // };
+  const sendToHistory = (id) => {
+    dispatch({
+      type: "SEND_TO_HISTORY",
+      payload: {
+        id,
+      },
+    });
+  };
 
   return (
     <OrderContext.Provider
@@ -87,6 +94,8 @@ const OrderContextProvider = ({ children }) => {
         sendToRecycleBin,
         sendToOrderReceived,
         setDetailContainerHeight,
+        sendToHistory,
+        onClickDetailHide,
       }}
     >
       {children}

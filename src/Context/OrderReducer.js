@@ -1,5 +1,4 @@
 export const reducer = (state, action) => {
-  console.log("reducer run");
   const copyState = JSON.parse(JSON.stringify(state)); //treating react state as Read-Only
 
   switch (action.type) {
@@ -21,9 +20,10 @@ export const reducer = (state, action) => {
 
       return tempState2;
 
-    case "SEND_TO_ORDER_RECEIVED":
+    case "SEND_TO_ORDER":
       const tempState3 = copyState.map((order) => {
         if (order.id === action.payload.id) {
+          order.orderState = "order";
           order.status = "accepted";
         }
         return order;
@@ -34,14 +34,29 @@ export const reducer = (state, action) => {
     case "SEND_TO_RECYCLE_BIN":
       const tempState4 = copyState.map((order) => {
         if (order.id === action.payload.id) {
-          order.status = "recycleBin";
+          order.status = "received";
+          order.orderState = "recycleBin";
         }
         return order;
       });
 
       return tempState4;
 
+    case "SEND_TO_HISTORY":
+      const tempState6 = copyState.map((order) => {
+        if (order.id === action.payload.id) {
+          console.log("send to history if run");
+          order.status = "onDelivery";
+          order.paymentState = true;
+          order.orderState = "history";
+        }
+        return order;
+      });
+
+      return tempState6;
+
     case "SET_DETAIL_CONTAINER_HEIGHT":
+      //console.log("detail conainer reducer run");
       const tempState5 = copyState.map((order) => {
         if (order.id === action.payload.id) {
           order.detailContainerHeight = action.payload.value;
@@ -50,14 +65,15 @@ export const reducer = (state, action) => {
       });
 
       return tempState5;
-    // case "DETAIL_HIDE":
-    //   const tempState3 = copyState.map((order) => {
-    //     if (order.id === action.payload.id) {
-    //       order.detailHide = true;
-    //     }
-    //     return order;
-    //   });
-    //   return tempState3;
+    case "ON_CLICK_DETAIL_HIDE":
+      const tempState7 = copyState.map((order) => {
+        if (order.id === action.payload.id) {
+          order.detailHide = true;
+        }
+        return order;
+      });
+
+      return tempState7;
 
     default:
       throw new Error("action type not supported yet");

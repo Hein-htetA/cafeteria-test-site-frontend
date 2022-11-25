@@ -20,7 +20,15 @@ const NavLinks = () => {
           onClick={toggleNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
-          <li>Orders</li>
+          <li>Orders Serving</li>
+        </NavLink>
+        <hr />
+        <NavLink
+          to="newOrder"
+          onClick={toggleNavbar}
+          style={({ isActive }) => (isActive ? activeStyle : undefined)}
+        >
+          <li>New Orders</li>
         </NavLink>
         <hr />
         <NavLink

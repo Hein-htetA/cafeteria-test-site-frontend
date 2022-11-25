@@ -4,6 +4,9 @@ const reducer = (state, action) => {
     case "TOGGLE_NAVBAR":
       const { navbar } = { ...state };
       return { ...state, navbar: !navbar };
+    case "TOGGLE_ORDER_NAV":
+      const { orderNav } = { ...state };
+      return { ...state, orderNav: !orderNav };
     default:
       throw new Error("action type not supported");
   }

@@ -2,26 +2,29 @@ import React, { useEffect, useRef, useState } from "react";
 import { useOrderContext } from "../../Context/OrderContext";
 import "./CollapsibleContainer.css";
 
-const CollapsibleContainer = ({ children }) => {
-  const { setDetailContainerHeight, detailHide, onClickHideShow } =
+const CollapsibleContainer = ({
+  id,
+  children,
+  detailContainerHeight,
+  detailHide,
+}) => {
+  const { setDetailContainerHeight, onClickHideShow, onClickDetailHide } =
     useOrderContext();
-
-  const [forceRender, setForceRender] = useState(true);
+  //console.log(detailContainerHeight);
+  // const [forceRender, setForceRender] = useState(true);
 
   const collapseContainerRef = useRef(null);
-  const heightRef = useRef(null);
+  // const heightRef = useRef(null);
   const firstRender = useRef(true);
 
   // console.log("heightRef.current", heightRef.current);
 
   useEffect(() => {
     console.log("collapse useEffect");
-    // onClickHideShow(id, "detailHide");
     if (firstRender.current) {
-      console.log("is first render", firstRender.current);
-      heightRef.current = collapseContainerRef.current.offsetHeight;
+      setDetailContainerHeight(id, collapseContainerRef.current.offsetHeight);
       firstRender.current = false;
-      setForceRender(false);
+      onClickDetailHide(id);
     }
 
     const reload = function (event) {
@@ -43,7 +46,13 @@ const CollapsibleContainer = ({ children }) => {
           ? " detail-container detail-container-hidden"
           : "detail-container"
       }
-      style={detailHide ? { height: "0px" } : { height: heightRef.current }}
+      style={{
+        height: firstRender.current
+          ? "auto"
+          : detailHide
+          ? 0
+          : detailContainerHeight,
+      }}
     >
       {children}
       <div className="space-holder-transition">.</div>

@@ -1,22 +1,60 @@
 .order-nav-container {
-  width: 100%;
-  padding: 10px 10px 0px 10px;
+  position: fixed;
+  top: 30%;
+  right: 0px;
+  padding: 10px 0px;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 0.5rem;
+  z-index: 9999;
+  transform: translate(0);
+  transition: transform 0.5s ease;
 }
 
-.order-nav-container div {
-  margin: 0px 5px;
+.order-nav-container-hidden {
+  transform: translate(117px);
+  overflow: hidden;
 }
 
-.order-nav-btn {
-  border: 2px solid transparent;
-  border-radius: 8px;
-  padding: 2px;
+.btn-container {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #b20f35;
+  background-color: white;
+  border-radius: 0.5rem;
+}
+
+.btn-container hr {
+  width: 80%;
+  color: #b20f35;
+  margin: 0px auto;
+  border: 1px solid;
+}
+
+.btn-container button {
+ color: #e61964;
+ border: none;
+ font-size: 1.1rem;
+ padding: 5px;
+ border-radius: 0.5rem;
+ background-color: transparent;
+ border-bottom: 1px solid white;
+ text-align: left;
+}
+
+.order-nav-icon {
+  background-color: transparent;
+  color: #b60a33;
+  border-radius: 0.5rem;
+  font-size: 3rem;
+  border: none;
   outline: none;
-  background-color: transparent
 }
+
+.order-nav-icon svg {
+  padding-right: 5px;
+}    
 
 .order-nav-btn-show {
   background-color: white;

@@ -3,6 +3,7 @@ import { reducer } from "./UiReducer";
 
 const initialState = {
   navbar: false,
+  orderNav: false,
 };
 
 const UiContext = createContext();
@@ -12,8 +13,12 @@ const UiContextProvider = ({ children }) => {
   const toggleNavbar = () => {
     dispatch({ type: "TOGGLE_NAVBAR" });
   };
+
+  const toggleOrderNav = () => {
+    dispatch({ type: "TOGGLE_ORDER_NAV" });
+  };
   return (
-    <UiContext.Provider value={{ ...state, toggleNavbar }}>
+    <UiContext.Provider value={{ ...state, toggleNavbar, toggleOrderNav }}>
       {children}
     </UiContext.Provider>
   );
