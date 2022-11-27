@@ -31,21 +31,19 @@ const getAmPmTime = (dateString) => {
 const SingleOrder = (props) => {
   const {
     id,
-    foodName,
-    foodCount,
+    order,
     message,
     status,
     statusDate,
     customerName,
     address,
-    paymentMethod,
     paymentStatus,
     phoneNumber,
     messageHide,
     detailContainerHeight,
     detailHide,
     orderState,
-    isRecycleBin, //for Trash Bin Component
+    paymentMethod,
   } = props;
   console.log("detail heinght in single rder", detailContainerHeight);
 
@@ -80,35 +78,39 @@ const SingleOrder = (props) => {
         }
       >
         <ul className="order-ul">
-          <li className="name-count-container">
-            <div className="food-name">
-              <input
-                value={foodName}
-                placeholder="Name"
-                onChange={(e) => onChangeInputSelect(id, "foodName", e)}
-              />
-            </div>
-            <div className="food-count">
-              <div style={{ marginRight: "20px" }}>x</div>
-              {foodCount === "others" ? (
-                <input type="text" />
-              ) : (
-                <select
-                  value={foodCount}
-                  name="foodCount"
-                  id="foodCount"
-                  onChange={(e) => onChangeInputSelect(id, "foodCount", e)}
-                >
-                  <option value={1}>1</option>
-                  <option value={2}>2</option>
-                  <option value={3}>3</option>
-                  <option value={4}>4</option>
-                  <option value={5}>5</option>
-                  <option value={"others"}>Others...</option>
-                </select>
-              )}
-            </div>
-          </li>
+          {order.map((order) => {
+            return (
+              <li className="name-count-container">
+                <div className="food-name">
+                  <input
+                    value={order.foodName}
+                    placeholder="Name"
+                    onChange={(e) => onChangeInputSelect(id, "foodName", e)}
+                  />
+                </div>
+                <div className="food-count">
+                  <div style={{ marginRight: "20px" }}>x</div>
+                  {order.foodCount === "others" ? (
+                    <input type="text" />
+                  ) : (
+                    <select
+                      value={order.foodCount}
+                      name="foodCount"
+                      id="foodCount"
+                      onChange={(e) => onChangeInputSelect(id, "foodCount", e)}
+                    >
+                      <option value={1}>1</option>
+                      <option value={2}>2</option>
+                      <option value={3}>3</option>
+                      <option value={4}>4</option>
+                      <option value={5}>5</option>
+                      <option value={"others"}>Others...</option>
+                    </select>
+                  )}
+                </div>
+              </li>
+            );
+          })}
           <li className="message-container">
             <div>Message</div>
             <div>:</div>
@@ -196,9 +198,12 @@ const SingleOrder = (props) => {
               <div>Payment</div>
               <div>:</div>
               <div className="payment-box">
-                <div className="payment-method-name">{paymentMethod}</div>
+                <div className="payment-method-name">
+                  {paymentMethod.method}
+                </div>
+                <div>{paymentMethod.additionalInfo}</div>
                 <select
-                  onChange={(e) => onChangeInputSelect(id, "paymentState", e)}
+                  onChange={(e) => onChangeInputSelect(id, "paymentStatus", e)}
                   value={paymentStatus}
                   className={
                     paymentStatus

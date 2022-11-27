@@ -31,7 +31,7 @@ const reducer = (state, action) => {
       // console.log("payload", action.payload);
       const tempState2 = stateCopy.map((menu) => {
         if (menu.id === action.payload.id) {
-          console.log("if in reducer run");
+          // console.log("if in reducer run");
           menu[action.payload.category] = action.payload.value;
         }
         return menu;
