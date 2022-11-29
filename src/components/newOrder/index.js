@@ -13,7 +13,7 @@ const NewOrder = () => {
           (order) => order.orderState === "order" && order.status === "received"
         )
         .map((order) => (
-          <SingleOrder {...order} key={order.id} />
+          <SingleOrder {...order} key={order._id} />
         ))}
     </div>
   );

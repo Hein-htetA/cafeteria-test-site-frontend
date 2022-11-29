@@ -1,12 +1,15 @@
 export const orderData = [
   {
+    id: 1,
     restaurantName: "Min Ma Har",
     order: [
       {
+        id: 1,
         foodName: "tone yan hta min",
         foodCount: 4,
       },
       {
+        id: 2,
         foodName: "pal late khote",
         foodCount: 2,
       },

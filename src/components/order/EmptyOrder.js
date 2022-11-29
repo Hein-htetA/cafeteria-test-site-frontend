@@ -7,7 +7,7 @@ const EmptyOrder = () => {
   return (
     <div className="empty-box">
       <div>...</div>
-      <FontAwesomeIcon icon={faTruckFast} />
+      <FontAwesomeIcon icon={faTruckFast} fade />
     </div>
   );
 };

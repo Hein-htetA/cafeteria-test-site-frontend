@@ -1,0 +1,11 @@
+.empty-box button {
+  width: 100px;
+  height: 40px;
+  background-color: rgb(2, 0, 36);
+  background: linear-gradient(99deg, rgba(2, 0, 36, 1) 0%, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+  font-size: 1rem;
+  border: 2px solid white;
+  border-radius: 0.5rem;
+  color: #211e1f;
+  font-weight: bold;
+}

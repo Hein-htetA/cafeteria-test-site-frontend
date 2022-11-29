@@ -7,6 +7,12 @@ const reducer = (state, action) => {
     case "TOGGLE_ORDER_NAV":
       const { orderNav } = { ...state };
       return { ...state, orderNav: !orderNav };
+    case "SET_ORDER_LOADING":
+      return { ...state, orderLoading: true, orderError: false };
+    case "SET_ORDER_ERROR":
+      return { ...state, orderLoading: false, orderError: true };
+    case "ORDER_FETCH_SUCCESSFUL":
+      return { ...state, orderLoading: false, orderError: false };
     default:
       throw new Error("action type not supported");
   }

@@ -1,9 +1,8 @@
 import React from "react";
 import { useOrderContext } from "../../Context/OrderContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import "./index.css";
 import SingleOrder from "../order/SingleOrder";
+import { displayOrder } from "../order";
 
 const RecycleBin = () => {
   const { data } = useOrderContext();
@@ -13,7 +12,7 @@ const RecycleBin = () => {
       {data
         .filter((order) => order.orderState === "recycleBin")
         .map((order) => (
-          <SingleOrder {...order} key={order.id} isRecycleBin={true} />
+          <SingleOrder {...order} key={order._id} />
         ))}
     </div>
   );

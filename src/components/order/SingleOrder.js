@@ -30,11 +30,11 @@ const getAmPmTime = (dateString) => {
 
 const SingleOrder = (props) => {
   const {
-    id,
+    _id,
     order,
     message,
     status,
-    statusDate,
+    updatedAt,
     customerName,
     address,
     paymentStatus,
@@ -45,7 +45,6 @@ const SingleOrder = (props) => {
     orderState,
     paymentMethod,
   } = props;
-  console.log("detail heinght in single rder", detailContainerHeight);
 
   const {
     onChangeInputSelect,
@@ -58,7 +57,7 @@ const SingleOrder = (props) => {
   const scrollRef = useRef(null);
 
   const hideShowScroll = () => {
-    onClickHideShow(id, "messageHide");
+    onClickHideShow(_id, "messageHide");
     scrollRef.current.scrollTo({
       top: 0,
       left: 0,
@@ -80,33 +79,20 @@ const SingleOrder = (props) => {
         <ul className="order-ul">
           {order.map((order) => {
             return (
-              <li className="name-count-container">
+              <li className="name-count-container" key={order._id}>
                 <div className="food-name">
                   <input
                     value={order.foodName}
                     placeholder="Name"
-                    onChange={(e) => onChangeInputSelect(id, "foodName", e)}
+                    onChange={(e) =>
+                      onChangeInputSelect(order._id, "foodName", e)
+                    }
+                    readOnly
                   />
                 </div>
                 <div className="food-count">
                   <div style={{ marginRight: "20px" }}>x</div>
-                  {order.foodCount === "others" ? (
-                    <input type="text" />
-                  ) : (
-                    <select
-                      value={order.foodCount}
-                      name="foodCount"
-                      id="foodCount"
-                      onChange={(e) => onChangeInputSelect(id, "foodCount", e)}
-                    >
-                      <option value={1}>1</option>
-                      <option value={2}>2</option>
-                      <option value={3}>3</option>
-                      <option value={4}>4</option>
-                      <option value={5}>5</option>
-                      <option value={"others"}>Others...</option>
-                    </select>
-                  )}
+                  <input type="text" value={order.foodCount} readOnly />
                 </div>
               </li>
             );
@@ -150,7 +136,7 @@ const SingleOrder = (props) => {
                     ? "status-select status-select-accepted"
                     : "status-select status-select-delievery"
                 }
-                onChange={(e) => onChangeInputSelect(id, "status", e)}
+                onChange={(e) => onChangeInputSelect(_id, "status", e)}
                 value={status}
               >
                 <option value="received">Order Received</option>
@@ -162,12 +148,12 @@ const SingleOrder = (props) => {
                   icon={faClock}
                   style={{ marginRight: "2px" }}
                 />
-                {getAmPmTime(statusDate)}
+                {getAmPmTime(updatedAt)}
               </div>
             </div>
           </li>
           <CollapsibleContainer
-            id={id}
+            id={_id}
             detailContainerHeight={detailContainerHeight}
             detailHide={detailHide}
           >
@@ -181,17 +167,6 @@ const SingleOrder = (props) => {
               <div>:</div>
               <div className="address-box">
                 <div className={"address-text"}>{address}</div>
-                {/* <div className="address-button-toggle">
-                  {addressHide ? (
-                    <button onClick={() => onClickHideShow(id, "addressHide")}>
-                      <FontAwesomeIcon icon={faSquareCaretDown} />
-                    </button>
-                  ) : (
-                    <button onClick={() => onClickHideShow(id, "addressHide")}>
-                      <FontAwesomeIcon icon={faSquareCaretUp} />
-                    </button>
-                  )}
-                </div> */}
               </div>
             </li>
             <li>
@@ -203,7 +178,7 @@ const SingleOrder = (props) => {
                 </div>
                 <div>{paymentMethod.additionalInfo}</div>
                 <select
-                  onChange={(e) => onChangeInputSelect(id, "paymentStatus", e)}
+                  onChange={(e) => onChangeInputSelect(_id, "paymentStatus", e)}
                   value={paymentStatus}
                   className={
                     paymentStatus
@@ -221,7 +196,7 @@ const SingleOrder = (props) => {
               <div>:</div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div>+{phoneNumber}</div>
-                <a href={`tel:+${phoneNumber}`}>
+                <a href={`tel:${phoneNumber}`}>
                   <FontAwesomeIcon icon={faPhoneFlip} />
                 </a>
               </div>
@@ -234,8 +209,8 @@ const SingleOrder = (props) => {
                 className={"recycle-bin-btn"}
                 onClick={
                   orderState === "order"
-                    ? () => sendToRecycleBin(id)
-                    : () => sendToOrderReceived(id)
+                    ? () => sendToRecycleBin(_id)
+                    : () => sendToOrderReceived(_id)
                 }
               >
                 {orderState === "order" ? "Recycle Bin" : "Orders"}
@@ -247,7 +222,7 @@ const SingleOrder = (props) => {
             <div className="toggle-detail-btn-container">
               <button
                 className="toggle-detail-btn"
-                onClick={() => onClickHideShow(id, "detailHide")}
+                onClick={() => onClickHideShow(_id, "detailHide")}
               >
                 {detailHide ? (
                   <>
@@ -264,11 +239,11 @@ const SingleOrder = (props) => {
             </div>
             <button
               className={
-                orderState !== "order"
+                orderState !== "order" || status === "received"
                   ? "recycle-bin-btn button-hide"
                   : "recycle-bin-btn"
               }
-              onClick={() => sendToHistory(id)}
+              onClick={() => sendToHistory(_id)}
             >
               Completed
               <FontAwesomeIcon icon={faCheck} />

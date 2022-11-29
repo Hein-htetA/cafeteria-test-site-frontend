@@ -1,22 +1,23 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
+import { baseUrl } from "../components/utils/baseUrl";
 import { orderData } from "../data";
 import { reducer } from "./OrderReducer";
 
-const orderState = {
-  foodCountOthers: false,
-  messageHide: true,
-  detailHide: false,
-  detailContainerHeight: 0,
-};
+// const orderState = {
+//   foodCountOthers: false,
+//   messageHide: true,
+//   detailHide: false,
+//   detailContainerHeight: 0,
+// };
 
-const initialState = orderData.map((order) => {
-  return { ...order, ...orderState };
-});
+// const initialState = orderData.map((order) => {
+//   return { ...order, ...orderState };
+// });
 
 const OrderContext = createContext();
 
 const OrderContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, []);
 
   const onChangeInputSelect = (id, item, event) => {
     dispatch({
@@ -85,6 +86,24 @@ const OrderContextProvider = ({ children }) => {
     });
   };
 
+  const setOrderState = (data) => {
+    dispatch({
+      type: "SET_ORDER_STATE",
+      payload: {
+        data,
+      },
+    });
+  };
+
+  const addNewOrder = (data) => {
+    dispatch({
+      type: "ADD_NEW_ORDER",
+      payload: {
+        data,
+      },
+    });
+  };
+
   return (
     <OrderContext.Provider
       value={{
@@ -96,6 +115,8 @@ const OrderContextProvider = ({ children }) => {
         setDetailContainerHeight,
         sendToHistory,
         onClickDetailHide,
+        setOrderState,
+        addNewOrder,
       }}
     >
       {children}
