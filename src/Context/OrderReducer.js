@@ -4,7 +4,16 @@ export const reducer = (state, action) => {
     messageHide: true,
     detailHide: false,
     detailContainerHeight: 0,
+    statusLoading: false,
+    statusError: false,
+    paymentMethodLoading: false,
+    paymentMethodError: false,
+    sendToRecycleBinLoading: false,
+    sendToRecycleBinError: false,
+    orderCompleteLoading: false,
+    orderCompleteError: false,
   };
+
   switch (action.type) {
     case "ON_CHANGE_INPUT_SELECT":
       const tempState1 = state.map((order) => {

@@ -12,7 +12,7 @@ const Navbar = () => {
   const { toggleNavbar, navbar } = useUiContext();
   const { data } = useOrderContext();
   const newOrderCount = data.filter(
-    (order) => order.orderState === "order" && order.status === "received"
+    (order) => order.orderState === "newOrder"
   ).length;
   return (
     <nav className="nav-container">

@@ -14,6 +14,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useOrderContext } from "../../Context/OrderContext";
 import CollapsibleContainer from "./CollapsibleContainer";
+import NewOrderBtnGroup from "./BtnGroup/NewOrderBtnGroup";
+import OrderBtnGroup from "./BtnGroup/OrderBtnGroup";
+import RecycleBinBtnGroup from "./BtnGroup/RecycleBinBtnGroup";
 
 const getAmPmTime = (dateString) => {
   const date = new Date(dateString);
@@ -73,6 +76,8 @@ const SingleOrder = (props) => {
             ? "single-order-container"
             : orderState === "recycleBin"
             ? "single-order-container-recycleBin"
+            : orderState === "newOrder"
+            ? "single-order-container-newOrder"
             : "single-order-container-history"
         }
       >
@@ -195,60 +200,47 @@ const SingleOrder = (props) => {
               <div>Phone</div>
               <div>:</div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <div>+{phoneNumber}</div>
+                <div>{phoneNumber}</div>
                 <a href={`tel:${phoneNumber}`}>
                   <FontAwesomeIcon icon={faPhoneFlip} />
                 </a>
               </div>
             </li>
           </CollapsibleContainer>
-
-          <div className={"order-btn-container"}>
-            <div className="recycle-bin-btn-container">
-              <button
-                className={"recycle-bin-btn"}
-                onClick={
-                  orderState === "order"
-                    ? () => sendToRecycleBin(_id)
-                    : () => sendToOrderReceived(_id)
-                }
-              >
-                {orderState === "order" ? "Recycle Bin" : "Orders"}
-                <FontAwesomeIcon
-                  icon={orderState === "order" ? faTrashCan : faPaperPlane}
-                />
-              </button>
-            </div>
-            <div className="toggle-detail-btn-container">
-              <button
-                className="toggle-detail-btn"
-                onClick={() => onClickHideShow(_id, "detailHide")}
-              >
-                {detailHide ? (
-                  <>
-                    <FontAwesomeIcon icon={faChevronDown} />
-                    <FontAwesomeIcon icon={faChevronDown} />
-                  </>
-                ) : (
-                  <>
-                    <FontAwesomeIcon icon={faChevronUp} />
-                    <FontAwesomeIcon icon={faChevronUp} />
-                  </>
-                )}
-              </button>
-            </div>
-            <button
-              className={
-                orderState !== "order" || status === "received"
-                  ? "recycle-bin-btn button-hide"
-                  : "recycle-bin-btn"
-              }
-              onClick={() => sendToHistory(_id)}
-            >
-              Completed
-              <FontAwesomeIcon icon={faCheck} />
-            </button>
-          </div>
+          {orderState === "newOrder" ? (
+            <NewOrderBtnGroup
+              {...{
+                _id,
+                orderState,
+                sendToOrderReceived,
+                sendToRecycleBin,
+                detailHide,
+                onClickHideShow,
+              }}
+            />
+          ) : orderState === "recycleBin" ? (
+            <RecycleBinBtnGroup
+              {...{
+                _id,
+                orderState,
+                sendToRecycleBin,
+                detailHide,
+                onClickHideShow,
+                sendToOrderReceived,
+              }}
+            />
+          ) : (
+            <OrderBtnGroup
+              {...{
+                _id,
+                orderState,
+                sendToHistory,
+                sendToRecycleBin,
+                detailHide,
+                onClickHideShow,
+              }}
+            />
+          )}
         </ul>
       </div>
       <hr className="single-order-hr" />

@@ -9,9 +9,7 @@ const NewOrder = () => {
     <div className="trashbin-container">
       <div className="trashbin-title">New Orders</div>
       {data
-        .filter(
-          (order) => order.orderState === "order" && order.status === "received"
-        )
+        .filter((order) => order.orderState === "newOrder")
         .map((order) => (
           <SingleOrder {...order} key={order._id} />
         ))}
