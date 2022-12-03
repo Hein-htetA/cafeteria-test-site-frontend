@@ -2,17 +2,17 @@ import {
   faCheck,
   faChevronDown,
   faChevronUp,
-  faTrashCan,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import "./HistoryBtnGroup.css";
 
-const RecycleBinBtnGroup = (props) => {
+const HistoryBtnGroup = (props) => {
   const {
     _id,
-    orderState,
     sendToOrderReceived,
-    sendToRecycleBin,
+    showDeleteConfirmationBox,
     detailHide,
     onClickHideShow,
   } = props;
@@ -20,11 +20,11 @@ const RecycleBinBtnGroup = (props) => {
     <div className={"order-btn-container"}>
       <div className="recycle-bin-btn-container">
         <button
-          className={"recycle-bin-btn"}
-          onClick={() => sendToRecycleBin(_id)}
+          className={"recycle-bin-btn delete-btn"}
+          onClick={() => showDeleteConfirmationBox(_id)}
         >
-          Remove
-          <FontAwesomeIcon icon={faTrashCan} />
+          Delete
+          <FontAwesomeIcon icon={faXmark} />
         </button>
       </div>
       <div className="toggle-detail-btn-container">
@@ -48,12 +48,12 @@ const RecycleBinBtnGroup = (props) => {
       <button
         className={"recycle-bin-btn"}
         onClick={() => sendToOrderReceived(_id)}
+        style={{ visibility: "hidden" }}
       >
-        Restore To Orders
         <FontAwesomeIcon icon={faCheck} />
       </button>
     </div>
   );
 };
 
-export default RecycleBinBtnGroup;
+export default HistoryBtnGroup;

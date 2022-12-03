@@ -20,7 +20,6 @@ const CollapsibleContainer = ({
   // console.log("heightRef.current", heightRef.current);
 
   useEffect(() => {
-    console.log("collapse useEffect");
     if (firstRender.current) {
       setDetailContainerHeight(id, collapseContainerRef.current.offsetHeight);
       firstRender.current = false;
@@ -28,7 +27,6 @@ const CollapsibleContainer = ({
     }
 
     const reload = function (event) {
-      console.log("re load run");
       document.location.reload(false);
     };
 

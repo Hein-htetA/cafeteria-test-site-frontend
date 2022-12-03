@@ -1,5 +1,4 @@
 import {
-  faTruckFast,
   faCheckDouble,
   faChevronDown,
   faChevronUp,
@@ -8,14 +7,9 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
-const OrderBtnGroup = (props) => {
-  const {
-    _id,
-    sendToOnDelivery,
-    sendToRecycleBin,
-    detailHide,
-    onClickHideShow,
-  } = props;
+const OnDeliveryBtnGroup = (props) => {
+  const { _id, sendToHistory, sendToRecycleBin, detailHide, onClickHideShow } =
+    props;
   return (
     <div className={"order-btn-container"}>
       <div className="recycle-bin-btn-container">
@@ -45,15 +39,12 @@ const OrderBtnGroup = (props) => {
           )}
         </button>
       </div>
-      <button
-        className={"recycle-bin-btn"}
-        onClick={() => sendToOnDelivery(_id)}
-      >
-        Delivery
-        <FontAwesomeIcon icon={faTruckFast} />
+      <button className={"recycle-bin-btn"} onClick={() => sendToHistory(_id)}>
+        Completed
+        <FontAwesomeIcon icon={faCheckDouble} />
       </button>
     </div>
   );
 };
 
-export default OrderBtnGroup;
+export default OnDeliveryBtnGroup;

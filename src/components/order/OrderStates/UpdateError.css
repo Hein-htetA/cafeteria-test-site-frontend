@@ -1,0 +1,17 @@
+.update-error {
+  background-color: #180202;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%);
+  width: 60%;
+  padding: 10px;
+  text-align: center;
+  color: red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3rem;
+  border-radius: 0.3rem;
+}

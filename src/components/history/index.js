@@ -4,17 +4,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import "./index.css";
 import SingleOrder from "../order/SingleOrder";
+import { displayOrder } from "../order";
+import { useUiContext } from "../../Context/UiContext";
 
 const History = () => {
   const { data } = useOrderContext();
+  const { orderLoading, orderError } = useUiContext();
+
   return (
     <div className="trashbin-container">
       <div className="trashbin-title">History</div>
-      {data
-        .filter((order) => order.orderState === "history")
-        .map((order) => (
-          <SingleOrder {...order} key={order.id} isRecycleBin={true} />
-        ))}
+      {displayOrder(data, "history", orderLoading, orderError)}
     </div>
   );
 };

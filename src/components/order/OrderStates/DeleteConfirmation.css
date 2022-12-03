@@ -1,0 +1,43 @@
+.confirmation-container {
+  height: 100px;
+  width: calc(100% + 4px);
+  position: absolute;
+  bottom: -2px;
+  left: -2px;
+  background-color: white;
+  color: red;
+  z-index: 9;
+  border: 2px solid red;
+  border-radius: 1rem;
+  padding: 10px;
+  text-align: center;
+}
+
+.confirmation-container h5 {
+  font-size: 1rem;
+}
+
+.confirmation-container p {
+  margin-bottom: 10px;
+}
+
+.confirmation-btn-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+
+.confirmation-btn-container button {
+  padding: 3px 5px;
+  border: 1px solid rgb(250, 247, 242);
+  border-radius: 0.4rem;
+  text-transform: uppercase;
+  color: red
+  
+}
+
+.confirmation-btn-container button:active {
+  background-color: red;
+  color: white
+}

@@ -1,0 +1,9 @@
+.delete-btn {
+  color: red;
+  background-color: white;
+  border-color: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}

@@ -1,33 +1,123 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
-import { baseUrl } from "../components/utils/baseUrl";
+import { localBaseUrl } from "../components/utils/baseUrl";
 import { orderData } from "../data";
 import { reducer } from "./OrderReducer";
-
-// const orderState = {
-//   foodCountOthers: false,
-//   messageHide: true,
-//   detailHide: false,
-//   detailContainerHeight: 0,
-// };
-
-// const initialState = orderData.map((order) => {
-//   return { ...order, ...orderState };
-// });
+import { useUiContext } from "./UiContext";
 
 const OrderContext = createContext();
 
 const OrderContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, []);
+  const {
+    setOrderLoading,
+    setOrderError,
+    orderFetchSuccessful,
+    restaurantName,
+    setUpdateLoading,
+    setUpdateError,
+    updateFetchSuccessful,
+  } = useUiContext();
 
-  const onChangeInputSelect = (id, item, event) => {
+  // console.log(state);
+
+  const onChangeInputSelect = async (id, event) => {
     dispatch({
       type: "ON_CHANGE_INPUT_SELECT",
       payload: {
         id,
-        item,
         value: event.target.value,
       },
     });
+
+    const order = state.find((order) => order._id === id);
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        orderId: id,
+        paymentStatus: !order.paymentStatus, //this state is before dispatch state change
+      }),
+    };
+    try {
+      console.log("before fetch in payment status");
+      console.log("payment status", order.paymentStatus);
+      const response = await fetch(`${localBaseUrl}/orders`, requestOptions);
+
+      if (!response.ok) {
+        dispatch({
+          type: "PAYMENT_STATUS_UPDATE_ERROR",
+          payload: {
+            id,
+          },
+        });
+        throw new Error("Update Failed");
+      }
+
+      dispatch({
+        type: "STOP_PAYMENT_STATUS_UPDATE_LOADING",
+        payload: {
+          id,
+        },
+      });
+    } catch (error) {
+      dispatch({
+        type: "PAYMENT_STATUS_UPDATE_ERROR",
+        payload: {
+          id,
+        },
+      });
+      console.log(error);
+    }
+  };
+
+  const retryPaymentStatus = async (id) => {
+    const order = state.find((order) => order._id === id);
+
+    dispatch({
+      type: "ON_CHANGE_INPUT_SELECT",
+      payload: {
+        id,
+        value: order.paymentStatus,
+      },
+    });
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        orderId: id,
+        paymentStatus: order.paymentStatus,
+      }),
+    };
+    try {
+      const response = await fetch(`${localBaseUrl}/orders`, requestOptions);
+
+      if (!response.ok) {
+        dispatch({
+          type: "PAYMENT_STATUS_UPDATE_ERROR",
+          payload: {
+            id,
+          },
+        });
+        throw new Error("Update Failed");
+      }
+
+      dispatch({
+        type: "STOP_PAYMENT_STATUS_UPDATE_LOADING",
+        payload: {
+          id,
+        },
+      });
+    } catch (error) {
+      dispatch({
+        type: "PAYMENT_STATUS_UPDATE_ERROR",
+        payload: {
+          id,
+        },
+      });
+      console.log(error);
+    }
   };
 
   const onClickHideShow = (id, item) => {
@@ -59,40 +149,297 @@ const OrderContextProvider = ({ children }) => {
     });
   };
 
-  const sendToRecycleBin = (id) => {
-    dispatch({
-      type: "SEND_TO_RECYCLE_BIN",
-      payload: {
-        id,
-      },
-    });
+  const sendToRecycleBin = async (id) => {
+    const requestOptions = {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        orderId: id,
+        orderState: "recycleBin",
+        status: "received",
+      }),
+    };
+    try {
+      dispatch({
+        type: "UPDATE_LOADING",
+        payload: {
+          id,
+        },
+      });
+      const response = await fetch(`${localBaseUrl}/orders`, requestOptions);
+      if (!response.ok) {
+        dispatch({
+          type: "UPDATE_ERROR",
+          payload: {
+            id,
+          },
+        });
+        throw new Error("Update Failed");
+      }
+      const { updatedAt } = await response.json();
+      dispatch({
+        type: "SEND_TO_RECYCLE_BIN",
+        payload: {
+          id,
+          updatedAt,
+        },
+      });
+    } catch (error) {
+      dispatch({
+        type: "UPDATE_ERROR",
+        payload: {
+          id,
+        },
+      });
+      console.log(error);
+    }
   };
 
-  const sendToOrderReceived = (id) => {
-    dispatch({
-      type: "SEND_TO_ORDER",
-      payload: {
-        id,
-      },
-    });
+  const sendToOrderReceived = async (id) => {
+    const requestOptions = {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        orderId: id,
+        orderState: "order",
+        status: "accepted",
+      }),
+    };
+    try {
+      dispatch({
+        type: "UPDATE_LOADING",
+        payload: {
+          id,
+        },
+      });
+      const response = await fetch(`${localBaseUrl}/orders`, requestOptions);
+      if (!response.ok) {
+        dispatch({
+          type: "UPDATE_ERROR",
+          payload: {
+            id,
+          },
+        });
+        throw new Error("Update Failed");
+      }
+      const { updatedAt } = await response.json();
+      dispatch({
+        type: "SEND_TO_ORDER",
+        payload: {
+          id,
+          updatedAt,
+        },
+      });
+    } catch (error) {
+      dispatch({
+        type: "UPDATE_ERROR",
+        payload: {
+          id,
+        },
+      });
+      console.log(error);
+    }
   };
 
-  const sendToHistory = (id) => {
-    dispatch({
-      type: "SEND_TO_HISTORY",
-      payload: {
-        id,
-      },
-    });
+  const sendToHistory = async (id) => {
+    const requestOptions = {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        orderId: id,
+        orderState: "history",
+        status: "accepted",
+        paymentState: true,
+      }),
+    };
+    try {
+      dispatch({
+        type: "UPDATE_LOADING",
+        payload: {
+          id,
+        },
+      });
+      const response = await fetch(`${localBaseUrl}/orders`, requestOptions);
+      if (!response.ok) {
+        dispatch({
+          type: "UPDATE_ERROR",
+          payload: {
+            id,
+          },
+        });
+        throw new Error("Update Failed");
+      }
+      const { updatedAt } = await response.json();
+      dispatch({
+        type: "SEND_TO_HISTORY",
+        payload: {
+          id,
+          updatedAt,
+        },
+      });
+    } catch (error) {
+      dispatch({
+        type: "UPDATE_ERROR",
+        payload: {
+          id,
+        },
+      });
+      console.log(error);
+    }
   };
 
-  const setOrderState = (data) => {
-    dispatch({
-      type: "SET_ORDER_STATE",
-      payload: {
-        data,
-      },
-    });
+  const sendToOnDelivery = async (id) => {
+    const requestOptions = {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        orderId: id,
+        orderState: "onDelivery",
+        status: "accepted",
+      }),
+    };
+    try {
+      dispatch({
+        type: "UPDATE_LOADING",
+        payload: {
+          id,
+        },
+      });
+      const response = await fetch(`${localBaseUrl}/orders`, requestOptions);
+      if (!response.ok) {
+        dispatch({
+          type: "UPDATE_ERROR",
+          payload: {
+            id,
+          },
+        });
+        throw new Error("Update Failed");
+      }
+      const { updatedAt } = await response.json();
+      dispatch({
+        type: "SEND_TO_ON_DELIVERY",
+        payload: {
+          id,
+          updatedAt,
+        },
+      });
+    } catch (error) {
+      dispatch({
+        type: "UPDATE_ERROR",
+        payload: {
+          id,
+        },
+      });
+      console.log(error);
+    }
+  };
+
+  const removeOrder = async (id) => {
+    const requestOptions = {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        orderId: id,
+      }),
+    };
+    try {
+      dispatch({
+        type: "UPDATE_LOADING",
+        payload: {
+          id,
+        },
+      });
+      const response = await fetch(`${localBaseUrl}/orders`, requestOptions);
+      if (!response.ok) {
+        dispatch({
+          type: "UPDATE_ERROR",
+          payload: {
+            id,
+          },
+        });
+        throw new Error("Update Failed");
+      }
+      dispatch({
+        type: "REMOVE_ORDER",
+        payload: {
+          id,
+        },
+      });
+    } catch (error) {
+      dispatch({
+        type: "UPDATE_ERROR",
+        payload: {
+          id,
+        },
+      });
+      console.log(error);
+    }
+  };
+
+  const setUpdateOrderState = (controller) => {
+    const fetchOrder = async () => {
+      try {
+        setUpdateLoading();
+        const response = await fetch(
+          `${localBaseUrl}/orders/${restaurantName
+            .trim()
+            .replaceAll(" ", "%20")}`,
+          {
+            signal: controller.signal,
+          }
+        );
+        if (!response.ok) {
+          const message = `An error has occured: ${response.status}`;
+          throw new Error(message);
+        }
+        const responseData = await response.json();
+        dispatch({
+          type: "SET_ORDER_STATE",
+          payload: {
+            data: responseData.data,
+          },
+        });
+        updateFetchSuccessful();
+        // console.log("data", responseData.data);
+      } catch (e) {
+        setUpdateError();
+        console.log(e);
+      }
+    };
+    fetchOrder();
+  };
+
+  const setOrderState = (controller) => {
+    const fetchOrder = async () => {
+      try {
+        setOrderLoading();
+        const response = await fetch(
+          `${localBaseUrl}/orders/${restaurantName
+            .trim()
+            .replaceAll(" ", "%20")}`,
+          {
+            signal: controller.signal,
+          }
+        );
+        if (!response.ok) {
+          const message = `An error has occured: ${response.status}`;
+          throw new Error(message);
+        }
+        const responseData = await response.json();
+        dispatch({
+          type: "SET_ORDER_STATE",
+          payload: {
+            data: responseData.data,
+          },
+        });
+        orderFetchSuccessful();
+        // console.log("data", responseData.data);
+      } catch (e) {
+        setOrderError();
+        console.log(e);
+      }
+    };
+    fetchOrder();
   };
 
   const addNewOrder = (data) => {
@@ -100,6 +447,24 @@ const OrderContextProvider = ({ children }) => {
       type: "ADD_NEW_ORDER",
       payload: {
         data,
+      },
+    });
+  };
+
+  const showDeleteConfirmationBox = (id) => {
+    dispatch({
+      type: "SHOW_DELETE_CONFIRMATION_BOX",
+      payload: {
+        id,
+      },
+    });
+  };
+
+  const hideDeleteConfirmationBox = (id) => {
+    dispatch({
+      type: "HIDE_DELETE_CONFIRMATION_BOX",
+      payload: {
+        id,
       },
     });
   };
@@ -115,8 +480,14 @@ const OrderContextProvider = ({ children }) => {
         setDetailContainerHeight,
         sendToHistory,
         onClickDetailHide,
+        sendToOnDelivery,
         setOrderState,
         addNewOrder,
+        removeOrder,
+        showDeleteConfirmationBox,
+        hideDeleteConfirmationBox,
+        retryPaymentStatus,
+        setUpdateOrderState,
       }}
     >
       {children}

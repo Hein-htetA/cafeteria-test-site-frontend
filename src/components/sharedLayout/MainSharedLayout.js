@@ -1,60 +1,64 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Navbar from "../navbar";
 import { Outlet } from "react-router-dom";
 import ScrollToTop from "../utils/ScrollToTop";
-import { baseUrl } from "../utils/baseUrl";
+import { localBaseUrl } from "../utils/baseUrl";
 import { useUiContext } from "../../Context/UiContext";
 import { useOrderContext } from "../../Context/OrderContext";
 
 const MainSharedLayout = () => {
-  const { setOrderLoading, setOrderError, orderFetchSuccessful } =
-    useUiContext();
-  const { setOrderState, addNewOrder } = useOrderContext();
+  const { setOrderState, addNewOrder, setUpdateOrderState } = useOrderContext();
+  const { restaurantName, onlineIndicate } = useUiContext();
+
+  const onError = useRef(null);
 
   useEffect(() => {
     const controller = new AbortController();
-    const fetchOrder = async () => {
-      try {
-        setOrderLoading();
-        const response = await fetch(`${baseUrl}/orders/T-food`, {
-          signal: controller.signal,
-        });
-        if (!response.ok) {
-          const message = `An error has occured: ${response.status}`;
-          throw new Error(message);
-        }
-        const data = await response.json();
-        setOrderState(data.data);
-        orderFetchSuccessful();
-        console.log("data", data);
-      } catch (e) {
-        setOrderError();
-        console.log(e);
-      }
-    };
-    fetchOrder();
-
+    setOrderState(controller);
     return () => {
       controller.abort();
     };
   }, []);
 
   useEffect(() => {
-    const sse = new EventSource(baseUrl + "/orders/T-food/newOrder");
+    const sse = new EventSource(
+      localBaseUrl +
+        `/orders/${restaurantName.trim().replaceAll(" ", "%20")}/newOrder`
+    );
+    const controller = new AbortController();
+
+    sse.onopen = () => {
+      console.log("sse opened");
+      onlineIndicate(true);
+      if (onError.current) {
+        setUpdateOrderState(controller);
+      }
+    };
 
     sse.onmessage = (e) => {
-      // console.log("on message");
-      // console.log(JSON.parse(e.data));
+      console.log("sse on message");
       addNewOrder(JSON.parse(e.data));
     };
 
     sse.onerror = () => {
-      console.log("in sse error");
-      sse.close();
+      console.log("Error in connecting sse");
+      onlineIndicate(false);
+      onError.current = true; //not to update fetch on without error
     };
 
     return () => {
       sse.close();
+      controller.abort();
+    };
+  }, []);
+
+  useEffect(() => {
+    const offlineHandler = () => {
+      onlineIndicate(false);
+    };
+    window.addEventListener("offline", offlineHandler);
+    return () => {
+      window.removeEventListener("offline", offlineHandler);
     };
   }, []);
 

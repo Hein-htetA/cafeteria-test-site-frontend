@@ -6,6 +6,10 @@ const initialState = {
   orderNav: false,
   orderLoading: false,
   orderError: false,
+  restaurantName: "MinMaHar",
+  online: false,
+  updateLoading: false,
+  updateError: false,
 };
 
 const UiContext = createContext();
@@ -32,6 +36,33 @@ const UiContextProvider = ({ children }) => {
     dispatch({ type: "ORDER_FETCH_SUCCESSFUL" });
   };
 
+  const onlineIndicate = (value) => {
+    dispatch({
+      type: "ONLINE_INDICATE",
+      payload: {
+        value: value,
+      },
+    });
+  };
+
+  const setUpdateLoading = () => {
+    dispatch({
+      type: "SET_UPDATE_LOADING",
+    });
+  };
+
+  const setUpdateError = () => {
+    dispatch({
+      type: "SET_UPDATE_ERROR",
+    });
+  };
+
+  const updateFetchSuccessful = () => {
+    dispatch({
+      type: "UPDATE_FETCH_SUCCESSFUL",
+    });
+  };
+
   return (
     <UiContext.Provider
       value={{
@@ -40,7 +71,11 @@ const UiContextProvider = ({ children }) => {
         toggleOrderNav,
         setOrderLoading,
         setOrderError,
+        setUpdateLoading,
+        setUpdateError,
         orderFetchSuccessful,
+        onlineIndicate,
+        updateFetchSuccessful,
       }}
     >
       {children}

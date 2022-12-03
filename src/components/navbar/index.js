@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
+import { faEnvelope, faCircle } from "@fortawesome/free-regular-svg-icons";
 import React from "react";
 import "./index.css";
 import NavLinks from "./NavLinks";
@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { useOrderContext } from "../../Context/OrderContext";
 
 const Navbar = () => {
-  const { toggleNavbar, navbar } = useUiContext();
+  const { toggleNavbar, navbar, online } = useUiContext();
   const { data } = useOrderContext();
   const newOrderCount = data.filter(
     (order) => order.orderState === "newOrder"
@@ -37,6 +37,18 @@ const Navbar = () => {
           <FontAwesomeIcon icon={faEnvelope} className={"envolope-icon"} />
           <span className="new-order-count">{newOrderCount}</span>
         </Link>
+        <div className="online-indicator">
+          <div className={online ? "circle-icon" : "circle-icon-offline"}>
+            .
+          </div>
+          <p
+            className={
+              online ? "online-indicator-text" : "offline-indicator-text"
+            }
+          >
+            {online ? "ONLINE" : "OFFLINE"}
+          </p>
+        </div>
       </div>
       <NavLinks />
     </nav>

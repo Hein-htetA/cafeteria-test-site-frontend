@@ -2,15 +2,25 @@ import { text } from "@fortawesome/fontawesome-svg-core";
 import React, { useEffect, useRef, useState } from "react";
 import { useOrderContext } from "../../Context/OrderContext";
 import { useUiContext } from "../../Context/UiContext";
-import { baseUrl } from "../utils/baseUrl";
-import ConnectionError from "./ConnectionError";
-import EmptyOrder from "./EmptyOrder";
-import EmptyOrder1 from "./EmptyOrder1";
+import { localBaseUrl } from "../utils/baseUrl";
+import ConnectionError from "./OrderStates/ConnectionError";
+import EmptyOrder from "./OrderStates/EmptyOrder";
+import EmptyOrder1 from "./OrderStates/EmptyOrder1";
 
 import "./index.css";
-import LoadingOrder from "./LoadingOrder";
+import LoadingOrder from "./OrderStates/LoadingOrder";
 import OrderNav from "./OrderNav";
 import SingleOrder from "./SingleOrder";
+
+const dateSortFun = (a, b) => {
+  if (a.updatedAt > b.updatedAt) {
+    return -1;
+  } else if (a.updatedAt < b.updatedAt) {
+    return 1;
+  } else {
+    return 0;
+  }
+};
 
 export const displayOrder = (data, type, orderLoading, orderError) => {
   if (orderError) {
@@ -21,14 +31,14 @@ export const displayOrder = (data, type, orderLoading, orderError) => {
     return <LoadingOrder />;
   }
 
-  const afterFilter = data.filter(
-    (order) => order.status === type && order.orderState === "order"
-  );
-  if (afterFilter.length === 0) {
-    if (type === "accepted") return <EmptyOrder1 />;
-    return <EmptyOrder />;
+  const afterFilterSort = data.filter((order) => order.orderState === type);
+  if (afterFilterSort.length === 0) {
+    if (type === "onDelivery") return <EmptyOrder />;
+    return <EmptyOrder1 />;
   }
-  return afterFilter.map((order) => <SingleOrder {...order} key={order._id} />);
+  return afterFilterSort.map((order) => (
+    <SingleOrder {...order} key={order._id} />
+  ));
 };
 
 const Order = () => {
@@ -52,7 +62,7 @@ const Order = () => {
     <main className="order-container">
       <OrderNav {...{ onClick1, onClick2, onClick3 }} />
       <h3 ref={orderAcceptedRef}>Order Queue</h3>
-      {displayOrder(data, "accepted", orderLoading, orderError)}
+      {displayOrder(data, "order", orderLoading, orderError)}
 
       <h3 ref={onDeliveryRef}>On Delivery</h3>
       {displayOrder(data, "onDelivery", orderLoading, orderError)}

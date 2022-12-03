@@ -84,11 +84,15 @@
   top: 1rem;
   right: 1rem;
   z-index: 99;
+  display: flex;
+  flex-direction: column;
 }
 
 .envolope-link {
   display: block;
   position: relative;
+  width: fit-content;
+  margin-left: auto;
 }
 
 .envolope-icon {
@@ -108,6 +112,45 @@
   text-align: center;
 }
 
+.online-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 0.4rem;
+  padding: 5px;
+  margin-top: 8px;
+  letter-spacing: 1px;
+  font-size: 0.6rem;
+}
+
+.online-indicator-text {
+  margin: 0px 0px 0px 5px;
+  color: green
+}
+
+.circle-icon {
+  font-size: 0.5rem;
+  color: green;
+  background-color: green;
+  width: 8px;
+  height: 8px;
+  border-radius: 5px;
+}
+
+.offline-indicator-text {
+  margin: 0px 0px 0px 5px;
+  color: gray
+}
+
+.circle-icon-offline {
+  font-size: 0.5rem;
+  color: gray;
+  background-color: gray;
+  width: 8px;
+  height: 8px;
+  border-radius: 5px;
+}
 
 
 

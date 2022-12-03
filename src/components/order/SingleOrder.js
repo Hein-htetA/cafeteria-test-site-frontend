@@ -7,9 +7,9 @@ import {
   faClock,
   faSquareCaretDown,
   faSquareCaretUp,
-  faChevronUp,
-  faChevronDown,
-  faCheck,
+  faArrowRotateRight,
+  faCircleCheck,
+  faSpinner,
   faPhoneFlip,
 } from "@fortawesome/free-solid-svg-icons";
 import { useOrderContext } from "../../Context/OrderContext";
@@ -17,17 +17,23 @@ import CollapsibleContainer from "./CollapsibleContainer";
 import NewOrderBtnGroup from "./BtnGroup/NewOrderBtnGroup";
 import OrderBtnGroup from "./BtnGroup/OrderBtnGroup";
 import RecycleBinBtnGroup from "./BtnGroup/RecycleBinBtnGroup";
+import OnDeliveryBtnGroup from "./BtnGroup/OnDeliveryBtnGroup";
+import HistoryBtnGroup from "./BtnGroup/HistoryBtnGroup";
+import UpdateLoading from "./OrderStates/UpdateLoading";
+import UpdateError from "./OrderStates/UpdateError";
+import DeleteConfirmation from "./OrderStates/DeleteConfirmation";
 
 const getAmPmTime = (dateString) => {
   const date = new Date(dateString);
   let hour = date.getHours();
   let amPm = "AM";
   const minute = date.getMinutes();
+  const minStr = minute < 10 ? "0" + minute : minute;
   if (hour > 12) {
     hour = hour - 12;
     amPm = "PM";
   }
-  const string = `${hour}:${minute} ${amPm}`;
+  const string = `${hour}:${minStr} ${amPm}`;
   return string;
 };
 
@@ -47,6 +53,13 @@ const SingleOrder = (props) => {
     detailHide,
     orderState,
     paymentMethod,
+    updateLoading,
+    updateError,
+    displayConfirmationBox,
+    paymentStatusNoEdit,
+    paymentStatusLoading,
+    paymentStatusError,
+    totalAmount,
   } = props;
 
   const {
@@ -55,6 +68,9 @@ const SingleOrder = (props) => {
     sendToRecycleBin,
     sendToOrderReceived,
     sendToHistory,
+    sendToOnDelivery,
+    showDeleteConfirmationBox,
+    retryPaymentStatus,
   } = useOrderContext();
 
   const scrollRef = useRef(null);
@@ -72,7 +88,7 @@ const SingleOrder = (props) => {
     <>
       <div
         className={
-          orderState === "order"
+          orderState === "order" || orderState === "onDelivery"
             ? "single-order-container"
             : orderState === "recycleBin"
             ? "single-order-container-recycleBin"
@@ -81,6 +97,10 @@ const SingleOrder = (props) => {
             : "single-order-container-history"
         }
       >
+        {displayConfirmationBox && <DeleteConfirmation id={_id} />}
+        {updateLoading && <UpdateLoading />}
+        {updateError && <UpdateError />}
+
         <ul className="order-ul">
           {order.map((order) => {
             return (
@@ -135,18 +155,31 @@ const SingleOrder = (props) => {
             <div className={"status-select"}>
               <select
                 className={
-                  status === "received"
-                    ? "status-select status-select-received"
-                    : status === "accepted"
-                    ? "status-select status-select-accepted"
-                    : "status-select status-select-delievery"
+                  orderState === "newOrder"
+                    ? "status-select-newOrder"
+                    : orderState === "order"
+                    ? "status-select-order"
+                    : orderState === "recycleBin"
+                    ? "status-select-recycleBin"
+                    : orderState === "onDelivery"
+                    ? "status-select-onDelivery"
+                    : "status-select-history"
                 }
                 onChange={(e) => onChangeInputSelect(_id, "status", e)}
-                value={status}
+                value={
+                  orderState !== "order"
+                    ? orderState
+                    : status === "accepted"
+                    ? "accepted"
+                    : "onDelivery"
+                }
+                disabled
               >
-                <option value="received">Order Received</option>
+                <option value="newOrder">Order Received</option>
                 <option value="accepted">Order Accepted</option>
                 <option value="onDelivery">On Delivery</option>
+                <option value="history">Completed</option>
+                <option value="recycleBin">Recycle Bin</option>
               </select>
               <div className="status-time">
                 <FontAwesomeIcon
@@ -175,28 +208,6 @@ const SingleOrder = (props) => {
               </div>
             </li>
             <li>
-              <div>Payment</div>
-              <div>:</div>
-              <div className="payment-box">
-                <div className="payment-method-name">
-                  {paymentMethod.method}
-                </div>
-                <div>{paymentMethod.additionalInfo}</div>
-                <select
-                  onChange={(e) => onChangeInputSelect(_id, "paymentStatus", e)}
-                  value={paymentStatus}
-                  className={
-                    paymentStatus
-                      ? "payment-select-received"
-                      : "payment-select-pending"
-                  }
-                >
-                  <option value={false}>Pending</option>
-                  <option value={true}>Received</option>
-                </select>
-              </div>
-            </li>
-            <li>
               <div>Phone</div>
               <div>:</div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -204,6 +215,65 @@ const SingleOrder = (props) => {
                 <a href={`tel:${phoneNumber}`}>
                   <FontAwesomeIcon icon={faPhoneFlip} />
                 </a>
+              </div>
+            </li>
+            <li>
+              <div>Payment</div>
+              <div>:</div>
+              <div className="payment-box">
+                <div>
+                  Total Amount -{" "}
+                  <span className="total-amount">
+                    {JSON.stringify(totalAmount)}
+                  </span>
+                  MMK
+                </div>
+                <div className="payment-info">
+                  <div className="payment-method-name">
+                    {paymentMethod.method}
+                  </div>
+                  <div>( {paymentMethod.additionalInfo} )</div>
+                </div>
+                <div className="select-spinner">
+                  <select
+                    onChange={(e) => onChangeInputSelect(_id, e)}
+                    value={paymentStatus}
+                    disabled={paymentStatusLoading}
+                    className={
+                      paymentStatus
+                        ? "payment-select-received"
+                        : "payment-select-pending"
+                    }
+                  >
+                    <option value={false}>Pending</option>
+                    <option value={true}>Received</option>
+                  </select>
+                  <span
+                    className={
+                      paymentStatusNoEdit
+                        ? "payment-status-container payment-status-container-hide"
+                        : "payment-status-container"
+                    }
+                  >
+                    {paymentStatusError && (
+                      <>
+                        <button
+                          className="try-again-btn"
+                          onClick={() => retryPaymentStatus(_id)}
+                        >
+                          <FontAwesomeIcon icon={faArrowRotateRight} />
+                        </button>
+                      </>
+                    )}{" "}
+                    {paymentStatusLoading && (
+                      <FontAwesomeIcon
+                        icon={faSpinner}
+                        spin
+                        style={{ color: "blue" }}
+                      />
+                    )}
+                  </span>
+                </div>
               </div>
             </li>
           </CollapsibleContainer>
@@ -222,11 +292,29 @@ const SingleOrder = (props) => {
             <RecycleBinBtnGroup
               {...{
                 _id,
-                orderState,
-                sendToRecycleBin,
+                showDeleteConfirmationBox,
                 detailHide,
                 onClickHideShow,
                 sendToOrderReceived,
+              }}
+            />
+          ) : orderState === "onDelivery" ? (
+            <OnDeliveryBtnGroup
+              {...{
+                _id,
+                sendToHistory,
+                sendToRecycleBin,
+                detailHide,
+                onClickHideShow,
+              }}
+            />
+          ) : orderState === "history" ? (
+            <HistoryBtnGroup
+              {...{
+                _id,
+                showDeleteConfirmationBox,
+                detailHide,
+                onClickHideShow,
               }}
             />
           ) : (
@@ -234,7 +322,7 @@ const SingleOrder = (props) => {
               {...{
                 _id,
                 orderState,
-                sendToHistory,
+                sendToOnDelivery,
                 sendToRecycleBin,
                 detailHide,
                 onClickHideShow,
