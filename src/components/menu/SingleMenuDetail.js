@@ -1,34 +1,231 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./SingleMenuDetail.css";
-import { useParams } from "react-router-dom";
+import { Navigate, redirect, useNavigate, useParams } from "react-router-dom";
 import { useMenuContext } from "../../Context/MenuContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
-import { faXmark, faCamera } from "@fortawesome/free-solid-svg-icons";
+import {
+  faXmark,
+  faCamera,
+  faArrowRotateRight,
+} from "@fortawesome/free-solid-svg-icons";
+import Resizer from "react-image-file-resizer";
+import MenuDeleteLoading from "./MenuDelete/MenuDeleteLoading";
+import MenuDeleteConfirmation from "./MenuDelete/MenuDeleteConfirmation";
+import { localBaseUrl, defaultImageUrl } from "../utils/baseUrl";
+import { useUiContext } from "../../Context/UiContext";
+const resizeFile = (file) =>
+  new Promise((resolve) => {
+    Resizer.imageFileResizer(
+      file,
+      800,
+      800,
+      "JPEG",
+      80,
+      0,
+      (uri) => {
+        resolve(uri);
+      },
+      "base64"
+    );
+  });
 
 const SingleMenuDetail = () => {
-  const { menuId } = useParams();
-  const { menuData, editInput, stopAnimation, onChangeInput, onChangeImage } =
-    useMenuContext();
-  const menu = menuData.find((menu) => menu.id === parseInt(menuId));
-  const nameRef = useRef();
-  const priceRef = useRef();
-  const descriptionRef = useRef();
+  const [menu, setMenu] = useState({
+    name: "",
+    price: 0,
+    description: "",
+    imageUrl: "", //image url from s3 and database
+    image: "", //for base64 image
+  });
+  const { menuId, menuCategory } = useParams();
+  const { restaurantName } = useUiContext();
+  const { data, updateMenuState, deleteMenuState } = useMenuContext();
+  const navigate = useNavigate();
 
-  //console.log("menu", menu);
+  useEffect(() => {
+    const menuInitial = data.find((menu) => menu._id === menuId);
+    if (!menuInitial) {
+      // navigating to parent route on refresh
+      navigate(`/menu/${menuCategory}`);
+      return;
+    }
+    setMenu({ ...menuInitial, image: "" });
+  }, []);
+
+  const onChangeName = (e) => {
+    if (e.target.value.length < 1) {
+      setMenu({ ...menu, name: e.target.value, nameError: true });
+      return;
+    }
+    setMenu({ ...menu, name: e.target.value, nameError: false });
+  };
+
+  const onChangePrice = (e) => {
+    if (e.target.value.length < 1) {
+      setMenu({ ...menu, price: e.target.value, priceError: true });
+      return;
+    }
+    setMenu({ ...menu, price: e.target.value, priceError: false });
+  };
+
+  const onChangeDescription = (e) => {
+    setMenu({ ...menu, description: e.target.value });
+  };
+
+  const onChangeImage = async (e) => {
+    if (e.target.files[0].size > 6000000) {
+      setMenu({ ...menu, imageError: true });
+      return;
+    }
+    try {
+      const image = await resizeFile(e.target.files[0]);
+      setMenu({ ...menu, image, imageError: false });
+    } catch (err) {
+      setMenu({ ...menu, imageError: true });
+    }
+  };
+
+  const resetMenu = () => {
+    navigate(`../../menu/${menu.category}`);
+  };
+
+  const updateMenuServer = async () => {
+    const { _id, name, price, description, imageUrl, image, imageId } = menu;
+    const requestOptions = {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        _id,
+        name,
+        price,
+        description,
+        imageUrl,
+        image,
+        imageId,
+      }),
+    };
+
+    try {
+      setMenu({
+        ...menu,
+        saveLoading: true,
+        saveError: false,
+        saveSuccess: false,
+      });
+      const response = await fetch(
+        `${localBaseUrl}/menu/${restaurantName}`,
+        requestOptions
+      );
+
+      setMenu({
+        ...menu,
+        saveLoading: false,
+        saveError: false,
+        saveSuccess: true,
+      });
+
+      navigate(`../../menu/${menu.category}`, {
+        replace: true,
+        state: { message: "update successful" },
+      });
+
+      if (!response.ok) {
+        throw new Error("Update Failed");
+      }
+      const { editedMenu } = await response.json();
+      console.log("editedMenu", editedMenu);
+      updateMenuState(editedMenu);
+    } catch (error) {
+      setMenu({
+        ...menu,
+        saveLoading: false,
+        saveError: true,
+        saveSuccess: false,
+      });
+      console.log(error);
+    }
+  };
+
+  const deleteMenuServer = async () => {
+    const { _id } = menu;
+    const requestOptions = {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    };
+    try {
+      setMenu({
+        ...menu,
+        deleteLoading: true,
+        deleteError: false,
+        deleteConfirmationBox: false,
+      });
+      const response = await fetch(
+        `${localBaseUrl}/menu/${restaurantName}/${_id}`,
+        requestOptions
+      );
+
+      if (!response.ok) {
+        throw new Error("Update Failed");
+      }
+      setMenu({
+        ...menu,
+        deleteLoading: false,
+        deleteError: false,
+        deleteSuccess: true,
+      });
+      deleteMenuState(_id);
+      navigate(`../../menu/${menu.category}`, {
+        replace: true,
+        state: { message: "delete successful" },
+      });
+      navigate(-1); // required to prevent need to double back in browser path
+    } catch (error) {
+      setMenu({
+        ...menu,
+        deleteLoading: false,
+        deleteError: true,
+      });
+      console.log(error);
+    }
+  };
+
+  const displayDeleteConfirmationBox = () => {
+    setMenu({ ...menu, deleteConfirmationBox: true });
+  };
+
+  const hideDeleteConfirmationBox = () => {
+    setMenu({ ...menu, deleteConfirmationBox: false });
+  };
+
   return (
     <div className="detail-container">
+      <h2 className="category-title" onClick={resetMenu}>
+        {menu.category === "curry"
+          ? "rice & curries"
+          : menu.category === "sideDish"
+          ? "side dishes"
+          : menu.category === "drink"
+          ? "snacks & drinks"
+          : "additionals"}
+      </h2>
       <div className="image-info-container">
         <div className="img-container">
-          <img src={menu.image} alt="uploadImg" />
-          <label htmlFor="inputTag">
-            <FontAwesomeIcon icon={faCamera} bounce />
+          <img src={menu.image || menu.imageUrl} alt="uploadImg" />
+          <label
+            htmlFor="inputTag"
+            style={{
+              opacity: menu.deleteConfirmationBox || menu.saveLoading ? 0.5 : 1,
+            }}
+          >
+            <FontAwesomeIcon icon={faCamera} />
             <input
               id="inputTag"
               type="file"
               accept="image/png, image/jpg, image/gif, image/jpeg"
-              onChange={(e) => onChangeImage(menu.id, e.target.files[0])}
+              onChange={onChangeImage}
               style={{ display: "none" }}
+              disabled={menu.deleteConfirmationBox || menu.saveLoading}
             />
           </label>
           {menu.imageError && (
@@ -46,109 +243,115 @@ const SingleMenuDetail = () => {
           <div className="food-title-box">
             <input
               className={
-                menu.nameEdit ? "food-title food-title-edit" : "food-title"
+                menu.nameError ? "food-title food-title-error" : "food-title"
               }
               value={menu.name}
-              readOnly={menu.nameEdit ? false : true}
-              ref={nameRef}
-              onChange={(e) => onChangeInput(menu.id, "name", e.target.value)}
+              onChange={onChangeName}
+              placeholder="Name"
+              disabled={menu.deleteConfirmationBox || menu.saveLoading}
             />
-            <button
+            <div
               className={
-                menu.beatOnce.firstBtn
-                  ? "title-icon icon-animation"
-                  : "title-icon"
+                menu.nameError ? "error-msg" : "error-msg error-msg-hidden"
               }
-              onClick={() =>
-                editInput(menu.id, "nameEdit", "name", "firstBtn", nameRef)
-              }
-              onAnimationEnd={() => stopAnimation(menu.id, "firstBtn")}
             >
-              <FontAwesomeIcon icon={faPenToSquare} />
-            </button>
+              required
+            </div>
           </div>
           <div className="food-price-box">
             <div
               className={
-                menu.priceEdit
-                  ? "price-postfix price-postfix-edit"
+                menu.priceError
+                  ? "price-postfix price-postfix-error"
                   : "price-postfix"
               }
+              style={{
+                backgroundColor:
+                  menu.deleteConfirmationBox || menu.saveLoading
+                    ? "transparent"
+                    : "white",
+              }}
             >
               <input
                 type={"number"}
                 className={"food-price"}
                 value={menu.price}
-                readOnly={menu.priceEdit ? false : true}
-                ref={priceRef}
-                onChange={(e) =>
-                  onChangeInput(menu.id, "price", e.target.value)
-                }
+                placeholder="Price"
+                onChange={onChangePrice}
+                disabled={menu.deleteConfirmationBox || menu.saveLoading}
               />
               <span className="postfix">MMK</span>
             </div>
-            <button
+            <div
               className={
-                menu.beatOnce.secondBtn
-                  ? "price-icon icon-animation"
-                  : "price-icon"
+                menu.priceError ? "error-msg" : "error-msg error-msg-hidden"
               }
-              onClick={() =>
-                editInput(menu.id, "priceEdit", "price", "secondBtn", priceRef)
-              }
-              onAnimationEnd={() => stopAnimation(menu.id, "secondBtn")}
             >
-              <FontAwesomeIcon icon={faPenToSquare} />
-            </button>
+              required
+            </div>
           </div>
           <div className="textarea-container">
             <textarea
-              className={
-                menu.descriptionEdit
-                  ? "description description-edit"
-                  : "description"
-              }
+              className={"description"}
               value={menu.description}
-              readOnly={menu.descriptionEdit ? false : true}
-              ref={descriptionRef}
-              onChange={(e) =>
-                onChangeInput(menu.id, "description", e.target.value)
-              }
-            >
-              <FontAwesomeIcon icon={faPenToSquare} />
-            </textarea>
-            <button
-              className={
-                menu.beatOnce.thirdBtn
-                  ? "textarea-icon icon-animation"
-                  : "textarea-icon"
-              }
-              onClick={() =>
-                editInput(
-                  menu.id,
-                  "descriptionEdit",
-                  "description",
-                  "thirdBtn",
-                  descriptionRef
-                )
-              }
-              onAnimationEnd={() => stopAnimation(menu.id, "thirdBtn")}
-            >
-              <FontAwesomeIcon icon={faPenToSquare} />
-            </button>
+              onChange={onChangeDescription}
+              disabled={menu.deleteConfirmationBox || menu.saveLoading}
+            ></textarea>
           </div>
         </div>
+        {menu.deleteLoading && <MenuDeleteLoading />}
+        {menu.deleteConfirmationBox && (
+          <MenuDeleteConfirmation
+            deleteMenuServer={deleteMenuServer}
+            hideDeleteConfirmationBox={hideDeleteConfirmationBox}
+          />
+        )}
       </div>
       <div className={"order-btn-container"}>
         <div className="remove-btn-container">
-          <button className="remove-order-btn">
+          <button
+            className="remove-order-btn"
+            onClick={displayDeleteConfirmationBox}
+            disabled={menu.deleteConfirmationBox || menu.saveLoading}
+          >
             <FontAwesomeIcon icon={faXmark} />
             Remove
           </button>
         </div>
         <div className="save-cancel-container">
-          <button className="save-change-btn">Save</button>
-          <button className="cancel-change-btn">Cancel</button>
+          <button
+            className="save-change-btn"
+            onClick={updateMenuServer}
+            disabled={
+              menu.deleteConfirmationBox ||
+              menu.saveLoading ||
+              menu.nameError ||
+              menu.priceError
+            }
+          >
+            {menu.saveLoading ? (
+              <div style={{ minWidth: "60px" }}>Saving...</div>
+            ) : menu.saveSuccess ? (
+              <div style={{ minWidth: "60px" }}>Saved!</div>
+            ) : menu.saveError ? (
+              <div>
+                <FontAwesomeIcon
+                  icon={faArrowRotateRight}
+                  style={{ marginRight: "5px" }}
+                />
+                Try again!
+              </div>
+            ) : (
+              <div style={{ minWidth: "60px" }}>Save</div>
+            )}
+          </button>
+          <button
+            className="cancel-change-btn"
+            onClick={resetMenu}
+            disabled={menu.deleteConfirmationBox || menu.saveLoading}
+          >
+            <div style={{ minWidth: "60px" }}>Cancel</div>
+          </button>
         </div>
       </div>
     </div>

@@ -1,0 +1,33 @@
+.menu-delete-confirmation-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 1rem;
+  border: 2px solid red;
+  border-radius: 0.5rem;
+}
+
+.menu-delete-confirmation-container h3 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.menu-delete-confirmation-btn {
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu-delete-confirmation-btn button {
+  padding: 2px 5px;
+  border: 1px solid red;
+  border-radius: 0.5rem;
+}
+
+.menu-delete-confirmation-btn .cancel-btn {
+  border: 1px solid gray
+}

@@ -6,27 +6,28 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { useOrderContext } from "../../../Context/OrderContext";
 import "./RecycleBinBtnGroup.css";
 
 const RecycleBinBtnGroup = (props) => {
-  const {
-    _id,
-    sendToOrderReceived,
-    showDeleteConfirmationBox,
-    detailHide,
-    onClickHideShow,
-  } = props;
+  const { _id, detailHide } = props;
+  const { sendToOrderReceived, onClickHideShow } = useOrderContext();
   return (
     <div className={"order-btn-container"}>
-      <div className="recycle-bin-btn-container">
-        <button
-          className={"recycle-bin-btn delete-btn"}
-          onClick={() => showDeleteConfirmationBox(_id)}
-        >
+      {/* <div className="recycle-bin-btn-container">
+        <button className={"recycle-bin-btn delete-btn"} onClick={() => {}}>
           delete
           <FontAwesomeIcon icon={faXmark} />
         </button>
-      </div>
+        
+      </div> */}
+      <button
+        className={"recycle-bin-btn"}
+        onClick={() => sendToOrderReceived(_id)}
+      >
+        Restore
+        <FontAwesomeIcon icon={faTrashCanArrowUp} />
+      </button>
       <div className="toggle-detail-btn-container">
         <button
           className="toggle-detail-btn"
@@ -45,13 +46,6 @@ const RecycleBinBtnGroup = (props) => {
           )}
         </button>
       </div>
-      <button
-        className={"recycle-bin-btn"}
-        onClick={() => sendToOrderReceived(_id)}
-      >
-        Restore
-        <FontAwesomeIcon icon={faTrashCanArrowUp} />
-      </button>
     </div>
   );
 };

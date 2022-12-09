@@ -6,11 +6,10 @@
   align-items: center;
 }
 
-.menu-container h1 {
-  margin-bottom: 15px;
+.menu-restaurant-name {
   color: #5b4167;
-  padding: 5px;
-  border-radius: 1rem;
+  padding: 5px 20px;
   text-transform: uppercase;
-  margin-bottom: 25px;
+  font-size: 2rem;
+  margin-top: -10px;
 }

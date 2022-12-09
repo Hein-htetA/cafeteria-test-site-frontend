@@ -56,9 +56,15 @@ const MainSharedLayout = () => {
     const offlineHandler = () => {
       onlineIndicate(false);
     };
+    const onlineHandler = () => {
+      onlineIndicate(true);
+    };
     window.addEventListener("offline", offlineHandler);
+    window.addEventListener("online", onlineHandler);
+
     return () => {
       window.removeEventListener("offline", offlineHandler);
+      window.removeEventListener("online", onlineHandler);
     };
   }, []);
 

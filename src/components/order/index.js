@@ -42,8 +42,7 @@ export const displayOrder = (data, type, orderLoading, orderError) => {
 };
 
 const Order = () => {
-  const { data } = useOrderContext();
-  const { orderLoading, orderError } = useUiContext();
+  const { data, orderLoading, orderError } = useOrderContext();
 
   const orderReceivedRef = useRef(null);
   const orderAcceptedRef = useRef(null);

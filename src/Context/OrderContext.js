@@ -7,16 +7,15 @@ import { useUiContext } from "./UiContext";
 const OrderContext = createContext();
 
 const OrderContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, []);
-  const {
-    setOrderLoading,
-    setOrderError,
-    orderFetchSuccessful,
-    restaurantName,
-    setUpdateLoading,
-    setUpdateError,
-    updateFetchSuccessful,
-  } = useUiContext();
+  const [state, dispatch] = useReducer(reducer, {
+    data: [],
+    orderLoading: false,
+    orderError: false,
+    sseUpdateLoading: false,
+    sseUpdateError: false,
+  });
+
+  const { restaurantName } = useUiContext();
 
   // console.log(state);
 
@@ -29,7 +28,7 @@ const OrderContextProvider = ({ children }) => {
       },
     });
 
-    const order = state.find((order) => order._id === id);
+    const order = state.data.find((order) => order._id === id);
 
     const requestOptions = {
       method: "PATCH",
@@ -72,7 +71,7 @@ const OrderContextProvider = ({ children }) => {
   };
 
   const retryPaymentStatus = async (id) => {
-    const order = state.find((order) => order._id === id);
+    const order = state.data.find((order) => order._id === id);
 
     dispatch({
       type: "ON_CHANGE_INPUT_SELECT",
@@ -349,7 +348,10 @@ const OrderContextProvider = ({ children }) => {
           id,
         },
       });
-      const response = await fetch(`${localBaseUrl}/orders`, requestOptions);
+      const response = await fetch(
+        `${localBaseUrl}/orders/${id}`,
+        requestOptions
+      );
       if (!response.ok) {
         dispatch({
           type: "UPDATE_ERROR",
@@ -379,7 +381,7 @@ const OrderContextProvider = ({ children }) => {
   const setUpdateOrderState = (controller) => {
     const fetchOrder = async () => {
       try {
-        setUpdateLoading();
+        dispatch({ type: "SSE_UPDATE_LOADING" });
         const response = await fetch(
           `${localBaseUrl}/orders/${restaurantName
             .trim()
@@ -399,10 +401,13 @@ const OrderContextProvider = ({ children }) => {
             data: responseData.data,
           },
         });
-        updateFetchSuccessful();
+        // updateFetchSuccessful();
         // console.log("data", responseData.data);
       } catch (e) {
-        setUpdateError();
+        //setUpdateError();
+        dispatch({
+          type: "SSE_UPDATE_ERROR",
+        });
         console.log(e);
       }
     };
@@ -412,7 +417,8 @@ const OrderContextProvider = ({ children }) => {
   const setOrderState = (controller) => {
     const fetchOrder = async () => {
       try {
-        setOrderLoading();
+        //setOrderLoading();
+        dispatch({ type: "ORDER_LOADING" });
         const response = await fetch(
           `${localBaseUrl}/orders/${restaurantName
             .trim()
@@ -432,10 +438,11 @@ const OrderContextProvider = ({ children }) => {
             data: responseData.data,
           },
         });
-        orderFetchSuccessful();
+        //orderFetchSuccessful();
         // console.log("data", responseData.data);
       } catch (e) {
-        setOrderError();
+        //setOrderError();
+        dispatch({ type: "ORDER_ERROR" });
         console.log(e);
       }
     };
@@ -443,6 +450,7 @@ const OrderContextProvider = ({ children }) => {
   };
 
   const addNewOrder = (data) => {
+    //for sse
     dispatch({
       type: "ADD_NEW_ORDER",
       payload: {
@@ -451,18 +459,18 @@ const OrderContextProvider = ({ children }) => {
     });
   };
 
-  const showDeleteConfirmationBox = (id) => {
+  const displayRejectConfirmationBox = (id) => {
     dispatch({
-      type: "SHOW_DELETE_CONFIRMATION_BOX",
+      type: "DISPLAY_REJECT_CONFIRMATION_BOX",
       payload: {
         id,
       },
     });
   };
 
-  const hideDeleteConfirmationBox = (id) => {
+  const hideRejectConfirmationBox = (id) => {
     dispatch({
-      type: "HIDE_DELETE_CONFIRMATION_BOX",
+      type: "HIDE_REJECT_CONFIRMATION_BOX",
       payload: {
         id,
       },
@@ -472,7 +480,7 @@ const OrderContextProvider = ({ children }) => {
   return (
     <OrderContext.Provider
       value={{
-        data: [...state],
+        ...state,
         onChangeInputSelect,
         onClickHideShow,
         sendToRecycleBin,
@@ -484,8 +492,8 @@ const OrderContextProvider = ({ children }) => {
         setOrderState,
         addNewOrder,
         removeOrder,
-        showDeleteConfirmationBox,
-        hideDeleteConfirmationBox,
+        displayRejectConfirmationBox,
+        hideRejectConfirmationBox,
         retryPaymentStatus,
         setUpdateOrderState,
       }}

@@ -6,19 +6,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { useOrderContext } from "../../../Context/OrderContext";
 import "./HistoryBtnGroup.css";
 
 const HistoryBtnGroup = (props) => {
-  const {
-    _id,
-    sendToOrderReceived,
-    showDeleteConfirmationBox,
-    detailHide,
-    onClickHideShow,
-  } = props;
+  const { _id, detailHide } = props;
+
+  const { onClickHideShow } = useOrderContext();
   return (
     <div className={"order-btn-container"}>
-      <div className="recycle-bin-btn-container">
+      {/* <div className="recycle-bin-btn-container">
         <button
           className={"recycle-bin-btn delete-btn"}
           onClick={() => showDeleteConfirmationBox(_id)}
@@ -26,7 +23,11 @@ const HistoryBtnGroup = (props) => {
           Delete
           <FontAwesomeIcon icon={faXmark} />
         </button>
-      </div>
+      </div> */}
+
+      <button className={"recycle-bin-btn"} style={{ visibility: "hidden" }}>
+        <FontAwesomeIcon icon={faCheck} />
+      </button>
       <div className="toggle-detail-btn-container">
         <button
           className="toggle-detail-btn"
@@ -45,13 +46,6 @@ const HistoryBtnGroup = (props) => {
           )}
         </button>
       </div>
-      <button
-        className={"recycle-bin-btn"}
-        onClick={() => sendToOrderReceived(_id)}
-        style={{ visibility: "hidden" }}
-      >
-        <FontAwesomeIcon icon={faCheck} />
-      </button>
     </div>
   );
 };

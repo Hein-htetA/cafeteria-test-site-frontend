@@ -1,0 +1,27 @@
+.restaurant-nav-link-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.menu-info-link {
+  color: white;
+  padding: 10px;
+  background-color: rgb(246, 140, 158);
+  margin: 0px 10px;
+  width: 70px;
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 1rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-info-link-active { 
+  background-color: rgb(238, 94, 118);
+}

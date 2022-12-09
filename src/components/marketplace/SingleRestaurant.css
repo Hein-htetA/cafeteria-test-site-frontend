@@ -1,0 +1,46 @@
+.single-restaurant {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 600px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.single-restaurant img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.restaurant-info-container {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 10px;
+  width: 50%;
+  text-align: center;
+  background-color: white;
+  font-size: 0.7rem;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  opacity: 0.8;
+}
+
+.restaurant-name-marketplace {
+  font-size: 1rem;
+  margin-top: -5px;
+}
+
+.restaurant-link {
+  display: block;
+  box-shadow: 3px 5px 14px -3px rgba(15, 14, 15, 0.52);
+  -webkit-box-shadow: 3px 5px 14px -3px rgba(15, 14, 15, 0.52);
+  -moz-box-shadow: 3px 5px 14px -3px rgba(15, 14, 15, 0.52);
+  margin-bottom: 16px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}

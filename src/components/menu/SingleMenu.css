@@ -1,15 +1,15 @@
 .item-image-container {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   background-color: white;
+  border-radius: 0.5rem;
+  position: relative;
 }
 
 .item-image-container img {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
   background-color: white;
 }
 
@@ -23,6 +23,8 @@
   overflow: hidden;
   background-color: white;
   border-top: 1px solid gray;
+  bottom: 0;
+  width: 100%;
 }
 
 .item-name {
@@ -40,8 +42,8 @@
   color: #c6f151;
   font-size: 0.5rem;
   position: absolute;
-  right: 0px;
-  top: 80px;
+  right: 3px;
+  top: 128px;
   background-color: #ae06f5;
   padding: 3px;
   border-radius: 0.3rem;

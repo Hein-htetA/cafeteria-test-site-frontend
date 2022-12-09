@@ -42,4 +42,29 @@
 .restaurant-name {
   align-self: center;
   margin-top: 30px;
+  font-size: 1.5rem;
+  color:#8b1330
+}
+
+/******toggle-marketplace-restaurnt**********/
+.marketplace-link {
+  display: flex;
+  padding: 5px;
+  border: 2px solid rgb(238, 94, 118);
+  border-radius: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  color: rgb(238, 94, 118);
+  margin-left: auto;
+  margin-right: 10px;
+  background-color: white;
+}
+
+.marketplace-text {
+  font-size: 1rem;
+  margin-right: 5px;
+}
+
+.marketplace-arrow {
+  font-size: 1rem;
 }

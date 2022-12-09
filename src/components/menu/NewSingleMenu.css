@@ -62,14 +62,6 @@
 
 /********Info*************/
 
-input:disabled {
-  opacity: 0.5;
-}
-
-label:disabled {
-  opacity: 0.5;
-}
-
 .info-container {
   flex: 1;
   margin-left: 10px;
@@ -80,7 +72,8 @@ label:disabled {
   cursor: pointer;
 }
 
-.food-title-box, .food-price-box {
+.food-title-box,
+.food-price-box {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -160,7 +153,9 @@ label:disabled {
   outline: none;
 }
 
-.description-edit, .food-title-edit, .price-postfix-edit {
+.description-edit,
+.food-title-edit,
+.price-postfix-edit {
   border: 1px solid #8600fb;
 }
 
@@ -178,7 +173,6 @@ label:disabled {
 .detail-container button:disabled {
   opacity: 0.5;
 }
-
 
 .order-btn-container {
   display: flex;
@@ -208,7 +202,14 @@ label:disabled {
   margin-right: 5px;
 }
 
-.save-cancel-container button {
+.upload-clear-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 10px 0px;
+}
+
+.upload-clear-container button {
   border-radius: 5px;
   border: 2px solid rgb(124, 86, 236);
   background-color: white;
@@ -224,15 +225,28 @@ label:disabled {
   color: white;
 }
 
-.save-change-btn {
+.upload-btn {
   margin-right: 10px;
+  display: flex;
+}
+
+.hide-cloud {
+  display: none;
 }
 
 /************Animation***************/
 @keyframes beatOnce {
-  0% {transform: scale(1);}
-  50% {transform: scale(1.5);}
-  100% {transform: scale(1);}
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.5);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .icon-animation {

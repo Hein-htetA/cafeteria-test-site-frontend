@@ -6,8 +6,7 @@ export const reducer = (state, action) => {
     detailContainerHeight: 0,
     updateLoading: false,
     updateError: false,
-    displayConfirmationBox: false,
-    deleteConfirmation: false,
+    displayRejectConfirmationBox: false,
     paymentStatusLoading: false,
     paymentStatusError: false,
     paymentStatusNoEdit: true, //To display nothing before editing payment status
@@ -15,7 +14,7 @@ export const reducer = (state, action) => {
 
   switch (action.type) {
     case "ON_CHANGE_INPUT_SELECT":
-      const tempState1 = state.map((order) => {
+      const tempState1 = copyState.data.map((order) => {
         if (order._id === action.payload.id) {
           order.paymentStatus = action.payload.value === "true";
           order.paymentStatusLoading = true;
@@ -24,36 +23,38 @@ export const reducer = (state, action) => {
         }
         return order;
       });
-      return tempState1;
+      return { ...copyState, data: tempState1 };
+
     case "STOP_PAYMENT_STATUS_UPDATE_LOADING":
-      const tempState15 = state.map((order) => {
+      const tempState15 = copyState.data.map((order) => {
         if (order._id === action.payload.id) {
           order.paymentStatusLoading = false;
         }
         return order;
       });
-      return tempState15;
+      return { ...copyState, data: tempState15 };
     case "PAYMENT_STATUS_UPDATE_ERROR":
-      const tempState16 = state.map((order) => {
+      const tempState16 = copyState.data.map((order) => {
         if (order._id === action.payload.id) {
           order.paymentStatusLoading = false;
           order.paymentStatusError = true;
         }
         return order;
       });
-      return tempState16;
+      return { ...copyState, data: tempState16 };
+
     case "ON_CLICK_HIDE_SHOW":
-      const tempState2 = copyState.map((order) => {
+      const tempState2 = copyState.data.map((order) => {
         if (order._id === action.payload.id) {
           order[action.payload.item] = !order[action.payload.item];
         }
         return order;
       });
 
-      return tempState2;
+      return { ...copyState, data: tempState2 };
 
     case "SEND_TO_ORDER":
-      const tempState3 = copyState.map((order) => {
+      const tempState3 = copyState.data.map((order) => {
         if (order._id === action.payload.id) {
           order.orderState = "order";
           order.status = "accepted";
@@ -64,10 +65,10 @@ export const reducer = (state, action) => {
         return order;
       });
 
-      return tempState3;
+      return { ...copyState, data: tempState3 };
 
     case "UPDATE_LOADING":
-      const tempState11 = copyState.map((order) => {
+      const tempState11 = copyState.data.map((order) => {
         if (order._id === action.payload.id) {
           order.updateLoading = true;
           order.updateError = false;
@@ -75,10 +76,10 @@ export const reducer = (state, action) => {
         return order;
       });
 
-      return tempState11;
+      return { ...copyState, data: tempState11 };
 
     case "UPDATE_ERROR":
-      const tempState12 = copyState.map((order) => {
+      const tempState12 = copyState.data.map((order) => {
         if (order._id === action.payload.id) {
           order.updateLoading = false;
           order.updateError = true;
@@ -86,10 +87,10 @@ export const reducer = (state, action) => {
         return order;
       });
 
-      return tempState12;
+      return { ...copyState, data: tempState12 };
 
     case "SEND_TO_RECYCLE_BIN":
-      const tempState4 = copyState.map((order) => {
+      const tempState4 = copyState.data.map((order) => {
         if (order._id === action.payload.id) {
           order.status = "received";
           order.orderState = "recycleBin";
@@ -99,10 +100,10 @@ export const reducer = (state, action) => {
         return order;
       });
 
-      return tempState4;
+      return { ...copyState, data: tempState4 };
 
     case "SEND_TO_HISTORY":
-      const tempState6 = copyState.map((order) => {
+      const tempState6 = copyState.data.map((order) => {
         if (order._id === action.payload.id) {
           console.log("send to history if run");
           order.status = "onDelivery";
@@ -114,10 +115,10 @@ export const reducer = (state, action) => {
         return order;
       });
 
-      return tempState6;
+      return { ...copyState, data: tempState6 };
 
     case "SEND_TO_ON_DELIVERY":
-      const tempState9 = copyState.map((order) => {
+      const tempState9 = copyState.data.map((order) => {
         if (order._id === action.payload.id) {
           order.status = "onDelivery";
           order.orderState = "onDelivery";
@@ -126,61 +127,80 @@ export const reducer = (state, action) => {
         }
         return order;
       });
-      return tempState9;
+      return { ...copyState, data: tempState9 };
 
     case "SET_DETAIL_CONTAINER_HEIGHT":
       //console.log("detail conainer reducer run");
-      const tempState5 = copyState.map((order) => {
+      const tempState5 = copyState.data.map((order) => {
         if (order._id === action.payload.id) {
           order.detailContainerHeight = action.payload.value;
         }
         return order;
       });
 
-      return tempState5;
+      return { ...copyState, data: tempState5 };
     case "ON_CLICK_DETAIL_HIDE":
-      const tempState7 = copyState.map((order) => {
+      const tempState7 = copyState.data.map((order) => {
         if (order._id === action.payload.id) {
           order.detailHide = true;
         }
         return order;
       });
 
-      return tempState7;
+      return { ...copyState, data: tempState7 };
 
     case "SET_ORDER_STATE":
       const tempState8 = action.payload.data.map((order) => {
         return { ...order, ...orderUiState };
       });
-      return tempState8;
+      return {
+        ...copyState,
+        data: tempState8,
+        sseUpdateLoading: false,
+        sseUpdateError: false,
+        orderLoading: false,
+        orderError: false,
+      };
 
     case "ADD_NEW_ORDER": //For SSE
-      copyState.push({ ...action.payload.data, ...orderUiState });
+      copyState.data.push({ ...action.payload.data, ...orderUiState });
       return copyState;
 
     case "REMOVE_ORDER":
-      const tempState10 = copyState.filter(
+      const tempState10 = copyState.data.filter(
         (order) => order._id !== action.payload.id
       );
-      return tempState10;
+      return { ...copyState, data: tempState10 };
 
-    case "SHOW_DELETE_CONFIRMATION_BOX":
-      const tempState13 = copyState.map((order) => {
+    case "DISPLAY_REJECT_CONFIRMATION_BOX":
+      const tempState13 = copyState.data.map((order) => {
         if (order._id === action.payload.id) {
           order.displayConfirmationBox = true;
         }
         return order;
       });
-      return tempState13;
+      return { ...copyState, data: tempState13 };
 
-    case "HIDE_DELETE_CONFIRMATION_BOX":
-      const tempState14 = copyState.map((order) => {
+    case "HIDE_REJECT_CONFIRMATION_BOX":
+      const tempState14 = copyState.data.map((order) => {
         if (order._id === action.payload.id) {
           order.displayConfirmationBox = false;
         }
         return order;
       });
-      return tempState14;
+      return { ...copyState, data: tempState14 };
+
+    case "SSE_UPDATE_LOADING":
+      return { ...copyState, sseUpdateLoading: true, sseUpdateError: false };
+
+    case "SSE_UPDATE_ERROR":
+      return { ...copyState, sseUpdateLoading: false, sseUpdateError: true };
+
+    case "ORDER_LOADING":
+      return { ...copyState, orderLoading: true, orderError: false };
+
+    case "ORDER_ERROR":
+      return { ...copyState, orderLoading: false, orderError: true };
 
     default:
       throw new Error("action type not supported yet");

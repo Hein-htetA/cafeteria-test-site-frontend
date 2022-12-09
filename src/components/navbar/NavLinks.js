@@ -1,11 +1,20 @@
 import React from "react";
 import "./NavLinks.css";
 import { useUiContext } from "../../Context/UiContext";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightLong } from "@fortawesome/free-solid-svg-icons";
+const activeStyle = { color: "#0478f5" };
 
 const NavLinks = () => {
-  const { navbar, toggleNavbar } = useUiContext();
-  let activeStyle = { color: "#0478f5" };
+  const { navbar, toggleNavbar, restaurantName } = useUiContext();
+  const navigate = useNavigate();
+
+  const enterMarketplace = () => {
+    toggleNavbar();
+    navigate("/marketplace");
+  };
+
   return (
     <div
       className={
@@ -16,11 +25,11 @@ const NavLinks = () => {
     >
       <ul className="navlinks-ul">
         <NavLink
-          to="/"
+          to="menu"
           onClick={toggleNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
-          <li>Orders Serving</li>
+          <li>My Restaurant</li>
         </NavLink>
         <hr />
         <NavLink
@@ -32,13 +41,22 @@ const NavLinks = () => {
         </NavLink>
         <hr />
         <NavLink
-          to="menu"
+          to="/"
           onClick={toggleNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
-          <li>Menu</li>
+          <li>Orders Serving</li>
         </NavLink>
         <hr />
+        <NavLink
+          to="history"
+          onClick={toggleNavbar}
+          style={({ isActive }) => (isActive ? activeStyle : undefined)}
+        >
+          <li>Completed Orders</li>
+        </NavLink>
+        <hr />
+
         <NavLink
           to="recycleBin"
           onClick={toggleNavbar}
@@ -47,16 +65,12 @@ const NavLinks = () => {
           <li>Recycle Bin</li>
         </NavLink>
         <hr />
-        <NavLink
-          to="history"
-          onClick={toggleNavbar}
-          style={({ isActive }) => (isActive ? activeStyle : undefined)}
-        >
-          <li>History</li>
-        </NavLink>
-        <hr />
       </ul>
-      <p className="restaurant-name">T-Food House</p>
+      <p className="restaurant-name">***{" " + restaurantName + " "}***</p>
+      <button className="marketplace-link" onClick={enterMarketplace}>
+        <div className="marketplace-text">Enter Marketplace</div>
+        <FontAwesomeIcon icon={faRightLong} className="marketplace-arrow" />
+      </button>
     </div>
   );
 };

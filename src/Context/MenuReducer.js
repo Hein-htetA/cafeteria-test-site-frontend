@@ -1,69 +1,60 @@
 const reducer = (state, action) => {
   // console.log("menu reducer run");
-  const stateCopy = JSON.parse(JSON.stringify(state));
+  const copyState = JSON.parse(JSON.stringify(state));
+  const menuUiState = {
+    imageError: false,
+    nameError: false,
+    priceError: false,
+    deleteConfirmationBox: false,
+    deleteLoading: false,
+    saveLoading: false,
+    deleteError: false,
+    deleteSuccess: false,
+    saveError: false,
+    saveSuccess: false,
+  };
   switch (action.type) {
-    case "EDIT_INPUT":
-      const { id, category, name, ref, item } = action.payload;
-      const tempState = stateCopy.map((menu) => {
-        if (menu.id === id) {
-          ref.current.focus();
-          if (category !== "priceEdit") {
-            ref.current.setSelectionRange(0, JSON.stringify(menu[name]).length);
-          }
-          menu.beatOnce[item] = true;
-          menu[category] = true;
-        }
-        return menu;
-      });
-      return tempState;
+    case "SET_MENU_STATE":
+      const tempState1 = action.payload.data.map((menu) => ({
+        ...menu,
+        ...menuUiState,
+      }));
+      return {
+        ...copyState,
+        data: tempState1,
+        menuLoading: false,
+        menuError: false,
+      };
 
-    case "STOP_ANIMATION":
-      const tempState1 = stateCopy.map((menu) => {
-        if (menu.id === action.payload.id) {
-          menu.beatOnce[action.payload.item] = false;
-        }
-        return menu;
-      });
-      return tempState1;
+    case "MENU_LOADING":
+      return { ...copyState, menuLoading: true, menuError: false };
 
-    case "ONCHANGE_INPUT":
-      // console.log("onchange reducer run");
-      // console.log("payload", action.payload);
-      const tempState2 = stateCopy.map((menu) => {
-        if (menu.id === action.payload.id) {
-          // console.log("if in reducer run");
-          menu[action.payload.category] = action.payload.value;
-        }
-        return menu;
-      });
-      return tempState2;
+    case "MENU_ERROR":
+      return { ...copyState, menuLoading: false, menuError: true };
 
-    case "ONCHANGE_IMAGE":
-      const tempState3 = stateCopy.map((menu) => {
-        if (menu.id === action.payload.id) {
-          menu.image = action.payload.image;
+    case "UPDATE_MENU_STATE":
+      const { _id, name, price, description, imageUrl } = action.payload;
+      const tempState2 = copyState.data.map((menu) => {
+        if (menu._id === action.payload._id) {
+          return { ...menu, _id, name, price, description, imageUrl };
         }
         return menu;
       });
-      return tempState3;
-    case "IMAGE_ERROR_TRUE":
-      const tempState4 = stateCopy.map((menu) => {
-        if (menu.id === action.payload.id) {
-          menu.imageError = true;
-          menu.image = "";
-        }
-        return menu;
-      });
-      return tempState4;
-    case "IMAGE_ERROR_FALSE":
-      const tempState5 = stateCopy.map((menu) => {
-        if (menu.id === action.payload.id) {
-          menu.imageError = false;
-        }
-        return menu;
-      });
-      return tempState5;
+      return { ...copyState, data: tempState2 };
 
+    case "DELETE_MENU_STATE":
+      const tempState3 = copyState.data.filter(
+        (menu) => menu._id !== action.payload._id
+      );
+      return { ...copyState, data: tempState3 };
+
+    case "ADD_NEW_MENU":
+      console.log(action.payload.data);
+      copyState.data.push({
+        ...action.payload.data,
+        ...menuUiState,
+      });
+      return { ...copyState };
     default:
       throw new Error("action type not supported");
   }

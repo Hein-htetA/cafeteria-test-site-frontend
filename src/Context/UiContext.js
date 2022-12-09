@@ -4,12 +4,8 @@ import { reducer } from "./UiReducer";
 const initialState = {
   navbar: false,
   orderNav: false,
-  orderLoading: false,
-  orderError: false,
   restaurantName: "MinMaHar",
   online: false,
-  updateLoading: false,
-  updateError: false,
 };
 
 const UiContext = createContext();
@@ -24,18 +20,6 @@ const UiContextProvider = ({ children }) => {
     dispatch({ type: "TOGGLE_ORDER_NAV" });
   };
 
-  const setOrderLoading = () => {
-    dispatch({ type: "SET_ORDER_LOADING" });
-  };
-
-  const setOrderError = () => {
-    dispatch({ type: "SET_ORDER_ERROR" });
-  };
-
-  const orderFetchSuccessful = () => {
-    dispatch({ type: "ORDER_FETCH_SUCCESSFUL" });
-  };
-
   const onlineIndicate = (value) => {
     dispatch({
       type: "ONLINE_INDICATE",
@@ -45,37 +29,13 @@ const UiContextProvider = ({ children }) => {
     });
   };
 
-  const setUpdateLoading = () => {
-    dispatch({
-      type: "SET_UPDATE_LOADING",
-    });
-  };
-
-  const setUpdateError = () => {
-    dispatch({
-      type: "SET_UPDATE_ERROR",
-    });
-  };
-
-  const updateFetchSuccessful = () => {
-    dispatch({
-      type: "UPDATE_FETCH_SUCCESSFUL",
-    });
-  };
-
   return (
     <UiContext.Provider
       value={{
         ...state,
         toggleNavbar,
         toggleOrderNav,
-        setOrderLoading,
-        setOrderError,
-        setUpdateLoading,
-        setUpdateError,
-        orderFetchSuccessful,
         onlineIndicate,
-        updateFetchSuccessful,
       }}
     >
       {children}

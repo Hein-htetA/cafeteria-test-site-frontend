@@ -6,22 +6,20 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { useOrderContext } from "../../../Context/OrderContext";
 
 const NewOrderBtnGroup = (props) => {
-  const {
-    _id,
-    orderState,
-    sendToOrderReceived,
-    sendToRecycleBin,
-    detailHide,
-    onClickHideShow,
-  } = props;
+  const { _id, detailHide } = props;
+
+  const { displayRejectConfirmationBox, sendToOrderReceived, onClickHideShow } =
+    useOrderContext();
+
   return (
     <div className={"order-btn-container"}>
       <div className="recycle-bin-btn-container">
         <button
           className={"recycle-bin-btn"}
-          onClick={() => sendToRecycleBin(_id)}
+          onClick={() => displayRejectConfirmationBox(_id)}
         >
           Recycle Bin
           <FontAwesomeIcon icon={faTrashCan} />

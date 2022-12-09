@@ -21,7 +21,7 @@ import OnDeliveryBtnGroup from "./BtnGroup/OnDeliveryBtnGroup";
 import HistoryBtnGroup from "./BtnGroup/HistoryBtnGroup";
 import UpdateLoading from "./OrderStates/UpdateLoading";
 import UpdateError from "./OrderStates/UpdateError";
-import DeleteConfirmation from "./OrderStates/DeleteConfirmation";
+import DeleteConfirmation from "./OrderStates/RejectConfirmation";
 
 const getAmPmTime = (dateString) => {
   const date = new Date(dateString);
@@ -62,16 +62,8 @@ const SingleOrder = (props) => {
     totalAmount,
   } = props;
 
-  const {
-    onChangeInputSelect,
-    onClickHideShow,
-    sendToRecycleBin,
-    sendToOrderReceived,
-    sendToHistory,
-    sendToOnDelivery,
-    showDeleteConfirmationBox,
-    retryPaymentStatus,
-  } = useOrderContext();
+  const { onChangeInputSelect, onClickHideShow, retryPaymentStatus } =
+    useOrderContext();
 
   const scrollRef = useRef(null);
 
@@ -179,7 +171,7 @@ const SingleOrder = (props) => {
                 <option value="accepted">Order Accepted</option>
                 <option value="onDelivery">On Delivery</option>
                 <option value="history">Completed</option>
-                <option value="recycleBin">Recycle Bin</option>
+                <option value="recycleBin">Rejected</option>
               </select>
               <div className="status-time">
                 <FontAwesomeIcon
@@ -278,56 +270,15 @@ const SingleOrder = (props) => {
             </li>
           </CollapsibleContainer>
           {orderState === "newOrder" ? (
-            <NewOrderBtnGroup
-              {...{
-                _id,
-                orderState,
-                sendToOrderReceived,
-                sendToRecycleBin,
-                detailHide,
-                onClickHideShow,
-              }}
-            />
+            <NewOrderBtnGroup _id={_id} detailHide={detailHide} />
           ) : orderState === "recycleBin" ? (
-            <RecycleBinBtnGroup
-              {...{
-                _id,
-                showDeleteConfirmationBox,
-                detailHide,
-                onClickHideShow,
-                sendToOrderReceived,
-              }}
-            />
+            <RecycleBinBtnGroup _id={_id} detailHide={detailHide} />
           ) : orderState === "onDelivery" ? (
-            <OnDeliveryBtnGroup
-              {...{
-                _id,
-                sendToHistory,
-                sendToRecycleBin,
-                detailHide,
-                onClickHideShow,
-              }}
-            />
+            <OnDeliveryBtnGroup _id={_id} detailHide={detailHide} />
           ) : orderState === "history" ? (
-            <HistoryBtnGroup
-              {...{
-                _id,
-                showDeleteConfirmationBox,
-                detailHide,
-                onClickHideShow,
-              }}
-            />
+            <HistoryBtnGroup _id={_id} detailHide={detailHide} />
           ) : (
-            <OrderBtnGroup
-              {...{
-                _id,
-                orderState,
-                sendToOnDelivery,
-                sendToRecycleBin,
-                detailHide,
-                onClickHideShow,
-              }}
-            />
+            <OrderBtnGroup _id={_id} detailHide={detailHide} />
           )}
         </ul>
       </div>

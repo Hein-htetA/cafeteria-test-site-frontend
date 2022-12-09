@@ -2,91 +2,89 @@ import { createContext, useContext, useReducer } from "react";
 import { reducer } from "./MenuReducer";
 import { menuData } from "../data";
 import Resizer from "react-image-file-resizer";
-const resizeFile = (file) =>
-  new Promise((resolve) => {
-    Resizer.imageFileResizer(
-      file,
-      800,
-      800,
-      "JPEG",
-      100,
-      0,
-      (uri) => {
-        resolve(uri);
-      },
-      "base64"
-    );
-  });
+import { localBaseUrl } from "../components/utils/baseUrl";
+import { useUiContext } from "./UiContext";
 
 const MenuContext = createContext();
 
 const MenuContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, menuData);
-  // console.log("menu state", state);
-  const editInput = (id, category, name, item, ref) => {
+  const [state, dispatch] = useReducer(reducer, {
+    data: [],
+    menuLoading: false,
+    menuError: false,
+  });
+  const { restaurantName } = useUiContext();
+
+  const setMenuState = (controller) => {
+    const fetchMenu = async () => {
+      try {
+        dispatch({ type: "MENU_LOADING" });
+        const response = await fetch(
+          `${localBaseUrl}/menu/${restaurantName
+            .trim()
+            .replaceAll(" ", "%20")}`,
+          {
+            signal: controller.signal,
+          }
+        );
+        if (!response.ok) {
+          const message = `An error has occured: ${response.status}`;
+          throw new Error(message);
+        }
+        const responseData = await response.json();
+        dispatch({
+          type: "SET_MENU_STATE",
+          payload: {
+            data: responseData.data,
+          },
+        });
+        // console.log("data", responseData.data);
+      } catch (e) {
+        console.log(e);
+        dispatch({ type: "MENU_ERROR" });
+      }
+    };
+    fetchMenu();
+  };
+
+  const updateMenuState = ({ _id, name, price, description, imageUrl }) => {
     dispatch({
-      type: "EDIT_INPUT",
+      type: "UPDATE_MENU_STATE",
       payload: {
-        id,
-        category,
-        ref,
+        _id,
         name,
-        item, //nth bottom in single menu
+        price,
+        description,
+        imageUrl,
       },
     });
   };
 
-  const stopAnimation = (id, item) => {
+  const deleteMenuState = (_id) => {
     dispatch({
-      type: "STOP_ANIMATION",
+      type: "DELETE_MENU_STATE",
       payload: {
-        id,
-        item,
+        _id,
       },
     });
   };
 
-  const onChangeInput = (id, category, value) => {
-    // console.log("onchange input run");
+  const addNewMenu = (data) => {
+    console.log("data in contxt", data);
     dispatch({
-      type: "ONCHANGE_INPUT",
-      payload: {
-        id,
-        category,
-        value,
-      },
+      type: "ADD_NEW_MENU",
+      payload: { data },
     });
-  };
-
-  const onChangeImage = async (id, value) => {
-    if (value.size > 6000000) {
-      dispatch({ type: "IMAGE_ERROR_TRUE", payload: { id } });
-      return;
-    }
-
-    try {
-      const image = await resizeFile(value);
-      dispatch({
-        type: "ONCHANGE_IMAGE",
-        payload: { id, image },
-      });
-      dispatch({
-        type: "IMAGE_ERROR_FALSE",
-        payload: { id },
-      });
-    } catch (err) {
-      dispatch({ type: "IMAGE_ERROR_TRUE", payload: { id } });
-    }
   };
 
   return (
     <MenuContext.Provider
       value={{
-        menuData: [...state],
-        editInput,
-        stopAnimation,
-        onChangeInput,
-        onChangeImage,
+        ...state,
+        setMenuState,
+        updateMenuState,
+        deleteMenuState,
+        addNewMenu,
       }}
     >
       {children}
