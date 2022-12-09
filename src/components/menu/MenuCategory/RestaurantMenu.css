@@ -7,4 +7,5 @@
   border: 2px solid #d43232;
   border-radius: 1rem;
   padding: 10px;
+  max-width: 300px;
 }

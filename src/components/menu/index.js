@@ -9,7 +9,9 @@ import NewSingleMenu from "./NewSingleMenu";
 
 const Menu = ({ isOwner }) => {
   const { data, menuLoading, menuError } = useMenuContext();
-  const { menuCategory } = useParams();
+  const { menuCategory, restaurantName } = useParams();
+  console.log("restaurant name", restaurantName);
+
   //console.log("category", menuCategory);
   return (
     <div className="single-category-container">
@@ -42,7 +44,7 @@ const Menu = ({ isOwner }) => {
                   <SingleMenu {...menu} />
                 </Link>
               ))}
-            <NewSingleMenu />
+            {isOwner && <NewSingleMenu />}
           </>
         )}
       </div>

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useMenuContext } from "../../Context/MenuContext";
 import { useUiContext } from "../../Context/UiContext";
+import MenuInfoNav from "../menu/MenuInfoNav/MenuInfoNav";
 import "./MenuSharedLayout.css";
 
 const MenuSharedLayout = () => {
@@ -17,14 +18,12 @@ const MenuSharedLayout = () => {
   }, []);
 
   const navigateToMenu = () => {
-    navigate("/menu");
+    navigate("/");
   };
 
   return (
     <div className="menu-container">
-      <h2 className="menu-restaurant-name" onClick={navigateToMenu}>
-        {restaurantName}
-      </h2>
+      <MenuInfoNav />
       <Outlet />
     </div>
   );

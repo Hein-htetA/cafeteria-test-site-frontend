@@ -25,7 +25,7 @@ const NavLinks = () => {
     >
       <ul className="navlinks-ul">
         <NavLink
-          to="menu"
+          to={`${restaurantName}`}
           onClick={toggleNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >

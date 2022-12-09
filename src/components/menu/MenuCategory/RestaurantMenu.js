@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import MenuCategory from "../menu/MenuCategory/MenuCategory";
+import MenuCategory from "./MenuCategory";
 import "./RestaurantMenu.css";
 
 const RestaurantMenu = () => {

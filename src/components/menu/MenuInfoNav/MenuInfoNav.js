@@ -41,7 +41,6 @@ const MenuInfoNav = () => {
           Info
         </button>
       </div>
-      <Outlet />
     </div>
   );
 };

@@ -4,7 +4,7 @@ import Order from "./components/order";
 import "./App.css";
 import { OrderContextProvider } from "./Context/OrderContext";
 import { UiContextProvider } from "./Context/UiContext";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import MainSharedLayout from "./components/sharedLayout/MainSharedLayout";
 import Menu from "./components/menu";
 import MenuSharedLayout from "./components/sharedLayout/MenuSharedLayout";
@@ -16,10 +16,9 @@ import NewOrder from "./components/newOrder";
 import MenuCategory from "./components/menu/MenuCategory/MenuCategory";
 import MarketplaceSharedLayout from "./components/sharedLayout/MarketplaceSharedLayout";
 import Marketplace from "./components/marketplace";
-import MenuInfoNav from "./components/marketplace/MenuInfoNav";
-import RestaurantMenu from "./components/marketplace/RestaurantMenu";
-import Info from "./components/marketplace/Info";
-import Title from "./components/menu/MenuCategory/Title";
+import MenuInfoNav from "./components/menu/MenuInfoNav/MenuInfoNav";
+import RestaurantMenu from "./components/menu/MenuCategory/RestaurantMenu";
+import RestaurantInfo from "./components/restaurantInfo/RestaurantInfo";
 
 const App = () => {
   return (
@@ -30,16 +29,8 @@ const App = () => {
             <Routes>
               <Route path="/" element={<MainSharedLayout />}>
                 <Route index element={<Order />} />
-                <Route path="menu" element={<MenuSharedLayout />}>
-                  <Route
-                    index
-                    element={
-                      <>
-                        <Title />
-                        <MenuCategory />
-                      </>
-                    }
-                  />
+                <Route path=":restaurantName" element={<MenuSharedLayout />}>
+                  <Route index element={<RestaurantMenu />} />
                   <Route
                     path=":menuCategory"
                     element={<Menu isOwner={true} />}
@@ -48,13 +39,18 @@ const App = () => {
                     path=":menuCategory/:menuId"
                     element={<SingleMenuDetail />}
                   />
+                  <Route path="info" element={<RestaurantInfo />} />
                 </Route>
                 <Route path="recycleBin" element={<RecycleBin />} />
                 <Route path="history" element={<History />} />
                 <Route path="newOrder" element={<NewOrder />} />
                 <Route path="marketplace" element={<MarketplaceSharedLayout />}>
                   <Route index element={<Marketplace />} />
-                  <Route path=":restaurantName" element={<MenuInfoNav />}>
+                  <Route
+                    exact
+                    path=":restaurantName"
+                    element={<MenuSharedLayout />}
+                  >
                     <Route index element={<RestaurantMenu />} />
                     <Route
                       path=":menuCategory"
@@ -64,7 +60,7 @@ const App = () => {
                       path=":menuCategory/:menuId"
                       element={<SingleMenuDetail />}
                     />
-                    <Route path="info" element={<Info />} />
+                    <Route path="info" element={<RestaurantInfo />} />
                   </Route>
                 </Route>
               </Route>

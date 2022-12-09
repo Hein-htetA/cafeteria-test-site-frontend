@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./MenuCategory.css";
-import Title from "./Title";
 
 const MenuCategory = () => {
   return (

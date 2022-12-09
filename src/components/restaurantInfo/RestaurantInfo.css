@@ -1,0 +1,18 @@
+.restaurant-detail-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.restaurant-photo {
+  width: 100%;
+  max-width: 400px;
+}
+
+.detail-info-grid {
+  display: grid;
+  grid-template-columns: minmax(100px, max-content) min-content auto;
+  width: 100%;
+  gap: 10px
+}
