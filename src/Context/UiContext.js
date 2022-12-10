@@ -2,9 +2,10 @@ import { createContext, useContext, useReducer } from "react";
 import { reducer } from "./UiReducer";
 
 const initialState = {
+  isLoggedIn: false,
   navbar: false,
   orderNav: false,
-  restaurantName: "MinMaHar",
+  restaurantName: "",
   online: false,
 };
 

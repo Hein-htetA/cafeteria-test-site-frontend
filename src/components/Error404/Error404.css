@@ -1,0 +1,10 @@
+.error-404-container {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

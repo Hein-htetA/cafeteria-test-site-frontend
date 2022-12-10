@@ -1,0 +1,76 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 300px;
+  padding: 1rem 2rem;
+  background-color: white;
+  margin: 2rem auto;
+  height: 300px;
+  border-radius: 0.5rem;
+  
+}
+
+.login-container input, input::placeholder {
+  border: none;
+  font-size: 1rem;
+}
+
+.password-input, .phone-number-input {
+  background-color: white;
+  width: 100%;
+  padding: 8px;
+  border-bottom: 2px solid gray;
+  display: flex;
+}
+
+.password-input {
+  margin-bottom: 0.5rem;
+}
+
+.phone-number-input span {
+  margin-right: 1rem;
+  font-size: 1rem;
+}
+
+.welcome-text {
+  text-transform: uppercase;
+}
+
+.login-error-msg {
+  color: red;
+  text-transform: capitalize;
+  margin-bottom: -1rem;
+}
+
+.login-bottom {
+  width: 100%;
+  padding: 10px;
+  border-radius: 1rem;
+  color: white;
+  background-color: #c138b8;
+  border: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.login-bottom:active {
+  opacity: 0.8;
+}
+
+.dont-have-account {
+  display: flex;
+  font-size: 0.8rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.dont-have-account button {
+  border: none;
+  background-color: white;
+  color: blue;
+  padding: 0px 0.5rem;
+}
+

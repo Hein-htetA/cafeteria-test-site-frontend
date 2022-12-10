@@ -8,11 +8,63 @@
 .restaurant-photo {
   width: 100%;
   max-width: 400px;
+  border-top-right-radius: 0.5rem;
+  border-top-left-radius: 0.5rem;
+}
+
+.restaurant-input-image-icon {
+  width: 100%;
+  font-size: 2rem;
+  padding: 10px 0px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .detail-info-grid {
   display: grid;
-  grid-template-columns: minmax(100px, max-content) min-content auto;
+  grid-template-columns: minmax(100px, min-content) min-content auto;
   width: 100%;
-  gap: 10px
+  gap: 10px;
+  color: rgb(106, 6, 6);
+  font-size: 1rem;
+  background-color: white;
+  padding: 10px 5px;
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
 }
+
+.detail-info-grid label {
+ width: 100%;
+ display: block;
+}
+
+.detail-info-grid input,textarea {
+  width: 100%;
+  padding: 5px;
+  border: none;
+  font-size: 1rem;
+  border-bottom: 1px solid #945050;
+}
+
+.detail-info-grid textarea {
+  height: 100px;
+}
+
+.payment-method-container {
+  display: flex;
+  column-gap: 10px;
+  flex-wrap: wrap;
+}
+
+.single-payment-method {
+  min-width: 50px;
+  padding: 5px;
+  height: fit-content;
+  background-color: pink;
+  border-radius: 0.5rem;
+  text-align: center;
+  color: rgb(106, 6, 6)
+}
+

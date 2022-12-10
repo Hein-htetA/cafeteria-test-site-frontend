@@ -7,12 +7,12 @@ import { faRightLong } from "@fortawesome/free-solid-svg-icons";
 const activeStyle = { color: "#0478f5" };
 
 const NavLinks = () => {
-  const { navbar, toggleNavbar, restaurantName } = useUiContext();
+  const { navbar, toggleNavbar, restaurantName, isLoggedIn } = useUiContext();
   const navigate = useNavigate();
 
   const enterMarketplace = () => {
     toggleNavbar();
-    navigate("/marketplace");
+    navigate("/");
   };
 
   return (
@@ -25,7 +25,15 @@ const NavLinks = () => {
     >
       <ul className="navlinks-ul">
         <NavLink
-          to={`${restaurantName}`}
+          to={`/profile`}
+          onClick={toggleNavbar}
+          style={({ isActive }) => (isActive ? activeStyle : undefined)}
+        >
+          <li>Profile</li>
+        </NavLink>
+        <hr />
+        <NavLink
+          to={`/myRestaurant/${restaurantName}`}
           onClick={toggleNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
@@ -33,7 +41,7 @@ const NavLinks = () => {
         </NavLink>
         <hr />
         <NavLink
-          to="newOrder"
+          to="/myRestaurant/newOrder"
           onClick={toggleNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
@@ -41,7 +49,7 @@ const NavLinks = () => {
         </NavLink>
         <hr />
         <NavLink
-          to="/"
+          to="/myRestaurant/order"
           onClick={toggleNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
@@ -49,7 +57,7 @@ const NavLinks = () => {
         </NavLink>
         <hr />
         <NavLink
-          to="history"
+          to="/myRestaurant/history"
           onClick={toggleNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
@@ -58,7 +66,7 @@ const NavLinks = () => {
         <hr />
 
         <NavLink
-          to="recycleBin"
+          to="/myRestaurant/recycleBin"
           onClick={toggleNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >

@@ -7,11 +7,12 @@ import "./MenuSharedLayout.css";
 
 const MenuSharedLayout = () => {
   const { setMenuState } = useMenuContext();
-  const { restaurantName } = useUiContext();
+  const { restaurantName, isLoggedIn } = useUiContext();
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!isLoggedIn) return;
     const controller = new AbortController();
     setMenuState(controller);
     return () => controller.abort();

@@ -1,0 +1,159 @@
+.register-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-title {
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.profile-photo {
+  aspect-ratio: 4/3;
+  width: 200px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  background-color: white;
+}
+
+.upload-profile-btn {
+  padding: 5px;
+  border: 2px solid rgb(238, 94, 118);
+  margin: 5px 0px 10px 0px;
+  border-radius: 0.5rem;
+  background-color: white;
+  color: rgb(238, 94, 118);
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 10px 0px 15px 0px;
+}
+
+.register-info-container {
+  width: 100%;
+  padding: 10px;
+  border-radius: 0.5rem;
+  box-shadow: 0px 1px 5px 4px rgba(168, 134, 199, 0.75);
+    -webkit-box-shadow: 0px 1px 5px 4px rgba(168, 134, 199, 0.75);
+    -moz-box-shadow: 0px 1px 5px 4px rgba(168, 134, 199, 0.75);
+
+}
+
+.register-info-container hr {
+  width: 100%;
+  margin: 10px auto;
+  border: 1px solid white;
+}
+
+.register-form-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 80px min-content auto;
+  column-gap: 20px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.phone-number-prefix {
+  background-color: white;
+  width: 100%;
+  display: flex;
+  border-radius: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  padding: 7px 5px;
+}
+
+
+.phone-number-prefix .phone-number-input {
+  padding: 0px;
+}
+
+.register-form-row input {
+  width: 100%;
+  padding: 7px 5px;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+
+.register-form-row label {
+  color: rgb(146, 73, 85);
+}
+
+.phone-number-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.password-container {
+  display: flex;
+  background-color: white;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0.5rem;
+  height: fit-content; /***For confirm Password***/
+}
+
+
+.upload-id-btn {
+  border: 2px solid rgb(238, 94, 118);
+  margin-bottom: 5px;
+  width: 100px;
+  padding: 5px;
+  text-align: center;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  color:rgb(238, 94, 118);
+  background-color: white;
+  display: inline-block;
+}
+
+.upload-id-btn:active, .upload-profile-btn:active {
+  background-color: rgb(238, 94, 118);
+  color: white
+}
+
+.id-photo-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px
+}
+
+.id-photo {
+  aspect-ratio: 1/1;
+  width: 100px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  background-color: white;
+}
+
+.register-btn {
+  width: 100%;
+  margin: 15px 0px 25px 0px;
+  padding: 10px;
+  background-color: transparent;
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0px 1px 5px 4px rgba(168, 134, 199, 0.75);
+    -webkit-box-shadow: 0px 1px 5px 4px rgba(168, 134, 199, 0.75);
+    -moz-box-shadow: 0px 1px 5px 4px rgba(168, 134, 199, 0.75);
+  font-size: 1.2rem;
+  color: rgba(90, 29, 148, 0.75);
+}
+
+.warning-text {
+  width: fit-content;
+  margin-left: auto;
+  font-size: 1rem;
+  text-transform: capitalize;
+}
+
+.register-container span {
+  color: red;
+}

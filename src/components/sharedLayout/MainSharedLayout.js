@@ -5,14 +5,17 @@ import ScrollToTop from "../utils/ScrollToTop";
 import { localBaseUrl } from "../utils/baseUrl";
 import { useUiContext } from "../../Context/UiContext";
 import { useOrderContext } from "../../Context/OrderContext";
+import Register from "../registerLogin/Register";
+import Login from "../registerLogin/Login";
 
 const MainSharedLayout = () => {
   const { setOrderState, addNewOrder, setUpdateOrderState } = useOrderContext();
-  const { restaurantName, onlineIndicate } = useUiContext();
+  const { restaurantName, onlineIndicate, isLoggedIn } = useUiContext();
 
   const onError = useRef(null);
 
   useEffect(() => {
+    if (!isLoggedIn) return;
     const controller = new AbortController();
     setOrderState(controller);
     return () => {
@@ -21,6 +24,7 @@ const MainSharedLayout = () => {
   }, []);
 
   useEffect(() => {
+    if (!isLoggedIn) return;
     const sse = new EventSource(
       localBaseUrl +
         `/orders/${restaurantName.trim().replaceAll(" ", "%20")}/newOrder`
@@ -72,7 +76,8 @@ const MainSharedLayout = () => {
     <div>
       <ScrollToTop />
       <Navbar />
-      <Outlet />
+      {/* <Outlet /> */}
+      {isLoggedIn ? <Outlet /> : <Login />}
     </div>
   );
 };

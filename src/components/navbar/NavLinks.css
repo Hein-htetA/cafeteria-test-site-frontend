@@ -5,13 +5,15 @@
   justify-content: flex-start;
   align-items: flex-start;
   position: fixed;
-  top: 106px;
+  top: 99px;
+  left: 0px;
   width: 100%;
   bottom: 0px;
   z-index: 99;
   height: 100vh;
   transition: height 0.25s linear;
   opacity: 1;
+  overflow: hidden;
 }
 
 .navlinks-container-hidden {
