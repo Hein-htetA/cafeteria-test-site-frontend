@@ -63,22 +63,45 @@
   width: 100%;
   display: flex;
   border-radius: 0.5rem;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   padding: 7px 5px;
+  border: 2px solid white;
 }
 
 
 .phone-number-prefix .phone-number-input {
   padding: 0px;
+  width: 60%;
+  flex: 1;
 }
 
-.register-form-row input {
+.phone-number-prefix .phone-number-input1 {
+  padding: 0px;
+}
+
+.phone-number-input::placeholder {
+  letter-spacing: 1px;
+}
+
+.register-form-row .password-input-register {
+  width: 60%;
+}
+
+.register-form-row input, .register-form-row textarea {
   width: 100%;
   padding: 7px 5px;
   border: none;
   border-radius: 0.5rem;
   font-size: 1rem;
+}
+.register-form-row textarea {
+  height: 80px;
+  font-family: Arial, Helvetica, sans-serif
+}
+
+.register-form-row .register-name-input {
+  border: 2px solid white;
 }
 
 .register-form-row label {
@@ -98,6 +121,7 @@
   align-items: center;
   border-radius: 0.5rem;
   height: fit-content; /***For confirm Password***/
+  border: 2px solid white;
 }
 
 
@@ -156,4 +180,16 @@
 
 .register-container span {
   color: red;
+}
+
+.register-err-msg {
+  font-size: 10px;
+}
+
+.register-err-msg-hide {
+  display: none;
+}
+
+.register-form-row .register-form-error {
+  border: 2px solid red;
 }
