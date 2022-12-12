@@ -7,6 +7,7 @@ const initialState = {
   orderNav: false,
   restaurantName: "",
   online: false,
+  user: {},
 };
 
 const UiContext = createContext();
@@ -30,6 +31,14 @@ const UiContextProvider = ({ children }) => {
     });
   };
 
+  const setLoggedIn = () => {
+    dispatch({ type: "SET_LOGGED_IN" });
+  };
+
+  const setUser = (data) => {
+    dispatch({ type: "SET_USER", payload: data });
+  };
+
   return (
     <UiContext.Provider
       value={{
@@ -37,6 +46,8 @@ const UiContextProvider = ({ children }) => {
         toggleNavbar,
         toggleOrderNav,
         onlineIndicate,
+        setLoggedIn,
+        setUser,
       }}
     >
       {children}

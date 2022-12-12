@@ -58,7 +58,7 @@ const App = () => {
                 <Route path="register" element={<Register />} />
               </Route>
               <Route path="profile" element={<MainSharedLayout />}>
-                <Route index element={<ProfileDetail />} />
+                <Route index element={<Profile />} />
               </Route>
               <Route path="myRestaurant" element={<MainSharedLayout />}>
                 <Route path="order" element={<Order />} />

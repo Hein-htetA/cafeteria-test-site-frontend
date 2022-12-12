@@ -1,9 +1,9 @@
-export const onBlurValidate = (formValue) => {
+export const validate = (formValue) => {
   const error = {};
 
   ///////////
   if (!formValue.name) {
-    error.name = true;
+    error.nameError = "required";
   }
 
   /////////// Phone Number
@@ -11,45 +11,34 @@ export const onBlurValidate = (formValue) => {
     JSON.stringify(formValue.phone).length < 8 ||
     JSON.stringify(formValue.phone).length > 12
   ) {
-    error.phoneMsg = "Invalid No.";
-    error.phone = true;
+    error.phoneError = "Invalid No.";
   }
 
   if (!formValue.phone) {
-    error.phone = true;
-    error.phoneMsg = "";
+    error.phoneError = "required";
   }
 
   /////////// Password
 
   if (formValue.password.length < 3) {
-    error.passwordMsg = "Too Short!";
-    error.password = true;
+    error.passwordError = "Too Short!";
   } else if (formValue.password.length > 10) {
-    error.passwordMsg = "Too Long!";
-    error.password = true;
-  } else {
-    error.passwordMsg = "";
-    error.password = false;
+    error.passwordError = "Too Long!";
   }
 
   if (!formValue.password) {
-    error.passwordMsg = "";
-    error.password = true;
+    error.passwordError = "required";
   }
 
-  return error;
-};
+  if (!formValue.confirmPassword) {
+    error.confirmPasswordError = "required";
+  }
 
-export const confirmPasswordValidate = (formValue) => {
-  const error = {};
-
-  if (formValue.password !== formValue.confirmPassword) {
-    error.confirmPassword = true;
-    error.confirmPasswordMsg = "Doesn't match!";
-  } else {
-    error.confirmPassword = false;
-    error.confirmPasswordMsg = "";
+  if (!error.passwordError) {
+    if (formValue.password !== formValue.confirmPassword) {
+      error.confirmPasswordError = "Doesn't match!";
+      error.passwordError = "Doesn't match!";
+    }
   }
 
   return error;

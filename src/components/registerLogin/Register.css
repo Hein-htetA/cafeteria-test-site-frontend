@@ -11,17 +11,51 @@
   text-transform: uppercase;
   margin-bottom: 20px;
   font-size: 1.5rem;
+  color: #5f3c78
 }
 
-.profile-photo {
-  aspect-ratio: 4/3;
+.profile-photo-container {
   width: 200px;
   object-fit: cover;
   border-radius: 0.5rem;
   background-color: white;
+  height: 150px;
+  overflow: hidden;
+  position: relative;
 }
 
-.upload-profile-btn {
+.profile-photo {
+  width: 200px;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+}
+
+.profile-image-error-message {
+  position: absolute;
+  width: 200px;
+  height: 150px;
+  background-color: white;
+  border-radius: 0.5rem;
+  top: 0px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-image-error-message-first {
+  margin-top: 1rem;
+  font-size: 13px;
+  color: black;
+}
+
+.profile-image-error-message-second {
+  margin-top: 16px;
+  text-align: center;
+  color: red;
+}
+
+.upload-profile-btn, .remove-profile-btn {
   padding: 5px;
   border: 2px solid rgb(238, 94, 118);
   margin: 5px 0px 10px 0px;
@@ -31,6 +65,22 @@
   font-weight: bold;
   text-transform: uppercase;
   margin: 10px 0px 15px 0px;
+  min-width: 95px;
+}
+
+.remove-profile-btn {
+  color: #8e6363;
+  border: 2px solid #8e6363;
+}
+
+.remove-profile-btn:active {
+  color: white;
+  background-color: #8e6363;
+}
+
+.profile-btn-container {
+  display: flex;
+  gap: 10px;
 }
 
 .register-info-container {
@@ -127,7 +177,6 @@
 
 .upload-id-btn {
   border: 2px solid rgb(238, 94, 118);
-  margin-bottom: 5px;
   width: 100px;
   padding: 5px;
   text-align: center;
@@ -146,7 +195,8 @@
 .id-photo-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px
+  gap: 10px 10px;
+  justify-content: flex-start;
 }
 
 .id-photo {
@@ -158,9 +208,13 @@
 }
 
 .register-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
   width: 100%;
   margin: 15px 0px 25px 0px;
-  padding: 10px;
+  padding: 5px;
   background-color: transparent;
   border: none;
   border-radius: 0.5rem;
@@ -171,11 +225,45 @@
   color: rgba(90, 29, 148, 0.75);
 }
 
+.register-btn:active {
+  background-color: rgba(168, 134, 199, 0.75);
+  color: white;
+}
+
+.id-photo-warning {
+  font-size: 10px;
+  margin: 5px 0px;
+  width: 100%;
+  padding: 3px;
+  background-color: white;
+  border-radius: 0.3rem;
+}
+
+.id-image-error-message {
+  width: 100%;
+  background-color: white;
+  padding: 10px;
+  border-radius: 0.5rem;
+  margin-bottom: 10px;
+}
+
+.id-image-error-message-first {
+  font-size: 13px;
+  color: black;
+  text-align: center;
+}
+
+.id-image-error-message-second {
+  text-align: center;
+  color: red;
+}
+
 .warning-text {
   width: fit-content;
   margin-left: auto;
   font-size: 1rem;
   text-transform: capitalize;
+  height: 32px;
 }
 
 .register-container span {
@@ -193,3 +281,10 @@
 .register-form-row .register-form-error {
   border: 2px solid red;
 }
+
+.register-server-err-msg {
+  font-size: 12px;
+  color: red;
+  text-align: center;
+}
+

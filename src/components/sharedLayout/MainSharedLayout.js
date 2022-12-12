@@ -15,7 +15,7 @@ const MainSharedLayout = () => {
   const onError = useRef(null);
 
   useEffect(() => {
-    if (!isLoggedIn) return;
+    if (!restaurantName) return;
     const controller = new AbortController();
     setOrderState(controller);
     return () => {
@@ -24,7 +24,7 @@ const MainSharedLayout = () => {
   }, []);
 
   useEffect(() => {
-    if (!isLoggedIn) return;
+    if (!restaurantName) return;
     const sse = new EventSource(
       localBaseUrl +
         `/orders/${restaurantName.trim().replaceAll(" ", "%20")}/newOrder`

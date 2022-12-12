@@ -9,6 +9,10 @@ const reducer = (state, action) => {
       return { ...state, orderNav: !orderNav };
     case "ONLINE_INDICATE":
       return { ...state, online: action.payload.value };
+    case "SET_LOGGED_IN":
+      return { ...state, isLoggedIn: true };
+    case "SET_USER":
+      return { ...state, user: action.payload };
     default:
       throw new Error("action type not supported");
   }

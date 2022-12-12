@@ -1,9 +1,39 @@
 import React, { useState } from "react";
 import "./Register.css";
-import profile from "../../img/profile-photo.jpg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera, faEye } from "@fortawesome/free-solid-svg-icons";
-import { onBlurValidate, confirmPasswordValidate } from "./validateFun";
+import { validate } from "./validateFun";
+import Resizer from "react-image-file-resizer";
+import { localBaseUrl } from "../utils/baseUrl";
+import { useUiContext } from "../../Context/UiContext";
+import RegisterBtn from "./RegisterBtn";
+import RegisterWarning from "./RegisterWarning";
+import RegisterContainer from "./RegisterContainer";
+import RegisterTitle from "./RegisterTitle";
+import ProfilePhoto from "./ProfilePhoto";
+import RegisterInfoContainer from "./RegisterInfoContainer";
+import Name from "./Name";
+import Phone from "./Phone";
+import Password from "./Password";
+import ConfirmPassword from "./ConfirmPassword";
+import Address from "./Address";
+import Email from "./Email";
+import ExtraPhone from "./ExtraPhone";
+import { useNavigate } from "react-router-dom";
+
+const resizeProfile = (file) =>
+  new Promise((resolve) => {
+    Resizer.imageFileResizer(
+      file,
+      1000,
+      750,
+      "JPEG",
+      95,
+      0,
+      (uri) => {
+        resolve(uri);
+      },
+      "base64"
+    );
+  });
 
 const Register = () => {
   const [formValues, setFormValues] = useState({
@@ -14,276 +44,230 @@ const Register = () => {
     address: "",
     email: "",
     extraPhone: "",
+    profileImage: "",
+    profilePhotoUrl: "",
+    profilePhotoId: "",
+  });
+  const [formErrors, setFormErrors] = useState({});
+
+  const [registerStatus, setRegisterStatus] = useState({
+    registerSuccess: false,
+    registerError: false,
+    registerLoading: false,
+    errorMsg: "",
   });
 
-  const [formValuesFocused, setFormValuesFocused] = useState({
-    name: false,
-    phone: false,
-    password: false,
-    confirmPassword: false,
-    address: false,
-    email: false,
-    extraPhone: false,
+  const [hidePassword, setHidePassword] = useState({
+    passwordHide: true,
+    confirmPasswordHide: true,
   });
-  const [formErrors, setFormErrors] = useState({ name: "" });
+
+  const { setLoggedIn, setUser } = useUiContext();
+  const navigate = useNavigate();
+
+  const togglePassword = () => {
+    setHidePassword((state) => ({
+      ...state,
+      passwordHide: !state.passwordHide,
+    }));
+  };
+
+  const toggleConfirmPassword = () => {
+    setHidePassword((state) => ({
+      ...state,
+      confirmPasswordHide: !state.confirmPasswordHide,
+    }));
+  };
+
+  const onChangeProfile = async (e) => {
+    const inputImage = e.target.files[0];
+    if (inputImage.size > 6144000) {
+      setFormErrors({ ...formErrors, profilePhoto: true });
+      return;
+    }
+    try {
+      const image = await resizeProfile(e.target.files[0]);
+      setFormValues({ ...formValues, profileImage: image });
+      setFormErrors({ ...formErrors, profilePhoto: false });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const onChangeInput = (e) => {
     setFormValues({
       ...formValues,
       [e.target.name]: e.target.value,
     });
+    setFormErrors({});
   };
 
-  const handleRegister = () => {
-    const error = onBlurValidate(formValues);
-    setFormErrors(error);
+  const removeProfile = () => {
+    setFormValues({ ...formValues, profileImage: "" });
   };
 
-  const handleOnBlur = (e) => {
-    const error = onBlurValidate(formValues);
-    setFormValuesFocused({
-      ...formValuesFocused,
-      [e.target.name]: true,
-    });
+  const handleRegister = async () => {
+    const error = validate(formValues);
     setFormErrors({ ...formErrors, ...error });
-  };
+    if (Object.keys(error).length !== 0) return;
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...formValues,
+      }),
+    };
 
-  const confirmPasswordOnBlur = (e) => {
-    const error = confirmPasswordValidate(formValues);
-    setFormValuesFocused({
-      ...formValuesFocused,
-      [e.target.name]: true,
-    });
-    setFormErrors({ ...formErrors, ...error });
+    try {
+      setRegisterStatus({
+        ...registerStatus,
+        registerLoading: true,
+        registerError: false,
+      });
+      const response = await fetch(`${localBaseUrl}/users`, requestOptions);
+      console.log(response);
+      if (!response.ok) {
+        if (response.status) {
+          // console.log("did i ran");
+          const { msg } = await response.json();
+          console.log(msg);
+          // const data = await response.json();
+          // console.log(data);
+          setRegisterStatus({
+            ...registerStatus,
+            registerLoading: false,
+            registerError: true,
+            errorMsg: msg,
+          });
+          setFormErrors({ ...formErrors, phoneError: "Unavailable" });
+          return;
+        }
+        throw new Error("something went wrong!");
+      }
+      const { user } = await response.json();
+      setRegisterStatus({
+        ...registerStatus,
+        registerLoading: false,
+        registerError: false,
+      });
+      setLoggedIn();
+      setUser(user);
+      navigate("/profile", {
+        replace: true,
+      });
+    } catch (error) {
+      setRegisterStatus({
+        ...registerStatus,
+        registerLoading: false,
+        registerError: true,
+      });
+    }
   };
 
   return (
-    <div className="register-container">
-      {/* <h4>{JSON.stringify(formErrors)}</h4>
-      <h2>{JSON.stringify(formValuesFocused)}</h2> */}
-      <h3 className="register-title">Register New Account</h3>
-      <img src="" alt="profile" className="profile-photo" />
-      <label htmlFor="inputTag" className="profile-image-icon">
-        <div className="upload-profile-btn">Upload Profile</div>
-        <input
-          id="inputTag"
-          type="file"
-          accept="image/png, image/jpg, image/gif, image/jpeg"
-          style={{ display: "none" }}
+    <RegisterContainer>
+      <RegisterTitle />
+      <ProfilePhoto
+        profilePhotoUrl={formValues.profilePhotoUrl}
+        profilePhoto={formErrors.profilePhoto}
+        onChangeProfile={onChangeProfile}
+        removeProfile={removeProfile}
+        profileImage={formValues.profileImage}
+      />
+      <RegisterInfoContainer>
+        <Name
+          name={formValues.name}
+          onChangeInput={onChangeInput}
+          nameError={formErrors.nameError}
         />
-      </label>
-      <div className="register-info-container">
-        <div className="register-form-row">
-          <label>
-            Name<span>{" * "}</span>
-          </label>
-          <div>:</div>
-          <div>
-            <input
-              type="text"
-              placeholder="Name"
-              name="name"
-              value={formValues.name}
-              onChange={onChangeInput}
-              onBlur={handleOnBlur}
-              className={
-                formErrors.name && formValuesFocused.name
-                  ? "register-form-error"
-                  : "register-name-input"
-              }
-            />
-          </div>
-        </div>
+
         <hr />
-        <div className="register-form-row">
-          <label>
-            Phone <span>{" * "}</span>
-          </label>
-          <div>:</div>
-          <div className="phone-number-container">
-            <div
-              className={
-                formErrors.phone && formValuesFocused.phone
-                  ? "phone-number-prefix register-form-error"
-                  : "phone-number-prefix"
-              }
-            >
-              <input
-                type={"number"}
-                readOnly
-                placeholder="+95"
-                className="phone-number-input1"
-                style={{ width: "35px" }}
-              />
-              <input
-                type="number"
-                placeholder="9xxxxxxxxx"
-                className={"phone-number-input"}
-                name="phone"
-                value={formValues.phone}
-                onChange={onChangeInput}
-                onBlur={handleOnBlur}
-              />
-              <span
-                className={
-                  formValuesFocused.phone
-                    ? "register-err-msg"
-                    : "register-err-msg-hide"
-                }
-              >
-                {formErrors.phoneMsg}
-              </span>
-            </div>
-          </div>
-        </div>
+        <Phone
+          phone={formValues.phone}
+          onChangeInput={onChangeInput}
+          phoneError={formErrors.phoneError}
+        />
+
         <hr />
-        <div className="register-form-row">
-          <label>
-            Password <span>{" * "}</span>
-          </label>
-          <div>:</div>
-          <div>
-            <div
-              className={
-                formErrors.password && formValuesFocused.password
-                  ? "password-container register-form-error"
-                  : "password-container"
-              }
-            >
-              <input
-                type="text"
-                placeholder="Password"
-                className={"password-input-register"}
-                name="password"
-                value={formValues.password}
-                onChange={onChangeInput}
-                onBlur={handleOnBlur}
-              />
-              <span
-                className={
-                  formValuesFocused.password
-                    ? "register-err-msg"
-                    : "register-err-msg-hide"
-                }
-              >
-                {formErrors.passwordMsg}
-              </span>
-              <FontAwesomeIcon icon={faEye} style={{ marginRight: "10px" }} />
-            </div>
-          </div>
-        </div>
+        <Password
+          password={formValues.password}
+          passwordError={formErrors.passwordError}
+          togglePassword={togglePassword}
+          passwordHide={hidePassword.passwordHide}
+          onChangeInput={onChangeInput}
+        />
+
         <hr />
-        <div className="register-form-row">
-          <label>
-            Confirm <span>{" * "}</span>Password
-          </label>
-          <div>:</div>
-          <div
-            className={
-              formErrors.confirmPassword && formValuesFocused.confirmPassword
-                ? "password-container register-form-error"
-                : "password-container"
-            }
-          >
-            <input
-              type="text"
-              placeholder="Confirm Pass."
-              className={"password-input-register"}
-              name="confirmPassword"
-              value={formValues.confirmPassword}
-              onChange={onChangeInput}
-              onBlur={confirmPasswordOnBlur}
-            />
-            <span
-              className={
-                formValuesFocused.confirmPassword
-                  ? "register-err-msg"
-                  : "register-err-msg-hide"
-              }
-            >
-              {formErrors.confirmPasswordMsg}
-            </span>
-            <FontAwesomeIcon icon={faEye} style={{ marginRight: "10px" }} />
-          </div>
-        </div>
+        <ConfirmPassword
+          confirmPassword={formValues.confirmPassword}
+          confirmPasswordError={formErrors.confirmPasswordError}
+          toggleConfirmPassword={toggleConfirmPassword}
+          confirmPasswordHide={hidePassword.confirmPasswordHide}
+          onChangeInput={onChangeInput}
+        />
+
         <hr />
-        <div className="register-form-row">
-          <label>Address</label>
-          <div>:</div>
-          <div>
-            <textarea
-              placeholder="Address"
-              name="address"
-              value={formValues.address}
-              onChange={onChangeInput}
-            ></textarea>
-          </div>
-        </div>
+        <Address onChangeInput={onChangeInput} address={formValues.address} />
         <hr />
-        <div className="register-form-row">
-          <label>Email</label>
-          <div>:</div>
-          <div>
-            <input
-              type="email"
-              placeholder="example@gmail.com"
-              name="email"
-              value={formValues.email}
-              onChange={onChangeInput}
-            />
-          </div>
-        </div>
+        <Email onChangeInput={onChangeInput} email={formValues.email} />
         <hr />
-        <div className="register-form-row">
-          <label>Extra Ph.</label>
-          <div>:</div>
-          <div className="phone-number-prefix">
-            <input
-              type={"number"}
-              readOnly
-              placeholder="+95"
-              className="phone-number-input1"
-              style={{ width: "35px" }}
-            />
-            <input
-              type="number"
-              placeholder="9xxxxxxxxx"
-              className="phone-number-input"
-              name="extraPhone"
-              value={formValues.extraPhone}
-              onChange={onChangeInput}
-            />
-            <span className="register-err-msg"></span>
-          </div>
-        </div>
+        <ExtraPhone
+          onChangeInput={onChangeInput}
+          extraPhone={formValues.extraPhone}
+        />
         <hr />
-        <div className="register-form-row">
+        {/* <div className="register-form-row">
           <label>ID</label>
           <div>:</div>
           <div>
-            <label htmlFor="inputTag" className="profile-image-icon">
-              <div className="upload-id-btn">Upload ID</div>
-              <input
-                id="inputTag"
-                type="file"
-                accept="image/png, image/jpg, image/gif, image/jpeg"
-                style={{ display: "none" }}
-              />
-            </label>
-            <div className="id-photo-container">
-              <img src="" alt="Id-Card" className="id-photo" />
+            <div>
+              <label htmlFor="idInput" className="profile-image-icon">
+                <div className="upload-id-btn">Upload ID</div>
+                <input
+                  id="idInput"
+                  type="file"
+                  accept="image/png, image/jpg, image/gif, image/jpeg"
+                  style={{ display: "none" }}
+                  onChange={onChangeIdPhoto}
+                  multiple
+                />
+              </label>
+              <div className="id-photo-warning">
+                Maximun Number of Photos Allowed - <span>6</span> <br />
+                Maximun Image Size - <span>6 MB</span> <br />
+                Recommanded Ratio - <span>1 : 1</span> <br />
+                <span>*** Required for verification purpose ***</span>
+              </div>
             </div>
           </div>
         </div>
-
-        <div className="warning-text">
-          <span>*</span> fields are required
-        </div>
-      </div>
-      <button className="register-btn" onClick={handleRegister}>
-        Register
-      </button>
-    </div>
+        {formErrors.idPhoto ? (
+          <div className="id-image-error-message">
+            <div className="id-image-error-message-first">
+              Cannot add image larger than
+            </div>
+            <div className="id-image-error-message-second">* 6MB *</div>
+          </div>
+        ) : (
+          <div className="id-photo-container">
+            <img src={profilePhoto} alt="Id-Card" className="id-photo" />
+            <img src={profilePhoto} alt="Id-Card" className="id-photo" />
+            <img src={profilePhoto} alt="Id-Card" className="id-photo" />
+            <img src={profilePhoto} alt="Id-Card" className="id-photo" />
+            <img src={profilePhoto} alt="Id-Card" className="id-photo" />
+          </div>
+        )} */}
+        <RegisterWarning
+          registerError={registerStatus.registerError}
+          errorMsg={registerStatus.errorMsg}
+        />
+      </RegisterInfoContainer>
+      <RegisterBtn
+        handleRegister={handleRegister}
+        registerLoading={registerStatus.registerLoading}
+        registerError={registerStatus.registerError}
+      />
+    </RegisterContainer>
   );
 };
 

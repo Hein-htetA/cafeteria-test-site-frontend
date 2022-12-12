@@ -71,7 +71,7 @@ const NewSingleMenu = () => {
       const image = await resizeFile(e.target.files[0]);
       setMenu({ ...menu, imageUrl: image, imageError: false });
     } catch (err) {
-      setMenu({ ...menu, imageError: true });
+      console.log(err);
     }
   };
 
