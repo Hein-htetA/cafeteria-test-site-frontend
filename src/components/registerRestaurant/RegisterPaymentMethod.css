@@ -1,0 +1,23 @@
+.payment-input-checkbox-container {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 10px;
+}
+
+.payment-input-checkbox-container .payment-input-label {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  width: fit-content;
+  color: black;
+}
+
+.additional-payment-info-input {
+  border: 1px solid rgb(106, 6, 6);
+  padding: 5px;
+  border-radius: 0.5rem;
+  color: black;
+}
+
+
+

@@ -22,14 +22,12 @@ const Navbar = () => {
             icon={faXmark}
             className={navbar ? "fa-xmark" : "fa-xmark fa-xmark-hidden"}
           />
-
           <FontAwesomeIcon
             icon={faBars}
             className={navbar ? "fa-bar fa-bar-hidden" : "fa-bar"}
           />
-          <div className="icon-placeholder"></div>
         </button>
-
+        <div className="icon-placeholder"></div>
         <div className="logo-text-container">
           <p className="primary-logo-text">Swal taw myay</p>
           <p className="secondary-logo-text">cafeteria</p>

@@ -3,11 +3,12 @@ import "./NavLinks.css";
 import { useUiContext } from "../../Context/UiContext";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRightLong } from "@fortawesome/free-solid-svg-icons";
+import { faRightLong, faLock } from "@fortawesome/free-solid-svg-icons";
 const activeStyle = { color: "#0478f5" };
 
 const NavLinks = () => {
-  const { navbar, toggleNavbar, restaurantName, isLoggedIn } = useUiContext();
+  const { navbar, toggleNavbar, restaurantName, isLoggedIn, user } =
+    useUiContext();
   const navigate = useNavigate();
 
   const enterMarketplace = () => {
@@ -30,14 +31,20 @@ const NavLinks = () => {
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
           <li>Profile</li>
+          {!isLoggedIn && <FontAwesomeIcon icon={faLock} />}
         </NavLink>
         <hr />
         <NavLink
-          to={`/myRestaurant/${restaurantName}`}
+          to={
+            user.restaurantName
+              ? `/myRestaurant/${restaurantName}`
+              : "/myRestaurant/newRestaurant/register"
+          }
           onClick={toggleNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
           <li>My Restaurant</li>
+          {!isLoggedIn && <FontAwesomeIcon icon={faLock} />}
         </NavLink>
         <hr />
         <NavLink
@@ -46,6 +53,7 @@ const NavLinks = () => {
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
           <li>New Orders</li>
+          {!isLoggedIn && <FontAwesomeIcon icon={faLock} />}
         </NavLink>
         <hr />
         <NavLink
@@ -54,6 +62,7 @@ const NavLinks = () => {
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
           <li>Orders Serving</li>
+          {!isLoggedIn && <FontAwesomeIcon icon={faLock} />}
         </NavLink>
         <hr />
         <NavLink
@@ -62,6 +71,7 @@ const NavLinks = () => {
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
           <li>Completed Orders</li>
+          {!isLoggedIn && <FontAwesomeIcon icon={faLock} />}
         </NavLink>
         <hr />
 
@@ -71,6 +81,7 @@ const NavLinks = () => {
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
           <li>Recycle Bin</li>
+          {!isLoggedIn && <FontAwesomeIcon icon={faLock} />}
         </NavLink>
         <hr />
       </ul>

@@ -23,8 +23,8 @@ const resizeProfile = (file) =>
   new Promise((resolve) => {
     Resizer.imageFileResizer(
       file,
-      1000,
-      750,
+      800,
+      800,
       "JPEG",
       95,
       0,
@@ -115,6 +115,10 @@ const Register = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...formValues,
+        phone:
+          formValues.phone[0] === "0"
+            ? formValues.phone.slice(1)
+            : formValues.phone.slice(0),
       }),
     };
 
@@ -124,10 +128,13 @@ const Register = () => {
         registerLoading: true,
         registerError: false,
       });
-      const response = await fetch(`${localBaseUrl}/users`, requestOptions);
+      const response = await fetch(
+        `${localBaseUrl}/auth/register`,
+        requestOptions
+      );
       console.log(response);
       if (!response.ok) {
-        if (response.status) {
+        if (response.status === 400) {
           // console.log("did i ran");
           const { msg } = await response.json();
           console.log(msg);
@@ -141,6 +148,7 @@ const Register = () => {
           });
           setFormErrors({ ...formErrors, phoneError: "Unavailable" });
           return;
+        } else {
         }
         throw new Error("something went wrong!");
       }
@@ -149,6 +157,7 @@ const Register = () => {
         ...registerStatus,
         registerLoading: false,
         registerError: false,
+        registerSuccess: true,
       });
       setLoggedIn();
       setUser(user);
@@ -160,6 +169,7 @@ const Register = () => {
         ...registerStatus,
         registerLoading: false,
         registerError: true,
+        errorMsg: "Something went wrong!",
       });
     }
   };

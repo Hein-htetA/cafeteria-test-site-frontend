@@ -1,0 +1,32 @@
+.reg-res-btn-container {
+  margin: 15px 0px;
+  width: 100%;
+  max-width: 400px;
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.reg-res-btn {
+  display: flex;
+  padding: 8px;
+  letter-spacing: 1px;
+  min-width: 150px;
+  text-transform: uppercase;
+  border: 2px solid #ce4949;
+  border-radius: 0.5rem;
+  color: #ce4949;
+  font-weight: bold;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+}
+
+.reg-res-err-msg {
+  font-size: 1rem;
+  color: red;
+  text-align: center;
+}

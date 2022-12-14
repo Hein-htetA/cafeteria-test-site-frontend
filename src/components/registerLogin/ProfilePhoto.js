@@ -1,5 +1,5 @@
 import React from "react";
-import { defaultImageUrl } from "../utils/baseUrl";
+import { defaultProfilePhoto } from "../utils/baseUrl";
 
 const ProfilePhoto = (props) => {
   const {
@@ -13,7 +13,7 @@ const ProfilePhoto = (props) => {
     <>
       <div className="profile-photo-container">
         <img
-          src={profileImage || profilePhotoUrl || defaultImageUrl}
+          src={profileImage || profilePhotoUrl || defaultProfilePhoto}
           alt="profile"
           className="profile-photo"
         />

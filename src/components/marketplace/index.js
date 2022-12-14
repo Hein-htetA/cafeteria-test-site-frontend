@@ -10,6 +10,7 @@ import SingleRestaurant from "./SingleRestaurant";
 const Marketplace = () => {
   return (
     <div className="restaurant-link-container">
+      <div className="marketplace-title">Marketplace</div>
       {restaurantData.map((restaurant) => {
         return (
           <Link

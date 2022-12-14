@@ -29,6 +29,8 @@ import Profile from "./components/profile";
 import ProfileDetail from "./components/profile/ProfileDetail";
 import Register from "./components/registerLogin/Register";
 import Error404 from "./components/Error404/Error404";
+import RegisterRestaurant from "./components/registerRestaurant/RegisterRestaurant";
+import OwnRestaurantInfo from "./components/ownRestaurantInfo/OwnRestaurantInfo";
 
 const App = () => {
   return (
@@ -65,6 +67,10 @@ const App = () => {
                 <Route path="recycleBin" element={<RecycleBin />} />
                 <Route path="history" element={<History />} />
                 <Route path="newOrder" element={<NewOrder />} />
+                <Route
+                  path="newRestaurant/register"
+                  element={<RegisterRestaurant />}
+                />
 
                 <Route path=":restaurantName" element={<MenuSharedLayout />}>
                   <Route index element={<RestaurantMenu />} />
@@ -76,7 +82,7 @@ const App = () => {
                     path=":menuCategory/:menuId"
                     element={<SingleMenuDetail />}
                   />
-                  <Route path="info" element={<RestaurantInfo />} />
+                  <Route path="info" element={<OwnRestaurantInfo />} />
                 </Route>
               </Route>
               <Route

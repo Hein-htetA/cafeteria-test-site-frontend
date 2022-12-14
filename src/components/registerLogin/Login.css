@@ -17,12 +17,25 @@
   font-size: 1rem;
 }
 
+.login-phone-input::placeholder {
+  letter-spacing: 1px;
+}
+
 .password-input, .phone-number-input {
   background-color: white;
   width: 100%;
   padding: 8px;
   border-bottom: 2px solid gray;
   display: flex;
+}
+
+.phone-number-input {
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.login-error {
+  border-bottom: 2px solid red;
 }
 
 .password-input {
@@ -32,6 +45,7 @@
 .phone-number-input span {
   margin-right: 1rem;
   font-size: 1rem;
+  font-weight: 500;
 }
 
 .welcome-text {
@@ -42,6 +56,7 @@
   color: red;
   text-transform: capitalize;
   margin-bottom: -1rem;
+  height: 20px;
 }
 
 .login-bottom {

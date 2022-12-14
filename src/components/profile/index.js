@@ -14,6 +14,7 @@ import { localBaseUrl } from "../utils/baseUrl";
 import "./index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
+import ProfileTitle from "./ProfileTitle";
 
 const resizeProfile = (file) =>
   new Promise((resolve) => {
@@ -82,6 +83,10 @@ const Profile = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...formValues,
+        phone:
+          formValues.phone[0] === "0"
+            ? formValues.phone.slice(1)
+            : formValues.phone.slice(0),
       }),
     };
 
@@ -93,7 +98,7 @@ const Profile = () => {
       });
       const response = await fetch(`${localBaseUrl}/users`, requestOptions);
       if (!response.ok) {
-        if (response.status) {
+        if (response.status === 400) {
           const { msg } = await response.json();
           setUpdateStatus({
             ...updateStatus,
@@ -111,7 +116,6 @@ const Profile = () => {
       }
       const data = await response.json();
       const { updatedUser } = data;
-      console.log("updated user", updatedUser);
       // Update request succeessful
       setUpdateStatus({
         ...updateStatus,
@@ -127,11 +131,13 @@ const Profile = () => {
         updateLoading: false,
         updateError: true,
       });
+      setFormErrors({ ...formErrors, errorMsg: "Something went wrong!" });
     }
   };
 
   return (
     <RegisterContainer>
+      <ProfileTitle />
       <ProfilePhoto
         profilePhotoUrl={formValues.profilePhotoUrl}
         profilePhoto={formErrors.profilePhoto}
@@ -172,7 +178,7 @@ const Profile = () => {
           ) : updateStatus.updateSuccess ? (
             <div>Updated!</div>
           ) : (
-            <div>Update Profile</div>
+            <div>Update</div>
           )}
         </button>
       </div>

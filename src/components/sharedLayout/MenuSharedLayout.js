@@ -11,16 +11,16 @@ const MenuSharedLayout = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!isLoggedIn) return;
-    const controller = new AbortController();
-    setMenuState(controller);
-    return () => controller.abort();
-  }, []);
+  // useEffect(() => {
+  //   if (!isLoggedIn) return;
+  //   const controller = new AbortController();
+  //   setMenuState(controller);
+  //   return () => controller.abort();
+  // }, []);
 
-  const navigateToMenu = () => {
-    navigate("/");
-  };
+  // const navigateToMenu = () => {
+  //   navigate("/");
+  // };
 
   return (
     <div className="menu-container">

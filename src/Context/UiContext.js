@@ -2,12 +2,12 @@ import { createContext, useContext, useReducer } from "react";
 import { reducer } from "./UiReducer";
 
 const initialState = {
-  isLoggedIn: false,
+  isLoggedIn: true,
   navbar: false,
   orderNav: false,
-  restaurantName: "",
   online: false,
   user: {},
+  restaurant: {},
 };
 
 const UiContext = createContext();
@@ -39,6 +39,10 @@ const UiContextProvider = ({ children }) => {
     dispatch({ type: "SET_USER", payload: data });
   };
 
+  const setRestaurant = (data) => {
+    dispatch({ type: "SET_RESTAURANT", payload: data });
+  };
+
   return (
     <UiContext.Provider
       value={{
@@ -48,6 +52,7 @@ const UiContextProvider = ({ children }) => {
         onlineIndicate,
         setLoggedIn,
         setUser,
+        setRestaurant,
       }}
     >
       {children}

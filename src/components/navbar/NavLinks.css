@@ -27,6 +27,12 @@
   width: 100%;
 }
 
+.navlinks-ul a {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 /********Single Link*********/
 
 .navlinks-ul li {
