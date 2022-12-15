@@ -19,6 +19,8 @@ const RestaurantUpdateBtn = ({ updateStatus, handleUpdateRestaurant }) => {
             />
             <div>Try Again</div>
           </>
+        ) : updateStatus.updateSuccess ? (
+          "Updated!"
         ) : (
           "Update"
         )}

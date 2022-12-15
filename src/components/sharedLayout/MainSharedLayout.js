@@ -10,9 +10,21 @@ import Login from "../registerLogin/Login";
 
 const MainSharedLayout = () => {
   const { setOrderState, addNewOrder, setUpdateOrderState } = useOrderContext();
-  const { restaurantName, onlineIndicate, isLoggedIn } = useUiContext();
+  const { restaurantName, onlineIndicate, isLoggedIn, setUser, setLoggedIn } =
+    useUiContext();
 
   const onError = useRef(null);
+
+  console.log("in main shared layout");
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      setUser(foundUser);
+      setLoggedIn();
+    }
+  }, []);
 
   useEffect(() => {
     if (!restaurantName) return;

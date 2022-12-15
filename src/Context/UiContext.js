@@ -2,7 +2,7 @@ import { createContext, useContext, useReducer } from "react";
 import { reducer } from "./UiReducer";
 
 const initialState = {
-  isLoggedIn: true,
+  isLoggedIn: false,
   navbar: false,
   orderNav: false,
   online: false,

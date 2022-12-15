@@ -213,7 +213,7 @@
   align-items: center;
   gap: 10px;
   width: 100%;
-  margin: 15px 0px 25px 0px;
+  margin: 15px 0px 15px 0px;
   padding: 5px;
   background-color: transparent;
   border: none;
@@ -288,3 +288,21 @@
   text-align: center;
 }
 
+.link-to-login-container {
+  display: flex;
+  align-items: center;
+}
+
+.link-to-login-text {
+  text-transform: capitalize;
+}
+
+.link-to-login-btn {
+  border: none;
+  font-size: 1.1rem;
+  color: rgb(113, 113, 227);
+  background-color: transparent;
+  padding: 5px;
+  letter-spacing: 1px;
+  font-family:Georgia, 'Times New Roman', Times, serif
+}

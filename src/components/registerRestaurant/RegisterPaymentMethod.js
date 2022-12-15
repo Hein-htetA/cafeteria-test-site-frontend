@@ -3,6 +3,7 @@ import "./RegisterPaymentMethod.css";
 const RegisterPaymentMethod = (props) => {
   const { paymentMethods, onChangeCheckbox } = props;
   // const copyPaymentMethods = JSON.parse(JSON.stringify(paymentMethods));
+  console.log(paymentMethods);
 
   return (
     <>

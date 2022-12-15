@@ -16,34 +16,36 @@ import RegisterPaymentMethod from "../registerRestaurant/RegisterPaymentMethod";
 import RestaurantUpdateBtn from "./RestaurantUpdateBtn";
 
 const OwnRestaurantInfo = () => {
-  const [formValues, setFormValues] = useState({
-    restaurantPhotoUrl: "",
-    restaurantPhotoId: "",
-    restaurantImage: "",
-    name: "",
-    firstPhone: "",
-    secondPhone: "",
-    address: "",
-    establishedIn: 2022,
-    delivery: "Available",
-    paymentMethods: [
-      {
-        checked: false,
-        value: "Cash",
-        additionalInfo: { name: "", number: "" },
-      },
-      {
-        checked: false,
-        value: "KBZPay",
-        additionalInfo: { name: "", number: "" },
-      },
-      {
-        checked: false,
-        value: "WavePay",
-        additionalInfo: { name: "", number: "" },
-      },
-    ],
-  });
+  const { setRestaurant, restaurant } = useUiContext();
+  const [formValues, setFormValues] = useState(restaurant);
+  // const [formValues, setFormValues] = useState({
+  //   restaurantPhotoUrl: "",
+  //   restaurantPhotoId: "",
+  //   restaurantImage: "",
+  //   name: "",
+  //   firstPhone: "",
+  //   secondPhone: "",
+  //   address: "",
+  //   establishedIn: 2022,
+  //   delivery: "Available",
+  //   paymentMethods: [
+  //     {
+  //       checked: false,
+  //       value: "Cash",
+  //       additionalInfo: { name: "", number: "" },
+  //     },
+  //     {
+  //       checked: false,
+  //       value: "KBZPay",
+  //       additionalInfo: { name: "", number: "" },
+  //     },
+  //     {
+  //       checked: false,
+  //       value: "WavePay",
+  //       additionalInfo: { name: "", number: "" },
+  //     },
+  //   ],
+  // });
 
   const [formErrors, setFormErrors] = useState({
     nameError: "",
@@ -57,11 +59,11 @@ const OwnRestaurantInfo = () => {
     updateSuccess: false,
   });
 
-  const { setRestaurant, restaurant } = useUiContext();
+  // const { setRestaurant, restaurant } = useUiContext();
 
-  useEffect(() => {
-    setFormValues({ ...formValues, ...restaurant });
-  }, []);
+  // useEffect(() => {
+  //   setFormValues({ ...formValues, ...restaurant });
+  // }, []);
 
   const onChangePhoto = async (e) => {
     const inputImage = e.target.files[0];
@@ -113,7 +115,7 @@ const OwnRestaurantInfo = () => {
     setFormErrors({ ...formErrors, ...error });
     if (Object.keys(error).length !== 0) return;
     const requestOptions = {
-      method: "POST",
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...formValues,
@@ -144,14 +146,14 @@ const OwnRestaurantInfo = () => {
       if (!response.ok) {
         throw new Error("something went wrong!");
       }
-      const { restaurant } = await response.json();
+      const { updatedRestaurant } = await response.json();
       setUpdateStatus({
         ...updateStatus,
         updateLoading: false,
         updateError: false,
         updateSuccess: true,
       });
-      setRestaurant(restaurant);
+      setRestaurant(updatedRestaurant);
     } catch (error) {
       setUpdateStatus({
         ...updateStatus,

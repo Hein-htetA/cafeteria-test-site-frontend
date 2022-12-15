@@ -43,7 +43,6 @@ const Profile = () => {
   });
 
   // console.log("user", user);
-  console.log("form values", formValues);
 
   const onChangeProfile = async (e) => {
     const inputImage = e.target.files[0];
@@ -77,7 +76,6 @@ const Profile = () => {
     setFormErrors({ ...formErrors, ...error });
 
     if (Object.keys(error).length !== 0) return;
-    console.log("update server ran");
     const requestOptions = {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -124,6 +122,7 @@ const Profile = () => {
         updateSuccess: true,
       });
       setUser(updatedUser);
+      localStorage.setItem("user", JSON.stringify(updatedUser));
       setFormValues({ ...updatedUser, profileImage: "" });
     } catch (error) {
       setUpdateStatus({

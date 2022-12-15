@@ -134,9 +134,6 @@ const RegisterRestaurant = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...formValues,
-        paymentMethods: formValues.paymentMethods.filter(
-          (method) => method.checked
-        ),
         firstPhone:
           formValues.firstPhone[0] === "0"
             ? formValues.firstPhone.slice(1)

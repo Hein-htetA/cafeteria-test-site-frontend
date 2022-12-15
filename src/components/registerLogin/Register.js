@@ -18,6 +18,7 @@ import Address from "./Address";
 import Email from "./Email";
 import ExtraPhone from "./ExtraPhone";
 import { useNavigate } from "react-router-dom";
+import LinkToLogin from "./LinkToLogin";
 
 const resizeProfile = (file) =>
   new Promise((resolve) => {
@@ -132,12 +133,10 @@ const Register = () => {
         `${localBaseUrl}/auth/register`,
         requestOptions
       );
-      console.log(response);
       if (!response.ok) {
         if (response.status === 400) {
           // console.log("did i ran");
           const { msg } = await response.json();
-          console.log(msg);
           // const data = await response.json();
           // console.log(data);
           setRegisterStatus({
@@ -148,7 +147,6 @@ const Register = () => {
           });
           setFormErrors({ ...formErrors, phoneError: "Unavailable" });
           return;
-        } else {
         }
         throw new Error("something went wrong!");
       }
@@ -161,6 +159,7 @@ const Register = () => {
       });
       setLoggedIn();
       setUser(user);
+      localStorage.setItem("user", user);
       navigate("/profile", {
         replace: true,
       });
@@ -277,6 +276,7 @@ const Register = () => {
         registerLoading={registerStatus.registerLoading}
         registerError={registerStatus.registerError}
       />
+      <LinkToLogin />
     </RegisterContainer>
   );
 };

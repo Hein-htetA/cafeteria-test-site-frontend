@@ -67,6 +67,7 @@ const Login = () => {
       });
       setLoggedIn();
       setUser(user);
+      localStorage.setItem("user", JSON.stringify(user));
       navigate("/profile", {
         replace: true,
       });
