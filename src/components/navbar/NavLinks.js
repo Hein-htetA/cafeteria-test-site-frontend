@@ -4,11 +4,12 @@ import { useUiContext } from "../../Context/UiContext";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightLong, faLock } from "@fortawesome/free-solid-svg-icons";
+import { useMenuContext } from "../../Context/MenuContext";
 const activeStyle = { color: "#0478f5" };
 
 const NavLinks = () => {
-  const { navbar, toggleNavbar, restaurantName, isLoggedIn, user } =
-    useUiContext();
+  const { navbar, toggleNavbar, isLoggedIn, user } = useUiContext();
+  const { restaurant } = useMenuContext();
   const navigate = useNavigate();
 
   const enterMarketplace = () => {
@@ -26,7 +27,7 @@ const NavLinks = () => {
     >
       <ul className="navlinks-ul">
         <NavLink
-          to={`/profile`}
+          to={`/myAccount/profile`}
           onClick={toggleNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
@@ -36,9 +37,9 @@ const NavLinks = () => {
         <hr />
         <NavLink
           to={
-            user.restaurantName
-              ? `/myRestaurant/${restaurantName}`
-              : "/myRestaurant/newRestaurant/register"
+            user.restaurantId
+              ? `/myAccount/myRestaurant`
+              : "/myAccount/myRestaurant/register"
           }
           onClick={toggleNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
@@ -48,7 +49,7 @@ const NavLinks = () => {
         </NavLink>
         <hr />
         <NavLink
-          to="/myRestaurant/newOrder"
+          to="/myAccount/newOrder"
           onClick={toggleNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
@@ -57,7 +58,7 @@ const NavLinks = () => {
         </NavLink>
         <hr />
         <NavLink
-          to="/myRestaurant/order"
+          to="/myAccount/order"
           onClick={toggleNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
@@ -66,7 +67,7 @@ const NavLinks = () => {
         </NavLink>
         <hr />
         <NavLink
-          to="/myRestaurant/history"
+          to="/myAccount/history"
           onClick={toggleNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
@@ -76,7 +77,7 @@ const NavLinks = () => {
         <hr />
 
         <NavLink
-          to="/myRestaurant/recycleBin"
+          to="/myAccount/recycleBin"
           onClick={toggleNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
@@ -85,7 +86,9 @@ const NavLinks = () => {
         </NavLink>
         <hr />
       </ul>
-      <p className="restaurant-name">***{" " + restaurantName + " "}***</p>
+      {restaurant.name && (
+        <p className="restaurant-name">***{" " + restaurant.name + " "}***</p>
+      )}
       <button className="marketplace-link" onClick={enterMarketplace}>
         <div className="marketplace-text">Enter Marketplace</div>
         <FontAwesomeIcon icon={faRightLong} className="marketplace-arrow" />

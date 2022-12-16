@@ -11,12 +11,12 @@ const DeleteConfirmation = (props) => {
   return (
     <div className="confirmation-container">
       <h5>Reject this Order?</h5>
-      <p>This order will be moved to Recycle Bin.</p>
+      <p>This order will be rejected and moved to Recycle Bin.</p>
       <div className="confirmation-btn-container">
         <button onClick={() => hideRejectConfirmationBox(props.id)}>
           Cancel
         </button>
-        <button onClick={() => recycleBinAndHide(props.id)}>Reject</button>
+        <button onClick={() => recycleBinAndHide(props.id)}>Move</button>
       </div>
     </div>
   );

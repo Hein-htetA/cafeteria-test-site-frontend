@@ -1,18 +1,16 @@
 .trashbin-container {
   display: flex;
   flex-direction: column;
+  padding: 1rem;
 }
 
-.new-order-title {
-  padding: 1rem;
+.trashbin-title {
   color: #221372;
   font-size: 1.5rem;
   border-bottom: 2px solid #463b3b;
-  margin-bottom: 1rem;
-  display: flex;
-  justify-content: flex-start;
-  width: 50%;
-  align-items: flex-end;
-  padding-left: 1rem;
+  width: fit-content;
+  padding: 0px 20px 5px 20px;
+  margin: -5px auto 10px auto;
+  
 }
 

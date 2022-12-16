@@ -15,7 +15,7 @@ const NewOrder = () => {
   return (
     <div className="trashbin-container">
       <div className="new-order-title">
-        <div className="trashbin-title-text">New Orders</div>
+        <div className="trashbin-title">New Orders</div>
       </div>
 
       {displayOrder(data, "newOrder", orderLoading, orderError)}

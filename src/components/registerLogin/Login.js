@@ -68,7 +68,7 @@ const Login = () => {
       setLoggedIn();
       setUser(user);
       localStorage.setItem("user", JSON.stringify(user));
-      navigate("/profile", {
+      navigate("/myAccount/profile", {
         replace: true,
       });
     } catch (error) {

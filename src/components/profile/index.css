@@ -13,13 +13,16 @@
   text-align: center;
   letter-spacing: 1px;
   min-width: 100px;
-  margin-left: auto;
 }
 
-/* .update-profile-btn:active {
+.update-profile-btn:active {
   color: white;
   background-color: rgba(90, 29, 148, 0.75);
-} */
+}
+
+.update-profile-btn:disabled {
+  opacity: 0.7;
+}
 
 .err-msg-profile-container {
   display: flex;

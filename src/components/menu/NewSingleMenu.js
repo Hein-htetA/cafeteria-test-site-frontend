@@ -13,7 +13,7 @@ import Resizer from "react-image-file-resizer";
 import UpdateLoading from "../order/OrderStates/UpdateLoading";
 import MenuDeleteLoading from "./MenuDelete/MenuDeleteLoading";
 import MenuDeleteConfirmation from "./MenuDelete/MenuDeleteConfirmation";
-import { localBaseUrl } from "../utils/baseUrl";
+import { defaultImageUrl, localBaseUrl } from "../utils/baseUrl";
 import { useUiContext } from "../../Context/UiContext";
 const resizeFile = (file) =>
   new Promise((resolve) => {
@@ -32,15 +32,16 @@ const resizeFile = (file) =>
   });
 
 const NewSingleMenu = () => {
-  const { restaurantName } = useUiContext();
   const { menuCategory } = useParams();
-  const { addNewMenu } = useMenuContext();
+  const { addNewMenu, restaurant } = useMenuContext();
 
   const [menu, setMenu] = useState({
     name: "",
     price: "",
     description: "",
-    imageUrl: "",
+    menuPhotoUrl: "",
+    menuPhotoId: "",
+    menuImage: "",
     imageError: false,
     nameError: false,
     priceError: false,
@@ -69,7 +70,7 @@ const NewSingleMenu = () => {
     }
     try {
       const image = await resizeFile(e.target.files[0]);
-      setMenu({ ...menu, imageUrl: image, imageError: false });
+      setMenu({ ...menu, menuImage: image, imageError: false });
     } catch (err) {
       console.log(err);
     }
@@ -91,7 +92,8 @@ const NewSingleMenu = () => {
       return;
     }
 
-    const { name, price, description, imageUrl } = menu;
+    const { name, price, description, menuPhotoId, menuPhotoUrl, menuImage } =
+      menu;
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -99,8 +101,10 @@ const NewSingleMenu = () => {
         name,
         price,
         description,
-        image: imageUrl, //image is base64
-        restaurantName,
+        menuPhotoId,
+        menuPhotoUrl,
+        menuImage,
+        restaurantId: restaurant._id,
         category: menuCategory,
       }),
     };
@@ -113,10 +117,7 @@ const NewSingleMenu = () => {
         saveSuccess: false,
       });
 
-      const response = await fetch(
-        `${localBaseUrl}/menu/${restaurantName}`,
-        requestOptions
-      );
+      const response = await fetch(`${localBaseUrl}/menu`, requestOptions);
 
       if (!response.ok) {
         throw new Error("Update Failed");
@@ -129,7 +130,9 @@ const NewSingleMenu = () => {
         name: "",
         price: "",
         description: "",
-        imageUrl: "",
+        menuPhotoUrl: "",
+        menuPhotoId: "",
+        menuImage: "",
         imageError: false,
         nameError: false,
         priceError: false,
@@ -153,7 +156,9 @@ const NewSingleMenu = () => {
       name: "",
       price: "",
       description: "",
-      imageUrl: "",
+      menuPhotoUrl: "",
+      menuPhotoId: "",
+      menuImage: "",
       imageError: false,
       nameError: false,
       priceError: false,
@@ -167,7 +172,10 @@ const NewSingleMenu = () => {
     <div className="detail-container">
       <div className="image-info-container">
         <div className="img-container">
-          <img src={menu.imageUrl} alt="uploadImg" />
+          <img
+            src={menu.menuImage || menu.menuPhotoUrl || defaultImageUrl}
+            alt="uploadImg"
+          />
           <label htmlFor="inputTag">
             <FontAwesomeIcon icon={faCamera} />
             <input

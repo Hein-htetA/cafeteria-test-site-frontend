@@ -34,7 +34,7 @@ const Navbar = () => {
         </div>
 
         <div className="envolope-container">
-          <Link to="newOrder" className="envolope-link">
+          <Link to="myAccount/newOrder" className="envolope-link">
             <FontAwesomeIcon icon={faEnvelope} className={"envolope-icon"} />
             <span className="new-order-count">{newOrderCount}</span>
           </Link>

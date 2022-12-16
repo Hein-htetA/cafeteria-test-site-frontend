@@ -159,8 +159,8 @@ const Register = () => {
       });
       setLoggedIn();
       setUser(user);
-      localStorage.setItem("user", user);
-      navigate("/profile", {
+      localStorage.setItem("user", JSON.stringify(user));
+      navigate("/myAccount/profile", {
         replace: true,
       });
     } catch (error) {

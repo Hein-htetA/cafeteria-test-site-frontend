@@ -15,6 +15,8 @@ import "./index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
 import ProfileTitle from "./ProfileTitle";
+import { useNavigate } from "react-router-dom";
+import ProfileBtnGroup from "./ProfileBtnGroup";
 
 const resizeProfile = (file) =>
   new Promise((resolve) => {
@@ -42,6 +44,9 @@ const Profile = () => {
     updateLoading: false,
   });
 
+  const navigate = useNavigate();
+  const { setLoggedIn } = useUiContext();
+
   // console.log("user", user);
 
   const onChangeProfile = async (e) => {
@@ -64,11 +69,27 @@ const Profile = () => {
       ...formValues,
       [e.target.name]: e.target.value,
     });
+    setUpdateStatus({
+      ...updateStatus,
+      updateError: false,
+      updateSuccess: false,
+    });
     setFormErrors({});
   };
 
   const removeProfile = () => {
     setFormValues({ ...formValues, profilePhotoUrl: "", profileImage: "" });
+    setUpdateStatus({
+      ...updateStatus,
+      updateError: false,
+      updateSuccess: false,
+    });
+  };
+
+  const logOut = () => {
+    localStorage.setItem("user", "");
+    setLoggedIn();
+    navigate("/login");
   };
 
   const updateUser = async () => {
@@ -162,25 +183,12 @@ const Profile = () => {
           extraPhone={formValues.extraPhone}
         />
       </RegisterInfoContainer>
-      <div className="err-msg-profile-container">
-        {formErrors.errorMsg && (
-          <div className="profile-update-err-msg">{formErrors.errorMsg}</div>
-        )}
-        <button className="update-profile-btn" onClick={updateUser}>
-          {updateStatus.updateLoading ? (
-            <div>Updating</div>
-          ) : updateStatus.updateError ? (
-            <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
-              <FontAwesomeIcon icon={faArrowRotateRight} />
-              <div>Try Again</div>
-            </div>
-          ) : updateStatus.updateSuccess ? (
-            <div>Updated!</div>
-          ) : (
-            <div>Update</div>
-          )}
-        </button>
-      </div>
+      <ProfileBtnGroup
+        errorMsg={formErrors.errorMsg}
+        logOut={logOut}
+        updateUser={updateUser}
+        updateStatus={updateStatus}
+      />
     </RegisterContainer>
   );
 };

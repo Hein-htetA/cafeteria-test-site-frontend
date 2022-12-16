@@ -18,6 +18,7 @@ import { localBaseUrl } from "../utils/baseUrl";
 import { useUiContext } from "../../Context/UiContext";
 import { useNavigate } from "react-router-dom";
 import RegRestaurantAddPhoto from "./RegRestaurantAddPhoto";
+import { useMenuContext } from "../../Context/MenuContext";
 
 export const resizeRestaurant = (file) =>
   new Promise((resolve) => {
@@ -48,7 +49,7 @@ const RegisterRestaurant = () => {
     delivery: "Available",
     paymentMethods: [
       {
-        checked: false,
+        checked: true,
         value: "Cash",
         additionalInfo: { name: "", number: "" },
       },
@@ -77,7 +78,9 @@ const RegisterRestaurant = () => {
     registerSuccess: false,
   });
 
-  const { setRestaurant, user } = useUiContext();
+  const { user, setUser } = useUiContext();
+  const { updateLocalRestaurant } = useMenuContext();
+
   const navigate = useNavigate();
 
   const onChangePhoto = async (e) => {
@@ -159,15 +162,18 @@ const RegisterRestaurant = () => {
       if (!response.ok) {
         throw new Error("something went wrong!");
       }
-      const { restaurant } = await response.json();
+      const { restaurant, user } = await response.json();
       setRegisterStatus({
         ...registerStatus,
         registerLoading: false,
         registerError: false,
         registerSuccess: true,
       });
-      setRestaurant(restaurant);
-      navigate(`/myRestaurant/${restaurant.name}`, {
+      console.log("a");
+      updateLocalRestaurant(restaurant);
+      setUser(user);
+      localStorage.setItem("user", JSON.stringify(user));
+      navigate(`/myAccount/myRestaurant`, {
         replace: true,
       });
     } catch (error) {

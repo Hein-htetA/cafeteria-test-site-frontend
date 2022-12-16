@@ -12,17 +12,17 @@ const MenuContextProvider = ({ children }) => {
     data: [],
     menuLoading: false,
     menuError: false,
+    restaurant: {},
+    restaurantLoading: false,
+    restaurantError: false,
   });
-  const { restaurantName } = useUiContext();
 
   const setMenuState = (controller) => {
     const fetchMenu = async () => {
       try {
         dispatch({ type: "MENU_LOADING" });
         const response = await fetch(
-          `${localBaseUrl}/menu/${restaurantName
-            .trim()
-            .replaceAll(" ", "%20")}`,
+          `${localBaseUrl}/menu/${state.restaurant._id}`,
           {
             signal: controller.signal,
           }
@@ -47,16 +47,10 @@ const MenuContextProvider = ({ children }) => {
     fetchMenu();
   };
 
-  const updateMenuState = ({ _id, name, price, description, imageUrl }) => {
+  const updateMenuState = (menu) => {
     dispatch({
       type: "UPDATE_MENU_STATE",
-      payload: {
-        _id,
-        name,
-        price,
-        description,
-        imageUrl,
-      },
+      payload: menu,
     });
   };
 
@@ -77,6 +71,58 @@ const MenuContextProvider = ({ children }) => {
     });
   };
 
+  const setRestaurantState = (controller, restaurantId) => {
+    //both restaurant and menu fetch
+    const fetchRestaurant = async () => {
+      try {
+        dispatch({ type: "RESTAURANT_LOADING" });
+        const response = await fetch(
+          `${localBaseUrl}/restaurants/${restaurantId}`,
+          {
+            signal: controller.signal,
+          }
+        );
+        if (!response.ok) {
+          const message = `An error has occured: ${response.status}`;
+          throw new Error(message);
+        }
+        const { restaurant } = await response.json();
+        dispatch({ type: "UPDATE_LOCAL_RESTAURANT", payload: restaurant });
+      } catch (e) {
+        dispatch({ type: "RESTAURANT_ERROR" });
+      }
+    };
+    const fetchMenu = async () => {
+      try {
+        dispatch({ type: "MENU_LOADING" });
+        const response = await fetch(`${localBaseUrl}/menu/${restaurantId}`, {
+          signal: controller.signal,
+        });
+        if (!response.ok) {
+          const message = `An error has occured: ${response.status}`;
+          throw new Error(message);
+        }
+        const responseData = await response.json();
+        dispatch({
+          type: "SET_MENU_STATE",
+          payload: {
+            data: responseData.data,
+          },
+        });
+        // console.log("data", responseData.data);
+      } catch (e) {
+        console.log(e);
+        dispatch({ type: "MENU_ERROR" });
+      }
+    };
+    fetchRestaurant();
+    fetchMenu();
+  };
+
+  const updateLocalRestaurant = (restaurant) => {
+    dispatch({ type: "UPDATE_LOCAL_RESTAURANT", payload: restaurant });
+  };
+
   return (
     <MenuContext.Provider
       value={{
@@ -85,6 +131,8 @@ const MenuContextProvider = ({ children }) => {
         updateMenuState,
         deleteMenuState,
         addNewMenu,
+        setRestaurantState,
+        updateLocalRestaurant,
       }}
     >
       {children}

@@ -13,9 +13,10 @@ import RestaurantEstablished from "./RestaurantEstablished";
 import RestaurantPaymentMethod from "./RestaurantPaymentMethod";
 import RestaurantDelivery from "./RestaurantDelivery";
 import { useUiContext } from "../../Context/UiContext";
+import { useMenuContext } from "../../Context/MenuContext";
 
 const RestaurantInfo = () => {
-  const { restaurant } = useUiContext();
+  const { restaurant } = useMenuContext();
   const {
     name,
     firstPhone,
@@ -24,19 +25,20 @@ const RestaurantInfo = () => {
     establishedIn,
     paymentMethods,
     delivery,
+    restaurantPhotoUrl,
   } = restaurant;
   return (
     <div className="restaurant-info-top-container">
       <RestaurantNameTitle restaurantName={name} />
       <RestaurantInfoContainer>
-        <RestaurantPhoto restaurantPhotoUrl={photo4} />
+        <RestaurantPhoto restaurantPhotoUrl />
         <hr />
         <RestaurantDetailGrid>
           <RestaurantName />
           <RestaurantPhone />
           <RestaurantAddress />
           <RestaurantEstablished />
-          <RestaurantPaymentMethod />
+          <RestaurantPaymentMethod paymentMethods />
           <RestaurantDelivery />
         </RestaurantDetailGrid>
       </RestaurantInfoContainer>

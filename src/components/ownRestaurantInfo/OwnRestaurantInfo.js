@@ -14,9 +14,16 @@ import RestaurantEstablished from "../restaurantInfo/RestaurantEstablished";
 import RegisterDelivery from "../registerRestaurant/RegisterDelivery";
 import RegisterPaymentMethod from "../registerRestaurant/RegisterPaymentMethod";
 import RestaurantUpdateBtn from "./RestaurantUpdateBtn";
+import { useMenuContext } from "../../Context/MenuContext";
+import LoadingOrder from "../order/OrderStates/LoadingOrder";
 
 const OwnRestaurantInfo = () => {
-  const { setRestaurant, restaurant } = useUiContext();
+  const {
+    updateLocalRestaurant,
+    restaurant,
+    restaurantLoading,
+    restaurantSuccess,
+  } = useMenuContext();
   const [formValues, setFormValues] = useState(restaurant);
   // const [formValues, setFormValues] = useState({
   //   restaurantPhotoUrl: "",
@@ -78,6 +85,11 @@ const OwnRestaurantInfo = () => {
     } catch (error) {
       console.log(error);
     }
+    setUpdateStatus({
+      ...updateStatus,
+      updateError: false,
+      updateSuccess: false,
+    });
   };
 
   const removePhoto = () => {
@@ -86,6 +98,11 @@ const OwnRestaurantInfo = () => {
       restaurantPhotoUrl: "",
       restaurantImage: "",
     });
+    setUpdateStatus({
+      ...updateStatus,
+      updateError: false,
+      updateSuccess: false,
+    });
   };
 
   const onChangeInput = (e) => {
@@ -93,6 +110,11 @@ const OwnRestaurantInfo = () => {
     setFormErrors({
       nameError: "",
       firstPhoneError: "",
+    });
+    setUpdateStatus({
+      ...updateStatus,
+      updateError: false,
+      updateSuccess: false,
     });
   };
 
@@ -153,7 +175,7 @@ const OwnRestaurantInfo = () => {
         updateError: false,
         updateSuccess: true,
       });
-      setRestaurant(updatedRestaurant);
+      updateLocalRestaurant(updatedRestaurant);
     } catch (error) {
       setUpdateStatus({
         ...updateStatus,
@@ -162,6 +184,9 @@ const OwnRestaurantInfo = () => {
       });
     }
   };
+  if (restaurantLoading) {
+    return <LoadingOrder />;
+  }
   return (
     <div className="register-restaurant-container">
       <RestaurantInfoContainer>

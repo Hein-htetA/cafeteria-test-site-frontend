@@ -4,9 +4,9 @@
   justify-content: center;
   align-items: center;
   border: 2px solid white;
-  margin: 1rem;
   font-size: 2rem;
   border-radius: 0.5rem;
   text-transform: uppercase;
   color: #606bca;
+  width: 100%;
 }

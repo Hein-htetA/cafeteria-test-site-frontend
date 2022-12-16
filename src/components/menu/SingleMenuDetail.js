@@ -35,22 +35,24 @@ const SingleMenuDetail = () => {
     name: "",
     price: 0,
     description: "",
-    imageUrl: "", //image url from s3 and database
-    image: "", //for base64 image
+    menuPhotoUrl: "",
+    menuPhotoId: "",
+    menuImage: "",
   });
   const { menuId, menuCategory } = useParams();
-  const { restaurantName } = useUiContext();
+  const { user } = useUiContext();
   const { data, updateMenuState, deleteMenuState } = useMenuContext();
   const navigate = useNavigate();
 
   useEffect(() => {
     const menuInitial = data.find((menu) => menu._id === menuId);
     if (!menuInitial) {
+      //menu delete case
       // navigating to parent route on refresh
       navigate(`/menu/${menuCategory}`);
       return;
     }
-    setMenu({ ...menuInitial, image: "" });
+    setMenu({ ...menuInitial, menuImage: "" });
   }, []);
 
   const onChangeName = (e) => {
@@ -80,18 +82,26 @@ const SingleMenuDetail = () => {
     }
     try {
       const image = await resizeFile(e.target.files[0]);
-      setMenu({ ...menu, image, imageError: false });
+      setMenu({ ...menu, menuImage: image, imageError: false });
     } catch (err) {
       setMenu({ ...menu, imageError: true });
     }
   };
 
   const resetMenu = () => {
-    navigate(`../../menu/${menu.category}`);
+    navigate(`/myAccount/myRestaurant/${menu.category}`);
   };
 
   const updateMenuServer = async () => {
-    const { _id, name, price, description, imageUrl, image, imageId } = menu;
+    const {
+      _id,
+      name,
+      price,
+      description,
+      menuImage,
+      menuPhotoId,
+      menuPhotoUrl,
+    } = menu;
     const requestOptions = {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -100,9 +110,9 @@ const SingleMenuDetail = () => {
         name,
         price,
         description,
-        imageUrl,
-        image,
-        imageId,
+        menuImage,
+        menuPhotoUrl,
+        menuPhotoId,
       }),
     };
 
@@ -113,10 +123,7 @@ const SingleMenuDetail = () => {
         saveError: false,
         saveSuccess: false,
       });
-      const response = await fetch(
-        `${localBaseUrl}/menu/${restaurantName}`,
-        requestOptions
-      );
+      const response = await fetch(`${localBaseUrl}/menu`, requestOptions);
 
       setMenu({
         ...menu,
@@ -125,7 +132,7 @@ const SingleMenuDetail = () => {
         saveSuccess: true,
       });
 
-      navigate(`../../menu/${menu.category}`, {
+      navigate(`/myAccount/myRestaurant/${menu.category}`, {
         replace: true,
         state: { message: "update successful" },
       });
@@ -161,7 +168,7 @@ const SingleMenuDetail = () => {
         deleteConfirmationBox: false,
       });
       const response = await fetch(
-        `${localBaseUrl}/menu/${restaurantName}/${_id}`,
+        `${localBaseUrl}/menu/${user.restaurantId}/${_id}`,
         requestOptions
       );
 
@@ -175,7 +182,7 @@ const SingleMenuDetail = () => {
         deleteSuccess: true,
       });
       deleteMenuState(_id);
-      navigate(`../../menu/${menu.category}`, {
+      navigate(`/myAccount/myRestaurant/${menu.category}`, {
         replace: true,
         state: { message: "delete successful" },
       });
@@ -211,7 +218,10 @@ const SingleMenuDetail = () => {
       </h2>
       <div className="image-info-container">
         <div className="img-container">
-          <img src={menu.image || menu.imageUrl} alt="uploadImg" />
+          <img
+            src={menu.menuImage || menu.menuPhotoUrl || defaultImageUrl}
+            alt="uploadImg"
+          />
           <label
             htmlFor="inputTag"
             style={{

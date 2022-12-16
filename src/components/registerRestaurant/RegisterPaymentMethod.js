@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import "./RegisterPaymentMethod.css";
 const RegisterPaymentMethod = (props) => {
   const { paymentMethods, onChangeCheckbox } = props;
-  // const copyPaymentMethods = JSON.parse(JSON.stringify(paymentMethods));
-  console.log(paymentMethods);
+  // const copyPaymentMethods = JSON.parse(JSON.stringify(paymentMethods))
 
   return (
     <>

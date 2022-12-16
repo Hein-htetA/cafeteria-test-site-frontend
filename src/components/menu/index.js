@@ -9,8 +9,7 @@ import NewSingleMenu from "./NewSingleMenu";
 
 const Menu = ({ isOwner }) => {
   const { data, menuLoading, menuError } = useMenuContext();
-  const { menuCategory, restaurantName } = useParams();
-  console.log("restaurant name", restaurantName);
+  const { menuCategory } = useParams();
 
   //console.log("category", menuCategory);
   return (
@@ -24,7 +23,7 @@ const Menu = ({ isOwner }) => {
           ? "snacks & drinks"
           : menuCategory === "signature"
           ? "signature dishes"
-          : "additionals"}
+          : "additional items"}
       </h2>
       <div className="single-menu-container">
         {menuLoading ? (

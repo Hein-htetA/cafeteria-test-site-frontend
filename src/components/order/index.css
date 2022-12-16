@@ -4,6 +4,7 @@
   background-size: cover; */
   width: 100%;
   position: relative;
+  padding: 1rem;
 }
 
 .order-container h3 {

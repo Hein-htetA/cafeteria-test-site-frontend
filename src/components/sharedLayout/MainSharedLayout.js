@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Navbar from "../navbar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import ScrollToTop from "../utils/ScrollToTop";
 import { localBaseUrl } from "../utils/baseUrl";
 import { useUiContext } from "../../Context/UiContext";
@@ -10,12 +10,10 @@ import Login from "../registerLogin/Login";
 
 const MainSharedLayout = () => {
   const { setOrderState, addNewOrder, setUpdateOrderState } = useOrderContext();
-  const { restaurantName, onlineIndicate, isLoggedIn, setUser, setLoggedIn } =
+  const { onlineIndicate, isLoggedIn, setUser, setLoggedIn, user } =
     useUiContext();
-
   const onError = useRef(null);
-
-  console.log("in main shared layout");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
@@ -23,58 +21,53 @@ const MainSharedLayout = () => {
       const foundUser = JSON.parse(loggedInUser);
       setUser(foundUser);
       setLoggedIn();
+      navigate("/");
     }
   }, []);
 
   useEffect(() => {
-    if (!restaurantName) return;
     const controller = new AbortController();
-    setOrderState(controller);
+    let sse;
+    if (isLoggedIn && user.restaurantId) {
+      //restaurantId is available only after user logged in
+      setOrderState(controller, user.restaurantId);
+      sse = new EventSource(
+        localBaseUrl + `/orders/${user.restaurantId}/newOrder`
+      );
+      sse.onopen = () => {
+        console.log("sse opened");
+        onlineIndicate(true);
+        if (onError.current) {
+          //fetch order ajax if error occured
+          // setUpdateOrderState(controller);
+        }
+      };
+      sse.onmessage = (e) => {
+        console.log("sse on message");
+        addNewOrder(JSON.parse(e.data));
+      };
+      sse.onerror = () => {
+        console.log("Error in connecting sse");
+        onlineIndicate(false);
+        onError.current = true; //not to update fetch on without error
+      };
+    }
     return () => {
+      //sse.close();
       controller.abort();
     };
-  }, []);
-
-  useEffect(() => {
-    if (!restaurantName) return;
-    const sse = new EventSource(
-      localBaseUrl +
-        `/orders/${restaurantName.trim().replaceAll(" ", "%20")}/newOrder`
-    );
-    const controller = new AbortController();
-
-    sse.onopen = () => {
-      console.log("sse opened");
-      onlineIndicate(true);
-      if (onError.current) {
-        setUpdateOrderState(controller);
-      }
-    };
-
-    sse.onmessage = (e) => {
-      console.log("sse on message");
-      addNewOrder(JSON.parse(e.data));
-    };
-
-    sse.onerror = () => {
-      console.log("Error in connecting sse");
-      onlineIndicate(false);
-      onError.current = true; //not to update fetch on without error
-    };
-
-    return () => {
-      sse.close();
-      controller.abort();
-    };
-  }, []);
+  }, [isLoggedIn, user.restaurantId]);
 
   useEffect(() => {
     const offlineHandler = () => {
+      console.log("offline handler ran");
       onlineIndicate(false);
     };
     const onlineHandler = () => {
+      console.log("online handler ran");
       onlineIndicate(true);
     };
+    console.log("online offline useeffect ran");
     window.addEventListener("offline", offlineHandler);
     window.addEventListener("online", onlineHandler);
 
@@ -88,8 +81,8 @@ const MainSharedLayout = () => {
     <div>
       <ScrollToTop />
       <Navbar />
-      {/* <Outlet /> */}
-      {isLoggedIn ? <Outlet /> : <Login />}
+      <Outlet />
+      {/* {isLoggedIn ? <Outlet /> : <Login />} */}
     </div>
   );
 };

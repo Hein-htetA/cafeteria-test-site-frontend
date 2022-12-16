@@ -26,6 +26,20 @@ const reducer = (state, action) => {
         menuError: false,
       };
 
+    case "UPDATE_LOCAL_RESTAURANT":
+      return {
+        ...copyState,
+        restaurant: action.payload,
+        restaurantLoading: false,
+        restaurantError: false,
+      };
+
+    case "RESTAURANT_LOADING":
+      return { ...copyState, restaurantLoading: true, restaurantError: false };
+
+    case "RESTAURANT_ERROR":
+      return { ...copyState, restaurantLoading: false, restaurantError: true };
+
     case "MENU_LOADING":
       return { ...copyState, menuLoading: true, menuError: false };
 
@@ -33,10 +47,10 @@ const reducer = (state, action) => {
       return { ...copyState, menuLoading: false, menuError: true };
 
     case "UPDATE_MENU_STATE":
-      const { _id, name, price, description, imageUrl } = action.payload;
+      //const { _id, name, price, description, imageUrl } = action.payload;
       const tempState2 = copyState.data.map((menu) => {
         if (menu._id === action.payload._id) {
-          return { ...menu, _id, name, price, description, imageUrl };
+          return { ...menu, ...action.payload };
         }
         return menu;
       });

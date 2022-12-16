@@ -31,6 +31,10 @@ import Register from "./components/registerLogin/Register";
 import Error404 from "./components/Error404/Error404";
 import RegisterRestaurant from "./components/registerRestaurant/RegisterRestaurant";
 import OwnRestaurantInfo from "./components/ownRestaurantInfo/OwnRestaurantInfo";
+import MyAccountSharedLayout from "./components/sharedLayout/MyAccountSharedLayout";
+import Login from "./components/registerLogin/Login";
+import { TestContextProvider } from "./Context/TestContext";
+import TestComponent from "./TestComponent";
 
 const App = () => {
   return (
@@ -39,13 +43,31 @@ const App = () => {
         <OrderContextProvider>
           <MenuContextProvider>
             <Routes>
-              <Route path="/" element={<MarketplaceSharedLayout />}>
+              <Route path="/" element={<MainSharedLayout />}>
                 <Route index element={<Marketplace />} />
-                <Route
-                  exact
-                  path=":restaurantName"
-                  element={<MenuSharedLayout />}
-                >
+                <Route path="register" element={<Register />} />
+                <Route path="login" element={<Login />} />
+                <Route path="myAccount" element={<MyAccountSharedLayout />}>
+                  <Route path="profile" element={<Profile />} />
+                  <Route path="order" element={<Order />} />
+                  <Route path="recycleBin" element={<RecycleBin />} />
+                  <Route path="history" element={<History />} />
+                  <Route path="newOrder" element={<NewOrder />} />
+                  <Route path="myRestaurant" element={<MenuSharedLayout />}>
+                    <Route index element={<RestaurantMenu />} />
+                    <Route path="register" element={<RegisterRestaurant />} />
+                    <Route
+                      path=":menuCategory"
+                      element={<Menu isOwner={true} />}
+                    />
+                    <Route
+                      path=":menuCategory/:menuId"
+                      element={<SingleMenuDetail />}
+                    />
+                    <Route path="info" element={<OwnRestaurantInfo />} />
+                  </Route>
+                </Route>
+                <Route path=":restaurantName" element={<MenuSharedLayout />}>
                   <Route index element={<RestaurantMenu />} />
                   <Route
                     path=":menuCategory"
@@ -57,38 +79,9 @@ const App = () => {
                   />
                   <Route path="info" element={<RestaurantInfo />} />
                 </Route>
-                <Route path="register" element={<Register />} />
               </Route>
-              <Route path="profile" element={<MainSharedLayout />}>
-                <Route index element={<Profile />} />
-              </Route>
-              <Route path="myRestaurant" element={<MainSharedLayout />}>
-                <Route path="order" element={<Order />} />
-                <Route path="recycleBin" element={<RecycleBin />} />
-                <Route path="history" element={<History />} />
-                <Route path="newOrder" element={<NewOrder />} />
-                <Route
-                  path="newRestaurant/register"
-                  element={<RegisterRestaurant />}
-                />
 
-                <Route path=":restaurantName" element={<MenuSharedLayout />}>
-                  <Route index element={<RestaurantMenu />} />
-                  <Route
-                    path=":menuCategory"
-                    element={<Menu isOwner={true} />}
-                  />
-                  <Route
-                    path=":menuCategory/:menuId"
-                    element={<SingleMenuDetail />}
-                  />
-                  <Route path="info" element={<OwnRestaurantInfo />} />
-                </Route>
-              </Route>
-              <Route
-                path="*"
-                element={<Navigate to="/marketplace" replace />}
-              />
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </MenuContextProvider>
         </OrderContextProvider>

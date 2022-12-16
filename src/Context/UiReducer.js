@@ -10,7 +10,7 @@ const reducer = (state, action) => {
     case "ONLINE_INDICATE":
       return { ...state, online: action.payload.value };
     case "SET_LOGGED_IN":
-      return { ...state, isLoggedIn: true };
+      return { ...state, isLoggedIn: !state.isLoggedIn };
     case "SET_USER":
       return { ...state, user: action.payload };
     case "SET_RESTAURANT":

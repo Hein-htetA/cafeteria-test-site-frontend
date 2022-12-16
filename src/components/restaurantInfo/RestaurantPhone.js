@@ -23,6 +23,7 @@ const RestaurantPhone = (props) => {
         >
           <input value={"+95"} className="res-phone-prefix" readOnly />
           <input
+            type={"number"}
             value={firstPhone}
             className="res-phone-postfix"
             name="firstPhone"
@@ -53,6 +54,7 @@ const RestaurantPhone = (props) => {
           <input value={"+95"} className="res-phone-prefix" readOnly />
           <input
             value={secondPhone}
+            type={"number"}
             className="res-phone-postfix"
             name="secondPhone"
             onChange={onChangeInput}

@@ -1,5 +1,5 @@
 .confirmation-container {
-  height: 100px;
+  height: 120px;
   width: calc(100% + 4px);
   position: absolute;
   bottom: -2px;
@@ -40,4 +40,10 @@
 .confirmation-btn-container button:active {
   background-color: red;
   color: white
+}
+
+@media only screen and (min-width: 428px) {
+  .confirmation-container {
+    height: 100px;
+  }
 }
