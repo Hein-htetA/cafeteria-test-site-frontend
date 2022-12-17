@@ -34,9 +34,6 @@ const MenuSharedLayout = () => {
 
   return (
     <div className="menu-container">
-      {/* <TestContextProvider>
-        <TestComponent />
-      </TestContextProvider> */}
       {user.restaurantId && <MenuInfoNav />}
       <Outlet /> :
     </div>

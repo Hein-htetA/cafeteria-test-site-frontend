@@ -128,8 +128,12 @@ const OwnRestaurantInfo = () => {
       tempPaymentMethods[index].additionalInfo[event.target.name] =
         event.target.value;
     }
-
     setFormValues({ ...formValues, paymentMethods: [...tempPaymentMethods] });
+    setUpdateStatus({
+      ...updateStatus,
+      updateError: false,
+      updateSuccess: false,
+    });
   };
 
   const handleUpdateRestaurant = async () => {
@@ -141,9 +145,6 @@ const OwnRestaurantInfo = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...formValues,
-        paymentMethods: formValues.paymentMethods.filter(
-          (method) => method.checked
-        ),
         firstPhone:
           formValues.firstPhone[0] === "0"
             ? formValues.firstPhone.slice(1)
@@ -185,6 +186,7 @@ const OwnRestaurantInfo = () => {
     }
   };
   if (restaurantLoading) {
+    //handle navigating to restaurantinfo while restaurant data is still fetching
     return <LoadingOrder />;
   }
   return (

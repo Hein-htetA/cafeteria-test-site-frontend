@@ -18,7 +18,7 @@
   color: rgb(138, 138, 213);
   font-weight: bold;
   padding: 5px 10px;
-  border: 2px solid rgb(138, 138, 213);
+  border-bottom: 2px solid rgb(138, 138, 213);
   border-radius: 0.7rem;
   background-color: white;
 }

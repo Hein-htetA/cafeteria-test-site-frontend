@@ -35,6 +35,7 @@ import MyAccountSharedLayout from "./components/sharedLayout/MyAccountSharedLayo
 import Login from "./components/registerLogin/Login";
 import { TestContextProvider } from "./Context/TestContext";
 import TestComponent from "./TestComponent";
+import { PublicDataContextProvider } from "./Context/PublicDataContext";
 
 const App = () => {
   return (
@@ -42,47 +43,63 @@ const App = () => {
       <UiContextProvider>
         <OrderContextProvider>
           <MenuContextProvider>
-            <Routes>
-              <Route path="/" element={<MainSharedLayout />}>
-                <Route index element={<Marketplace />} />
-                <Route path="register" element={<Register />} />
-                <Route path="login" element={<Login />} />
-                <Route path="myAccount" element={<MyAccountSharedLayout />}>
-                  <Route path="profile" element={<Profile />} />
-                  <Route path="order" element={<Order />} />
-                  <Route path="recycleBin" element={<RecycleBin />} />
-                  <Route path="history" element={<History />} />
-                  <Route path="newOrder" element={<NewOrder />} />
-                  <Route path="myRestaurant" element={<MenuSharedLayout />}>
+            <PublicDataContextProvider>
+              <Routes>
+                <Route path="/" element={<MainSharedLayout />}>
+                  <Route
+                    path="marketplace"
+                    element={<MarketplaceSharedLayout />}
+                  >
+                    <Route index element={<Marketplace />} />
+                  </Route>
+                  <Route path="register" element={<Register />} />
+                  <Route
+                    index
+                    element={
+                      localStorage.getItem("user") ? (
+                        <Navigate to="/marketplace" />
+                      ) : (
+                        <Login />
+                      )
+                    }
+                  />
+                  <Route path="myAccount" element={<MyAccountSharedLayout />}>
+                    <Route path="profile" element={<Profile />} />
+                    <Route path="order" element={<Order />} />
+                    <Route path="recycleBin" element={<RecycleBin />} />
+                    <Route path="history" element={<History />} />
+                    <Route path="newOrder" element={<NewOrder />} />
+                    <Route path="myRestaurant" element={<MenuSharedLayout />}>
+                      <Route index element={<RestaurantMenu />} />
+                      <Route path="register" element={<RegisterRestaurant />} />
+                      <Route
+                        path=":menuCategory"
+                        element={<Menu isOwner={true} />}
+                      />
+                      <Route
+                        path=":menuCategory/:menuId"
+                        element={<SingleMenuDetail />}
+                      />
+                      <Route path="info" element={<OwnRestaurantInfo />} />
+                    </Route>
+                  </Route>
+                  <Route path=":restaurantName" element={<MenuSharedLayout />}>
                     <Route index element={<RestaurantMenu />} />
-                    <Route path="register" element={<RegisterRestaurant />} />
                     <Route
                       path=":menuCategory"
-                      element={<Menu isOwner={true} />}
+                      element={<Menu isOwner={false} />}
                     />
                     <Route
                       path=":menuCategory/:menuId"
                       element={<SingleMenuDetail />}
                     />
-                    <Route path="info" element={<OwnRestaurantInfo />} />
+                    <Route path="info" element={<RestaurantInfo />} />
                   </Route>
                 </Route>
-                <Route path=":restaurantName" element={<MenuSharedLayout />}>
-                  <Route index element={<RestaurantMenu />} />
-                  <Route
-                    path=":menuCategory"
-                    element={<Menu isOwner={false} />}
-                  />
-                  <Route
-                    path=":menuCategory/:menuId"
-                    element={<SingleMenuDetail />}
-                  />
-                  <Route path="info" element={<RestaurantInfo />} />
-                </Route>
-              </Route>
 
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </PublicDataContextProvider>
           </MenuContextProvider>
         </OrderContextProvider>
       </UiContextProvider>

@@ -6,8 +6,6 @@ import "./MarketplaceSharedLayout.css";
 const MarketplaceSharedLayout = () => {
   return (
     <div className="marketplace-container">
-      <ScrollToTop />
-      <Navbar />
       <Outlet />
     </div>
   );

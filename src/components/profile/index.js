@@ -89,7 +89,7 @@ const Profile = () => {
   const logOut = () => {
     localStorage.setItem("user", "");
     setLoggedIn();
-    navigate("/login");
+    navigate("/");
   };
 
   const updateUser = async () => {

@@ -51,7 +51,7 @@ const MyAccountSharedLayout = () => {
       controller.abort();
     };
   }, []);
-  return <>{isLoggedIn ? <Outlet /> : <Navigate to="/login" replace />}</>;
+  return <>{isLoggedIn ? <Outlet /> : <Navigate to="/" replace />}</>;
 };
 
 export default MyAccountSharedLayout;

@@ -6,6 +6,7 @@ import "./index.css";
 import MenuLoading from "./MenuLoadingError/MenuLoading";
 import MenuError from "./MenuLoadingError/MenuError";
 import NewSingleMenu from "./NewSingleMenu";
+import TestComponent from "../../TestComponent";
 
 const Menu = ({ isOwner }) => {
   const { data, menuLoading, menuError } = useMenuContext();
