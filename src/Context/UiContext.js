@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import { reducer } from "./UiReducer";
 
 const initialState = {
@@ -14,6 +14,14 @@ const UiContext = createContext();
 
 const UiContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      dispatch({ type: "SET_USER", payload: foundUser });
+      dispatch({ type: "SET_LOGGED_IN" });
+    }
+  }, []);
   const toggleNavbar = () => {
     dispatch({ type: "TOGGLE_NAVBAR" });
   };

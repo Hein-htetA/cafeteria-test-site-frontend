@@ -64,7 +64,7 @@ const MenuContextProvider = ({ children }) => {
   };
 
   const addNewMenu = (data) => {
-    console.log("data in contxt", data);
+    // console.log("data in contxt", data);
     dispatch({
       type: "ADD_NEW_MENU",
       payload: { data },

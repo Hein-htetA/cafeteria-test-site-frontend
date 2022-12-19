@@ -8,6 +8,7 @@
 
 .restaurant-link {
   max-width: 600px;
+  width: 100%;
 }
 
 .marketplace-title {
@@ -21,4 +22,15 @@
   border-bottom: 2px solid rgb(138, 138, 213);
   border-radius: 0.7rem;
   background-color: white;
+}
+
+.load-more-restaurant-trigger {
+  height: 10px;
+  width: 100%;
+  position: relative;
+}
+
+.load-more-restaurant-trigger-hide {
+  position: fixed;
+  bottom: -20px;
 }

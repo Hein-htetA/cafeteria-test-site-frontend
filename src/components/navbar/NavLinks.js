@@ -14,7 +14,7 @@ const NavLinks = () => {
 
   const enterMarketplace = () => {
     toggleNavbar();
-    navigate("/");
+    navigate("/marketplace");
   };
 
   return (
@@ -38,7 +38,7 @@ const NavLinks = () => {
         <NavLink
           to={
             user.restaurantId
-              ? `/myAccount/myRestaurant`
+              ? `/myAccount/myRestaurant/menu`
               : "/myAccount/myRestaurant/register"
           }
           onClick={toggleNavbar}

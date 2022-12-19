@@ -19,20 +19,23 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  padding: 10px;
-  width: 50%;
+  padding: 7px;
+  width: 80%;
+  overflow: hidden;
+  height: 40px;
   text-align: center;
   background-color: white;
   font-size: 0.7rem;
   border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
-  border-bottom-left-radius: 0.5rem;
+  color: rgb(138, 138, 213);
   opacity: 0.8;
+  border-top: 2px solid rgb(138, 138, 213);
+  border-left: 2px solid rgb(138, 138, 213);
 }
 
 .restaurant-name-marketplace {
   font-size: 1rem;
-  margin-top: -5px;
+  margin: auto;
 }
 
 .restaurant-link {
@@ -43,4 +46,9 @@
   margin-bottom: 16px;
   border-radius: 0.5rem;
   overflow: hidden;
+}
+
+.restaurant-phone-number {
+  display: flex;
+  align-items: center;
 }

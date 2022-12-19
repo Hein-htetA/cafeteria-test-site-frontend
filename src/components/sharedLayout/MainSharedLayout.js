@@ -15,15 +15,15 @@ const MainSharedLayout = () => {
   const onError = useRef(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const loggedInUser = localStorage.getItem("user");
-    if (loggedInUser) {
-      const foundUser = JSON.parse(loggedInUser);
-      setUser(foundUser);
-      setLoggedIn();
-      navigate("/");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const loggedInUser = localStorage.getItem("user");
+  //   if (loggedInUser) {
+  //     const foundUser = JSON.parse(loggedInUser);
+  //     setUser(foundUser);
+  //     setLoggedIn();
+  //     navigate("/");
+  //   }
+  // }, []);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -67,7 +67,6 @@ const MainSharedLayout = () => {
       console.log("online handler ran");
       onlineIndicate(true);
     };
-    console.log("online offline useeffect ran");
     window.addEventListener("offline", offlineHandler);
     window.addEventListener("online", onlineHandler);
 
@@ -79,10 +78,9 @@ const MainSharedLayout = () => {
 
   return (
     <div>
-      <ScrollToTop />
+      {/* <ScrollToTop /> */}
       <Navbar />
       <Outlet />
-      {/* {isLoggedIn ? <Outlet /> : <Login />} */}
     </div>
   );
 };

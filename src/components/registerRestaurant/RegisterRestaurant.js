@@ -173,7 +173,7 @@ const RegisterRestaurant = () => {
       updateLocalRestaurant(restaurant);
       setUser(user);
       localStorage.setItem("user", JSON.stringify(user));
-      navigate(`/myAccount/myRestaurant`, {
+      navigate(`/myAccount/myRestaurant/menu`, {
         replace: true,
       });
     } catch (error) {

@@ -1,0 +1,14 @@
+.restaurant-loading {
+  max-width: 600px;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background-color: white;
+  opacity: 0.6;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-direction: column;
+  row-gap: 10px;
+}

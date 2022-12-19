@@ -1,15 +1,33 @@
 import React from "react";
 import "./SingleRestaurant.css";
 import photo4 from "../../img/photo4.jpg";
+import { defaultRestaurantPhoto } from "../utils/baseUrl";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
-const SingleRestaurant = () => {
+const SingleRestaurant = (props) => {
+  const { name, firstPhone, secondPhone, address, restaurantPhotoUrl } = props;
   return (
     <div className="single-restaurant">
-      <img src={photo4} alt="restaurant" />
+      <img
+        src={restaurantPhotoUrl || defaultRestaurantPhoto}
+        alt="restaurant"
+      />
       <div className="restaurant-info-container">
-        <h4 className="restaurant-name-marketplace">T-food House</h4>
-        <div className="restaurant-phone-number">0977733334 / 093435353543</div>
-        <div className="restaurant-location">Insein YTU cafeteria</div>
+        <h4 className="restaurant-name-marketplace">
+          <FontAwesomeIcon icon={faStar} style={{ marginRight: "3px" }} />
+          {name}
+          <FontAwesomeIcon icon={faStar} style={{ marginLeft: "3px" }} />
+        </h4>
+        {/* <div className="restaurant-phone-number">
+          <div className="single-phone">{`+95${firstPhone}`}</div>
+          {secondPhone && (
+            <>
+              <span style={{ color: "black", fontSize: "1rem" }}>/</span>
+              <div className="single-phone">{`+95${secondPhone}`}</div>
+            </>
+          )}
+        </div> */}
       </div>
     </div>
   );

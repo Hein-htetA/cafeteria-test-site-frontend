@@ -8,36 +8,7 @@ import MenuInfoNav from "../menu/MenuInfoNav/MenuInfoNav";
 import "./MenuSharedLayout.css";
 
 const MenuSharedLayout = () => {
-  const { user } = useUiContext();
-  const { setMenuState, restaurant, setRestaurantState } = useMenuContext();
-  const { isLoggedIn } = useUiContext();
-
-  // useEffect(() => {
-  //   if (!isLoggedIn) return;
-  //   if (!restaurant._id) return;
-  //   const controller = new AbortController();
-  //   setMenuState(controller);
-  //   return () => controller.abort();
-  // }, []);
-
-  // const navigateToMenu = () => {
-  //   navigate("/");
-  // };
-
-  useEffect(() => {
-    if (!user.restaurantId) return; //user doesn't have restaurant
-    if (restaurant._id) return; //dont fetch again
-    const controller = new AbortController();
-    setRestaurantState(controller, user.restaurantId);
-    return () => controller.abort();
-  }, []);
-
-  return (
-    <div className="menu-container">
-      {user.restaurantId && <MenuInfoNav />}
-      <Outlet /> :
-    </div>
-  );
+  return <Outlet />;
 };
 
 export default MenuSharedLayout;
