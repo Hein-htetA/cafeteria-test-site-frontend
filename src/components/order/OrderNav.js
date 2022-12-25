@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import "./OrderNav.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretRight, faCaretLeft } from "@fortawesome/free-solid-svg-icons";
-import { useUiContext } from "../../Context/UiContext";
 
 const OrderNav = (props) => {
+  const [orderNav, setOrderNav] = useState(false);
   const { onClick1, onClick3 } = props;
-  const { orderNav, toggleOrderNav } = useUiContext();
+
+  const toggleOrderNav = () => {
+    setOrderNav(!orderNav);
+  };
 
   return (
     <div

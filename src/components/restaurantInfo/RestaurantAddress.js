@@ -1,7 +1,7 @@
 import React from "react";
 
 const RestaurantAddress = (props) => {
-  const { address, onChangeInput } = props;
+  const { address, onChangeInput, isOwner } = props;
 
   return (
     <>
@@ -14,6 +14,7 @@ const RestaurantAddress = (props) => {
           name="address"
           value={address}
           onChange={onChangeInput}
+          disabled={!isOwner}
         ></textarea>
       </div>
     </>

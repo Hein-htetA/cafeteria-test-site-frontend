@@ -1,0 +1,13 @@
+.more-res-loading-container {
+  border-radius: 0.5rem;
+  background-color: white;
+  padding: 5px;
+  color: rgb(138, 138, 213);
+  font-weight: bold;
+  border: 1px solid white;
+  letter-spacing: 1px;
+}
+
+.more-res-loading-container-hide {
+  visibility: hidden;
+}

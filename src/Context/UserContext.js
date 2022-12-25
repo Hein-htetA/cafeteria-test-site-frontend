@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
-import { reducer } from "./UiReducer";
+import { reducer } from "./UserReducer";
 
 const initialState = {
   isLoggedIn: false,
@@ -7,12 +7,11 @@ const initialState = {
   orderNav: false,
   online: false,
   user: {},
-  restaurant: {},
 };
 
-const UiContext = createContext();
+const UserContext = createContext();
 
-const UiContextProvider = ({ children }) => {
+const UserContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
@@ -22,6 +21,12 @@ const UiContextProvider = ({ children }) => {
       dispatch({ type: "SET_LOGGED_IN" });
     }
   }, []);
+  const openNavbar = () => {
+    dispatch({ type: "OPEN_NAVBAR" });
+  };
+  const closeNavbar = () => {
+    dispatch({ type: "CLOSE_NAVBAR" });
+  };
   const toggleNavbar = () => {
     dispatch({ type: "TOGGLE_NAVBAR" });
   };
@@ -52,7 +57,7 @@ const UiContextProvider = ({ children }) => {
   };
 
   return (
-    <UiContext.Provider
+    <UserContext.Provider
       value={{
         ...state,
         toggleNavbar,
@@ -61,15 +66,17 @@ const UiContextProvider = ({ children }) => {
         setLoggedIn,
         setUser,
         setRestaurant,
+        openNavbar,
+        closeNavbar,
       }}
     >
       {children}
-    </UiContext.Provider>
+    </UserContext.Provider>
   );
 };
 
-const useUiContext = () => {
-  return useContext(UiContext);
+const useUserContext = () => {
+  return useContext(UserContext);
 };
 
-export { UiContext, UiContextProvider, useUiContext };
+export { UserContext, UserContextProvider, useUserContext };

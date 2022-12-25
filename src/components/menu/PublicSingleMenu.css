@@ -1,0 +1,107 @@
+.public-item-image-container {
+  width: 150px;
+  height: 150px;
+  background-color: white;
+  border-radius: 0.5rem;
+  position: relative;
+}
+
+.public-item-image-container img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  background-color: white;
+}
+
+.public-item-info-container {
+  padding: 5px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  overflow: hidden;
+  background-color: white;
+  border-top: 2px solid rgb(238, 94, 118);
+  bottom: 0;
+  width: 100%;
+}
+
+.public-item-name {
+  margin-bottom: 0px;
+  font-size: 0.9rem;
+  text-transform: capitalize;
+  color: black;
+  width: 100%;
+  overflow: hidden;
+
+}
+
+.public-item-price {
+  color: rgb(238, 94, 118);
+  font-size: 0.6rem;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  background-color: white;
+  padding: 3px 5px;
+  border-radius: 0.5rem;
+  font-weight: bold;
+}
+
+.public-item-count {
+  color: rgb(238, 94, 118);
+  font-size: 0.7rem;
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  background-color: white;
+  padding: 5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.public-item-btn-container {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.public-item-btn-container button {
+  width: 50%;
+  color: rgb(238, 94, 118);
+  padding: 3px;
+  opacity: 0.8;
+  border: none;
+  font-weight: bold;
+}
+
+.public-item-btn-container .public-add-to-cart-btn {
+  border-right: 2px solid rgb(238, 94, 118);
+  border-top: 2px solid rgb(238, 94, 118);
+  border-top-right-radius: 0.5rem;
+  background-color: white;
+}
+
+.public-item-btn-container .detail-btn {
+  border-top-left-radius: 0.5rem;
+  background-color: transparent;
+}
+
+.detail-btn:active {
+  color: pink;
+}
+
+.public-add-to-cart-btn:active {
+  background-color: pink;
+}
+
+.detail-btn:hover, .public-add-to-cart-btn:hover {
+  cursor: pointer;
+}

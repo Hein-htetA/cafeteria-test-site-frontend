@@ -15,7 +15,7 @@ const NewOrderBtnGroup = (props) => {
     useOrderContext();
 
   return (
-    <div className={"order-btn-container"}>
+    <div className={"order-btn-container-order"}>
       <div className="recycle-bin-btn-container">
         <button
           className={"recycle-bin-btn"}

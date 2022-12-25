@@ -3,14 +3,13 @@ import { useOrderContext } from "../../Context/OrderContext";
 import "./index.css";
 import SingleOrder from "../order/SingleOrder";
 import { displayOrder } from "../order";
-import { useUiContext } from "../../Context/UiContext";
+import { useUiContext } from "../../Context/UserContext";
 import LoadingOrder from "../order/OrderStates/LoadingOrder";
 import ConnectionError from "../order/OrderStates/ConnectionError";
 
 const NewOrder = () => {
-  const { data } = useOrderContext();
-  const { orderLoading, orderError, updateLoading, updateError } =
-    useUiContext();
+  const { data, orderLoading, orderError, sseUpdateLoading, sseUpdateError } =
+    useOrderContext();
 
   return (
     <div className="trashbin-container">
@@ -19,8 +18,8 @@ const NewOrder = () => {
       </div>
 
       {displayOrder(data, "newOrder", orderLoading, orderError)}
-      {updateLoading && <LoadingOrder />}
-      {updateError && <ConnectionError />}
+      {sseUpdateLoading && <LoadingOrder />}
+      {sseUpdateError && <ConnectionError />}
     </div>
   );
 };

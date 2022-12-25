@@ -1,7 +1,7 @@
 import React from "react";
 
 const RestaurantEstablished = (props) => {
-  const { establishedIn, onChangeInput } = props;
+  const { establishedIn, onChangeInput, isOwner } = props;
   return (
     <>
       <div>
@@ -14,6 +14,7 @@ const RestaurantEstablished = (props) => {
           name="establishedIn"
           onChange={onChangeInput}
           className="res-input"
+          disabled={!isOwner}
         />
       </div>
     </>

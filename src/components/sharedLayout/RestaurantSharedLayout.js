@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useMenuContext } from "../../Context/MenuContext";
-import { TestContextProvider } from "../../Context/TestContext";
-import { useUiContext } from "../../Context/UiContext";
-import TestComponent from "../../TestComponent";
+import { useUserContext } from "../../Context/UserContext";
+
 import MenuInfoNav from "../menu/MenuInfoNav/MenuInfoNav";
 import "./RestaurantSharedLayout.css";
 
 const RestaurantSharedLayout = () => {
-  const { user } = useUiContext();
+  const { user } = useUserContext();
   const { restaurant, setRestaurantState } = useMenuContext();
+
   useEffect(() => {
     if (!user.restaurantId) return; //user doesn't have restaurant
     if (restaurant._id) return; //dont fetch again
@@ -21,7 +21,7 @@ const RestaurantSharedLayout = () => {
   return (
     <div className="restaurant-container">
       <MenuInfoNav />
-      <Outlet /> :
+      <Outlet />
     </div>
   );
 };

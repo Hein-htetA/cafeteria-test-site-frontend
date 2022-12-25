@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useUiContext } from "../../Context/UiContext";
+import { useUserContext } from "../../Context/UserContext";
 import Address from "../registerLogin/Address";
 import Email from "../registerLogin/Email";
 import ExtraPhone from "../registerLogin/ExtraPhone";
@@ -35,7 +35,7 @@ const resizeProfile = (file) =>
   });
 
 const Profile = () => {
-  const { user, setUser } = useUiContext();
+  const { user, setUser, setLoggedIn } = useUserContext();
   const [formValues, setFormValues] = useState({ ...user, profileImage: "" });
   const [formErrors, setFormErrors] = useState({});
   const [updateStatus, setUpdateStatus] = useState({
@@ -45,9 +45,6 @@ const Profile = () => {
   });
 
   const navigate = useNavigate();
-  const { setLoggedIn } = useUiContext();
-
-  // console.log("user", user);
 
   const onChangeProfile = async (e) => {
     const inputImage = e.target.files[0];
@@ -87,7 +84,7 @@ const Profile = () => {
   };
 
   const logOut = () => {
-    localStorage.setItem("user", "");
+    localStorage.removeItem("user");
     setLoggedIn();
     navigate("/");
   };

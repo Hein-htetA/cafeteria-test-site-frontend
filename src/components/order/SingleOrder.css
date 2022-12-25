@@ -1,5 +1,4 @@
 .single-order-container {
-  margin: 0px 1rem;
   border: 2px solid white;
   border-radius: 1rem;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -294,7 +293,7 @@ select:hover {
   border: 2px solid gray
 }
 
-.order-btn-container {
+.order-btn-container-order {
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -1,7 +1,6 @@
 .menu-link {
   width: 150px;
   overflow: hidden;
-  border: 1px solid #8c1c10;
   border-radius: 0.5rem;
   position: relative;
 }

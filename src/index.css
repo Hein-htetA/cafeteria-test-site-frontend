@@ -19,8 +19,6 @@ body {
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background: rgb(2, 0, 36);
   background: linear-gradient(99deg, rgba(2, 0, 36, 1) 0%, rgba(238, 174, 202, 0.5) 0%, rgba(148, 187, 233, 0.5) 100%);
-  color: var(--clr-grey-1);
-  font-size: 0.875rem;
 }
 
 ul {
@@ -45,6 +43,10 @@ input:focus {
 
 textarea:focus {
   outline: none;
+}
+
+textarea {
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /*  global classes */

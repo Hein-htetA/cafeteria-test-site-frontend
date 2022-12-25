@@ -1,0 +1,13 @@
+.info-checkbox-container {
+  padding: 10px;
+  border-top: 2px solid white;
+  border-bottom: 2px solid white;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 10px 0px;
+  color: rgb(238, 94, 118);
+  column-gap: 5px;
+  align-items: center;
+  font-weight: bold;
+}

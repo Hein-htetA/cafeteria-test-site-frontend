@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Outlet } from "react-router-dom";
-import { usePublicDataContext } from "../../Context/PublicDataContext";
-import { localBaseUrl } from "../utils/baseUrl";
+import ScrollToTop from "../utils/ScrollToTop";
 import "./MarketplaceSharedLayout.css";
 const MarketplaceSharedLayout = () => {
   return (

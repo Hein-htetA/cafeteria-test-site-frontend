@@ -32,13 +32,37 @@ export const reducer = (state, action) => {
         restaurantLoading: false,
         moreRestaurantError: false,
         restaurantError: false,
-        firstLoadSuccess: true, //only hide load more trigger in first fetch
+        firstLoadSuccess: true, //hiding load more trigger in first fetch
         restaurants: [...state.restaurants, ...action.payload],
+      };
+    case "NO_MORE_RESTAURANTS":
+      return {
+        ...state,
+        noMoreRestaurant: true,
       };
     case "INCREASE_PAGE":
       return {
         ...state,
         page: state.page + 1,
+      };
+    case "MENU_LOADING":
+      return {
+        ...state,
+        menuLoading: true,
+        menuError: false,
+      };
+    case "MENU_ERROR":
+      return {
+        ...state,
+        menuLoading: false,
+        menuError: true,
+      };
+    case "ADD_MENU_STATE":
+      return {
+        ...state,
+        menu: [...state.menu, ...action.payload],
+        menuLoading: false,
+        menuError: false,
       };
 
     default:

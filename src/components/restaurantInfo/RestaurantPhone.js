@@ -3,7 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
 const RestaurantPhone = (props) => {
-  const { firstPhone, secondPhone, onChangeInput, firstPhoneError } = props;
+  const { firstPhone, secondPhone, onChangeInput, firstPhoneError, isOwner } =
+    props;
   return (
     <>
       <div>
@@ -29,6 +30,7 @@ const RestaurantPhone = (props) => {
             name="firstPhone"
             onChange={onChangeInput}
             placeholder="9xxxxxxxxx"
+            disabled={!isOwner}
           />
           {firstPhoneError && (
             <span
@@ -59,6 +61,7 @@ const RestaurantPhone = (props) => {
             name="secondPhone"
             onChange={onChangeInput}
             placeholder="9xxxxxxxxx"
+            disabled={!isOwner}
           />
           <a href={`tel:+95${secondPhone}`}>
             <FontAwesomeIcon icon={faPhoneFlip} />

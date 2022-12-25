@@ -1,0 +1,30 @@
+.cart-order-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 0.5rem;
+  box-shadow: 0px 0px 6px 5px rgb(238 94 118 / 24%)
+}
+
+.cart-order-container-received {
+  box-shadow: 0px 0px 6px 5px #c138b83b
+}
+
+.cart-order-container-accepted {
+  box-shadow: 0px 0px 6px 5px rgba(71, 117, 232, 0.21)
+}
+
+.cart-order-container-onDelivery {
+  box-shadow: 0px 0px 6px 5px rgba(71, 117, 232, 0.21)
+}
+
+.cart-order-container-completed {
+  box-shadow: 0px 0px 6px 5px rgba(0, 128, 0, 0.2);
+}
+
+.cart-order-container-recycleBin {
+  box-shadow: 0px 0px 6px 5px #be0c0c2e;
+}
+

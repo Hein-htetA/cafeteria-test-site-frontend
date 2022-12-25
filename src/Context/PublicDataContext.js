@@ -5,29 +5,40 @@ import { reducer } from "./PublicDataReducer";
 
 const PublicDataContext = createContext();
 const fetchUiStates = {
-  restaurantLoading: false,
+  restaurantLoading: false, //marketplace restaurant data loading
   restaurantError: false,
   moreRestaurantLoading: false,
   moreRestaurantError: false,
-  firstLoadSuccess: true,
+  firstLoadSuccess: false, //hiding load more trigger in first fetch
   noMoreRestaurant: false,
+  menuLoading: false,
+  menuLoadingError: false,
 };
 
-const initializeFun = (restaurantsString) => {
+const initializeFun = (arg) => {
   let restaurants = [];
   let page = 1;
+  let menu = [];
 
-  if (restaurantsString) {
-    restaurants = JSON.parse(restaurantsString);
+  if (arg.restaurantsString) {
+    restaurants = JSON.parse(arg.restaurantsString);
     page = Math.ceil(restaurants.length / 3) + 1;
   }
-  return { restaurants, page, ...fetchUiStates };
+
+  if (arg.menuString) {
+    menu = JSON.parse(arg.menuString);
+  }
+
+  return { restaurants, page, menu, ...fetchUiStates };
 };
 
 const PublicDataContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(
     reducer,
-    sessionStorage.getItem("restaurants"),
+    {
+      restaurantsString: sessionStorage.getItem("restaurants"),
+      menuString: sessionStorage.getItem("menu"),
+    },
     initializeFun
   );
 
@@ -45,11 +56,26 @@ const PublicDataContextProvider = ({ children }) => {
   };
 
   const addRestaurantState = (data) => {
+    if (data.length === 0) {
+      dispatch({ type: "NO_MORE_RESTAURANTS" });
+    }
     dispatch({ type: "ADD_RESTAURANT_STATE", payload: data });
   };
 
   const increasePage = () => {
     dispatch({ type: "INCREASE_PAGE" });
+  };
+
+  const setMenuLoading = () => {
+    dispatch({ type: "MENU_LOADING" });
+  };
+
+  const setMenuError = () => {
+    dispatch({ type: "MENU_ERROR" });
+  };
+
+  const addMenuState = (data) => {
+    dispatch({ type: "ADD_MENU_STATE", payload: data });
   };
 
   return (
@@ -62,6 +88,9 @@ const PublicDataContextProvider = ({ children }) => {
         setMoreRestaurantError,
         addRestaurantState,
         increasePage,
+        setMenuError,
+        setMenuLoading,
+        addMenuState,
       }}
     >
       {children}

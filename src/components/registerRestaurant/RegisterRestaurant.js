@@ -15,7 +15,7 @@ import RegisterDelivery from "./RegisterDelivery";
 import RegisterRestaurantBtn from "./RegisterRestaurantBtn";
 import { validate } from "./validate";
 import { localBaseUrl } from "../utils/baseUrl";
-import { useUiContext } from "../../Context/UiContext";
+import { useUserContext } from "../../Context/UserContext";
 import { useNavigate } from "react-router-dom";
 import RegRestaurantAddPhoto from "./RegRestaurantAddPhoto";
 import { useMenuContext } from "../../Context/MenuContext";
@@ -78,7 +78,7 @@ const RegisterRestaurant = () => {
     registerSuccess: false,
   });
 
-  const { user, setUser } = useUiContext();
+  const { user, setUser } = useUserContext();
   const { updateLocalRestaurant } = useMenuContext();
 
   const navigate = useNavigate();
@@ -202,28 +202,34 @@ const RegisterRestaurant = () => {
             name={formValues.name}
             onChangeInput={onChangeInput}
             nameError={formErrors.nameError}
+            isOwner={true}
           />
           <RestaurantPhone
             firstPhone={formValues.firstPhone}
             secondPhone={formValues.secondPhone}
             onChangeInput={onChangeInput}
             firstPhoneError={formErrors.firstPhoneError}
+            isOwner={true}
           />
           <RestaurantAddress
             address={formValues.address}
             onChangeInput={onChangeInput}
+            isOwner={true}
           />
           <RestaurantEstablished
             establishedIn={formValues.establishedIn}
             onChangeInput={onChangeInput}
+            isOwner={true}
           />
           <RegisterDelivery
             delivery={formValues.delivery}
             onChangeInput={onChangeInput}
+            isOwner={true}
           />
           <RegisterPaymentMethod
             paymentMethods={formValues.paymentMethods}
             onChangeCheckbox={onChangeCheckbox}
+            isOwner={true}
           />
         </RestaurantDetailGrid>
       </RestaurantInfoContainer>

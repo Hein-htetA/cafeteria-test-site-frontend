@@ -4,7 +4,7 @@ import RestaurantInfoContainer from "../restaurantInfo/RestaurantInfoContainer";
 import RestaurantPhoto from "../restaurantInfo/RestaurantPhoto";
 import { localBaseUrl } from "../utils/baseUrl";
 import { resizeRestaurant } from "../registerRestaurant/RegisterRestaurant";
-import { useUiContext } from "../../Context/UiContext";
+import { useUiContext } from "../../Context/UserContext";
 import RegRestaurantAddPhoto from "../registerRestaurant/RegRestaurantAddPhoto";
 import RestaurantDetailGrid from "../restaurantInfo/RestaurantDetailGrid";
 import RestaurantName from "../restaurantInfo/RestaurantName";
@@ -205,28 +205,34 @@ const OwnRestaurantInfo = () => {
             name={formValues.name}
             onChangeInput={onChangeInput}
             nameError={formErrors.nameError}
+            isOwner={true}
           />
           <RestaurantPhone
             firstPhone={formValues.firstPhone}
             secondPhone={formValues.secondPhone}
             onChangeInput={onChangeInput}
             firstPhoneError={formErrors.firstPhoneError}
+            isOwner={true}
           />
           <RestaurantAddress
             address={formValues.address}
             onChangeInput={onChangeInput}
+            isOwner={true}
           />
           <RestaurantEstablished
             establishedIn={formValues.establishedIn}
             onChangeInput={onChangeInput}
+            isOwner={true}
           />
           <RegisterDelivery
             delivery={formValues.delivery}
             onChangeInput={onChangeInput}
+            isOwner={true}
           />
           <RegisterPaymentMethod
             paymentMethods={formValues.paymentMethods}
             onChangeCheckbox={onChangeCheckbox}
+            isOwner={true}
           />
         </RestaurantDetailGrid>
       </RestaurantInfoContainer>

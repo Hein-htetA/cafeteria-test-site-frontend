@@ -1,19 +1,19 @@
 import React from "react";
 import "./NavLinks.css";
-import { useUiContext } from "../../Context/UiContext";
+import { useUserContext } from "../../Context/UserContext";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightLong, faLock } from "@fortawesome/free-solid-svg-icons";
 import { useMenuContext } from "../../Context/MenuContext";
 const activeStyle = { color: "#0478f5" };
 
-const NavLinks = () => {
-  const { navbar, toggleNavbar, isLoggedIn, user } = useUiContext();
+const NavLinks = ({ navbar, closeNavbar }) => {
+  const { isLoggedIn, user } = useUserContext();
   const { restaurant } = useMenuContext();
   const navigate = useNavigate();
 
   const enterMarketplace = () => {
-    toggleNavbar();
+    closeNavbar();
     navigate("/marketplace");
   };
 
@@ -28,7 +28,7 @@ const NavLinks = () => {
       <ul className="navlinks-ul">
         <NavLink
           to={`/myAccount/profile`}
-          onClick={toggleNavbar}
+          onClick={closeNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
           <li>Profile</li>
@@ -41,7 +41,7 @@ const NavLinks = () => {
               ? `/myAccount/myRestaurant/menu`
               : "/myAccount/myRestaurant/register"
           }
-          onClick={toggleNavbar}
+          onClick={closeNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
           <li>My Restaurant</li>
@@ -50,7 +50,7 @@ const NavLinks = () => {
         <hr />
         <NavLink
           to="/myAccount/newOrder"
-          onClick={toggleNavbar}
+          onClick={closeNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
           <li>New Orders</li>
@@ -59,7 +59,7 @@ const NavLinks = () => {
         <hr />
         <NavLink
           to="/myAccount/order"
-          onClick={toggleNavbar}
+          onClick={closeNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
           <li>Orders Serving</li>
@@ -68,7 +68,7 @@ const NavLinks = () => {
         <hr />
         <NavLink
           to="/myAccount/history"
-          onClick={toggleNavbar}
+          onClick={closeNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
           <li>Completed Orders</li>
@@ -78,7 +78,7 @@ const NavLinks = () => {
 
         <NavLink
           to="/myAccount/recycleBin"
-          onClick={toggleNavbar}
+          onClick={closeNavbar}
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
           <li>Recycle Bin</li>

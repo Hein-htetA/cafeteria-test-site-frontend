@@ -5,7 +5,7 @@ import "./EmptyOrder.css";
 
 const EmptyOrder = () => {
   return (
-    <div className="empty-box">
+    <div className="empty-box" style={{ flexDirection: "row" }}>
       <div>...</div>
       <FontAwesomeIcon icon={faTruckFast} fade />
     </div>

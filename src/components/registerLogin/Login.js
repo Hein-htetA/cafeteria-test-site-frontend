@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import "./Login.css";
 import { Navigate, useNavigate } from "react-router-dom";
 import { localBaseUrl } from "../utils/baseUrl";
-import { useUiContext } from "../../Context/UiContext";
+import { useUserContext } from "../../Context/UserContext";
 
 const Login = () => {
   const [formValues, setFormValues] = useState({ phone: "", password: "" });
@@ -14,7 +14,7 @@ const Login = () => {
     loginError: false,
   });
   const navigate = useNavigate();
-  const { setUser, setLoggedIn } = useUiContext();
+  const { setUser, setLoggedIn } = useUserContext();
 
   const onChangeInput = (e) => {
     setFormValues({

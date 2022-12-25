@@ -209,7 +209,7 @@ const SingleOrder = (props) => {
                 </a>
               </div>
             </li>
-            <li>
+            {/* <li>
               <div>Payment</div>
               <div>:</div>
               <div className="payment-box">
@@ -267,7 +267,7 @@ const SingleOrder = (props) => {
                   </span>
                 </div>
               </div>
-            </li>
+            </li> */}
           </CollapsibleContainer>
           {orderState === "newOrder" ? (
             <NewOrderBtnGroup _id={_id} detailHide={detailHide} />

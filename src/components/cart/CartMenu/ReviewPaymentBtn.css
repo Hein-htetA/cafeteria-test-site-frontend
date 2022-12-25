@@ -1,0 +1,12 @@
+.review-payment-btn {
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 8px;
+  color:white;
+  background-color: rgb(238, 94, 118);
+}
+
+.review-payment-btn:active {
+  background-color: rgb(239, 124, 143);
+}

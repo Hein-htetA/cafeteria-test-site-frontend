@@ -1,0 +1,39 @@
+.order-status-container {
+  display: flex;
+  column-gap: 5px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.order-status-select {
+  padding: 3px 0px 3px 0px;
+  display: flex;
+  font-size: 0.9rem;
+  border-radius: 0.5rem;
+  border: 2px solid white;
+  color: rgba(71, 116, 232, 0.784);
+  font-weight: bold;
+
+}
+
+.order-status-select-received {
+  border: 2px solid #c138b8
+}
+
+.order-status-select-accepted {
+  border: 2px solid rgba(71, 116, 232, 0.784)
+}
+
+.order-status-select-onDelivery {
+  border: 2px solid rgba(71, 116, 232, 0.784)
+}
+
+.order-status-select-completed {
+  border: 2px solid green
+}
+.order-status-select-recycleBin {
+  border: 2px solid #be0c0c;
+}
+.order-status-time {
+  font-size: 0.8rem;
+}

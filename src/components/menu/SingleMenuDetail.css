@@ -62,11 +62,11 @@
 
 /********Info*************/
 
-input:disabled {
+.detail-container input:disabled {
   opacity: 0.5;
 }
 
-label:disabled {
+.detail-container label:disabled {
   opacity: 0.5;
 }
 

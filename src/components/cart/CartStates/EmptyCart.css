@@ -1,0 +1,45 @@
+.empty-cart-container {
+  width: 100%;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+  align-items: center;
+  background-color: white;
+  height: 200px;
+  border-radius: 0.7rem;
+}
+
+.empty-cart-img-container {
+  height: 50%;
+  position: relative;
+}
+
+.empty-cart-img-container img {
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.exclamation-mark {
+  font-size: 2.5rem;
+  font-family: 'Times New Roman', Times, serif;
+  color: brown;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.empty-cart-text {
+  margin-bottom: 10px;
+}
+
+.browse-btn {
+  padding: 5px 10px;
+  background-color: rgb(241, 29, 65);
+  border: none;
+  color: white;
+  border-radius: 0.5rem;
+}
+

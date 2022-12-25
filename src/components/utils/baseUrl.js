@@ -24,3 +24,6 @@ export const signatureDishPhoto =
 
 export const additionalItemPhoto =
   "https://ytu-cafeteria-menu.s3.ap-southeast-1.amazonaws.com/Default+Photos/additional_items.jpg";
+
+export const emptyCartPhoto =
+  "https://ytu-cafeteria-menu.s3.ap-southeast-1.amazonaws.com/Default+Photos/empty_cart.jpg";

@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useReducer } from "react";
 import { localBaseUrl } from "../components/utils/baseUrl";
 import { orderData } from "../data";
 import { reducer } from "./OrderReducer";
-import { useUiContext } from "./UiContext";
+import { useUiContext } from "./UserContext";
 
 const OrderContext = createContext();
 

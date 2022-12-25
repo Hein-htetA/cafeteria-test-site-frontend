@@ -14,7 +14,7 @@ import UpdateLoading from "../order/OrderStates/UpdateLoading";
 import MenuDeleteLoading from "./MenuDelete/MenuDeleteLoading";
 import MenuDeleteConfirmation from "./MenuDelete/MenuDeleteConfirmation";
 import { defaultImageUrl, localBaseUrl } from "../utils/baseUrl";
-import { useUiContext } from "../../Context/UiContext";
+import { useUiContext } from "../../Context/UserContext";
 const resizeFile = (file) =>
   new Promise((resolve) => {
     Resizer.imageFileResizer(

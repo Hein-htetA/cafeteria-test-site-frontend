@@ -4,11 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import SingleOrder from "../order/SingleOrder";
 import { displayOrder } from "../order";
-import { useUiContext } from "../../Context/UiContext";
+import { useUiContext } from "../../Context/UserContext";
 
 const History = () => {
-  const { data } = useOrderContext();
-  const { orderLoading, orderError } = useUiContext();
+  const { data, orderLoading, orderError } = useOrderContext();
 
   return (
     <div className="trashbin-container">

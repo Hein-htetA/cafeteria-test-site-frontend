@@ -1,0 +1,22 @@
+.checkout-btn-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkout-btn {
+  width: 48%;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 8px;
+  color: white;
+  background-color: rgb(238, 94, 118);
+  display: flex;
+}
+
+.checkout-btn:active {
+  background-color: rgb(239, 124, 143);
+}
+
+.checkout-btn-text {
+  flex: 1;
+}

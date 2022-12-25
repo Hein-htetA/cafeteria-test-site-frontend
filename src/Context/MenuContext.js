@@ -3,7 +3,7 @@ import { reducer } from "./MenuReducer";
 import { menuData } from "../data";
 import Resizer from "react-image-file-resizer";
 import { localBaseUrl } from "../components/utils/baseUrl";
-import { useUiContext } from "./UiContext";
+import { useUiContext } from "./UserContext";
 
 const MenuContext = createContext();
 

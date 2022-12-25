@@ -12,7 +12,7 @@
 }
 
 .marketplace-title {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   letter-spacing: 1px;
   text-transform: uppercase;
   margin-bottom: 10px;
@@ -25,12 +25,11 @@
 }
 
 .load-more-restaurant-trigger {
-  height: 10px;
   width: 100%;
   position: relative;
 }
 
 .load-more-restaurant-trigger-hide {
   position: fixed;
-  bottom: -20px;
+  bottom: -500px;
 }

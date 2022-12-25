@@ -1,0 +1,12 @@
+.radio-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.single-radio {
+  margin-right: 10px;
+}
+
+.radio-container input {
+  margin-right: 5px;
+}

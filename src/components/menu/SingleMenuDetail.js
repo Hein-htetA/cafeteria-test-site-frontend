@@ -13,7 +13,7 @@ import Resizer from "react-image-file-resizer";
 import MenuDeleteLoading from "./MenuDelete/MenuDeleteLoading";
 import MenuDeleteConfirmation from "./MenuDelete/MenuDeleteConfirmation";
 import { localBaseUrl, defaultImageUrl } from "../utils/baseUrl";
-import { useUiContext } from "../../Context/UiContext";
+import { useUserContext } from "../../Context/UserContext";
 const resizeFile = (file) =>
   new Promise((resolve) => {
     Resizer.imageFileResizer(
@@ -40,7 +40,7 @@ const SingleMenuDetail = () => {
     menuImage: "",
   });
   const { menuId, menuCategory } = useParams();
-  const { user } = useUiContext();
+  const { user } = useUserContext();
   const { data, updateMenuState, deleteMenuState } = useMenuContext();
   const navigate = useNavigate();
 
@@ -49,7 +49,7 @@ const SingleMenuDetail = () => {
     if (!menuInitial) {
       //menu delete case
       // navigating to parent route on refresh
-      navigate(`/menu/${menuCategory}`);
+      navigate(`..`);
       return;
     }
     setMenu({ ...menuInitial, menuImage: "" });
@@ -89,7 +89,7 @@ const SingleMenuDetail = () => {
   };
 
   const resetMenu = () => {
-    navigate(`/myAccount/myRestaurant/${menu.category}`);
+    navigate(`/myAccount/myRestaurant/menu/${menu.category}`);
   };
 
   const updateMenuServer = async () => {
@@ -132,7 +132,7 @@ const SingleMenuDetail = () => {
         saveSuccess: true,
       });
 
-      navigate(`/myAccount/myRestaurant/${menu.category}`, {
+      navigate(`/myAccount/myRestaurant/menu/${menu.category}`, {
         replace: true,
         state: { message: "update successful" },
       });

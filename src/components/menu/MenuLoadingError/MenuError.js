@@ -1,17 +1,14 @@
 import React from "react";
-import { useUiContext } from "../../../Context/UiContext";
+import { useUiContext } from "../../../Context/UserContext";
 
-const MenuError = () => {
-  const { setMenuState } = useUiContext();
-  const controller = new AbortController();
-
-  // useEffect(() => {
-  //   return () => controller.abort();
-  // }, []);
+const MenuError = (props) => {
+  const { setRestaurantState } = props;
 
   return (
     <div className="empty-box">
-      <button onClick={() => setMenuState(controller)}>Try Again ?</button>
+      <button onClick={() => setRestaurantState(new AbortController())}>
+        Try Again ?
+      </button>
     </div>
   );
 };

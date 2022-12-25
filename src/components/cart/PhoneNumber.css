@@ -1,0 +1,19 @@
+.ph-no-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  font-size: 1rem;
+}
+
+.ph-no-prefix {
+  border: none;
+  width: 30px;
+  font-size: 1rem;
+}
+
+.ph-no-input {
+  border: none;
+  font-size: 1rem;
+  width: 100%;
+}

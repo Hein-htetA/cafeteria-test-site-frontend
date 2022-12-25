@@ -1,7 +1,7 @@
 import React from "react";
 
 const RestaurantName = (props) => {
-  const { name, onChangeInput, nameError } = props;
+  const { name, onChangeInput, nameError, isOwner } = props;
   return (
     <>
       <div>
@@ -16,6 +16,7 @@ const RestaurantName = (props) => {
           value={name}
           name="name"
           className={nameError ? "res-input res-input-err" : "res-input"}
+          disabled={!isOwner}
         />
         {nameError && (
           <span

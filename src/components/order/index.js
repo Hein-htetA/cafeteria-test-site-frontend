@@ -1,8 +1,7 @@
 import { text } from "@fortawesome/fontawesome-svg-core";
 import React, { useEffect, useRef, useState } from "react";
 import { useOrderContext } from "../../Context/OrderContext";
-import { useUiContext } from "../../Context/UiContext";
-import { localBaseUrl } from "../utils/baseUrl";
+
 import ConnectionError from "./OrderStates/ConnectionError";
 import EmptyOrder from "./OrderStates/EmptyOrder";
 import EmptyOrder1 from "./OrderStates/EmptyOrder1";
@@ -31,14 +30,12 @@ export const displayOrder = (data, type, orderLoading, orderError) => {
     return <LoadingOrder />;
   }
 
-  const afterFilterSort = data.filter((order) => order.orderState === type);
-  if (afterFilterSort.length === 0) {
+  const afterFilter = data.filter((order) => order.orderState === type);
+  if (afterFilter.length === 0) {
     if (type === "onDelivery") return <EmptyOrder />;
     return <EmptyOrder1 />;
   }
-  return afterFilterSort.map((order) => (
-    <SingleOrder {...order} key={order._id} />
-  ));
+  return afterFilter.map((order) => <SingleOrder {...order} key={order._id} />);
 };
 
 const Order = () => {

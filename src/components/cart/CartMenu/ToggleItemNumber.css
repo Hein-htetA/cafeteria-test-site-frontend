@@ -1,0 +1,8 @@
+.toggle-item-number-btn {
+  border: none;
+  background-color: transparent;
+}
+
+.toggle-item-number-btn:active {
+  color: white
+}

@@ -3,7 +3,7 @@ import Navbar from "../navbar";
 import { Outlet, useNavigate } from "react-router-dom";
 import ScrollToTop from "../utils/ScrollToTop";
 import { localBaseUrl } from "../utils/baseUrl";
-import { useUiContext } from "../../Context/UiContext";
+import { useUserContext } from "../../Context/UserContext";
 import { useOrderContext } from "../../Context/OrderContext";
 import Register from "../registerLogin/Register";
 import Login from "../registerLogin/Login";
@@ -11,7 +11,7 @@ import Login from "../registerLogin/Login";
 const MainSharedLayout = () => {
   const { setOrderState, addNewOrder, setUpdateOrderState } = useOrderContext();
   const { onlineIndicate, isLoggedIn, setUser, setLoggedIn, user } =
-    useUiContext();
+    useUserContext();
   const onError = useRef(null);
   const navigate = useNavigate();
 
@@ -39,7 +39,7 @@ const MainSharedLayout = () => {
         onlineIndicate(true);
         if (onError.current) {
           //fetch order ajax if error occured
-          // setUpdateOrderState(controller);
+          setUpdateOrderState(controller);
         }
       };
       sse.onmessage = (e) => {

@@ -10,12 +10,12 @@ function useRestaurantsFetch() {
     addRestaurantState,
     setRestaurantLoading,
     setRestaurantError,
+    noMoreRestaurant,
   } = usePublicDataContext();
 
   const fetchRestaurants = useCallback(
     async (controller) => {
       const signal = controller.signal;
-      console.log("fetching with page", page);
       try {
         if (page === 1) {
           //distinguish between first time loading vs more restaurants loading
@@ -33,17 +33,16 @@ function useRestaurantsFetch() {
           throw new Error("Something went wrong!");
         }
         const { restaurants } = await response.json();
-        console.log("restaurants", restaurants);
         addRestaurantState(restaurants);
         //appending fetch restaurants to sessionStorage
-        // const oldRestaurants = sessionStorage.getItem("restaurants");
-        // if (oldRestaurants) {
-        //   const oldObj = JSON.parse(oldRestaurants);
-        //   const newObj = [...oldObj, ...restaurants];
-        //   sessionStorage.setItem("restaurants", JSON.stringify(newObj));
-        // } else {
-        //   sessionStorage.setItem("restaurants", JSON.stringify(restaurants));
-        // }
+        const oldRestaurants = sessionStorage.getItem("restaurants");
+        if (oldRestaurants) {
+          const oldObj = JSON.parse(oldRestaurants);
+          const newObj = [...oldObj, ...restaurants];
+          sessionStorage.setItem("restaurants", JSON.stringify(newObj));
+        } else {
+          sessionStorage.setItem("restaurants", JSON.stringify(restaurants));
+        }
       } catch (error) {
         if (page === 1) {
           //distinguish between first time loading vs more restaurants loading
@@ -57,11 +56,11 @@ function useRestaurantsFetch() {
   );
 
   useEffect(() => {
+    if (noMoreRestaurant) return;
     const controller = new AbortController();
     fetchRestaurants(controller);
 
     return () => {
-      console.log("useEffect return ran");
       controller.abort();
     };
   }, [page, fetchRestaurants]);

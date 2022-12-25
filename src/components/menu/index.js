@@ -6,10 +6,9 @@ import "./index.css";
 import MenuLoading from "./MenuLoadingError/MenuLoading";
 import MenuError from "./MenuLoadingError/MenuError";
 import NewSingleMenu from "./NewSingleMenu";
-import TestComponent from "../../TestComponent";
 
-const Menu = ({ isOwner }) => {
-  const { data, menuLoading, menuError } = useMenuContext();
+const Menu = () => {
+  const { data, menuLoading, menuError, setRestaurantState } = useMenuContext();
   const { menuCategory } = useParams();
 
   //console.log("category", menuCategory);
@@ -30,7 +29,7 @@ const Menu = ({ isOwner }) => {
         {menuLoading ? (
           <MenuLoading />
         ) : menuError ? (
-          <MenuError />
+          <MenuError setRestaurantState={setRestaurantState} />
         ) : (
           <>
             {data
@@ -44,7 +43,7 @@ const Menu = ({ isOwner }) => {
                   <SingleMenu {...menu} />
                 </Link>
               ))}
-            {isOwner && <NewSingleMenu />}
+            <NewSingleMenu />
           </>
         )}
       </div>

@@ -39,12 +39,12 @@
 }
 
 .item-price {
-  color: #c6f151;
+  color: white;
   font-size: 0.5rem;
   position: absolute;
   right: 3px;
   top: 128px;
-  background-color: #ae06f5;
+  background-color: rgb(238, 94, 118);
   padding: 3px;
   border-radius: 0.3rem;
 }
