@@ -2,7 +2,6 @@ import React from "react";
 import "./ReviewPaymentBtn.css";
 
 const ReviewPaymentBtn = ({ restaurantId, handleReviewPayment }) => {
-  console.log("res id", restaurantId);
   return (
     <button
       className="review-payment-btn"

@@ -15,12 +15,14 @@ import EmptyCart from "../CartStates/EmptyCart";
 import ClearCartBtn from "./ClearCartBtn";
 import { useNavigate } from "react-router-dom";
 import BackToCart from "../CartCheckout/Btn/BackToCart";
+import FullCheckout from "./FullCheckout/FullCheckout";
 
 const CartMenu = () => {
   const [messageArray, setMessageArray] = useState([]);
-  const { cart, totalAmount, addMessage, toCheckout } = useCartContext();
+  const { cart, totalAmount, addMessage, toCheckout, crowdedCheckoutWarning } =
+    useCartContext();
 
-  console.log("mess array", messageArray);
+  console.log("warnign", crowdedCheckoutWarning);
 
   const navigate = useNavigate();
 
@@ -90,11 +92,12 @@ const CartMenu = () => {
             index={index}
           />
         </CartContainer>
-        <Total amount={totalAmount} />
+        <Total amount={singleRestaurant.restaurantTotalAmount} />
         <ReviewPaymentBtn
           handleReviewPayment={handleReviewPayment}
           restaurantId={singleRestaurant.restaurantId}
         />
+
         <hr
           style={{
             border: "1px solid white",
@@ -103,6 +106,7 @@ const CartMenu = () => {
             marginTop: "20px",
           }}
         />
+        {crowdedCheckoutWarning && <FullCheckout />}
       </div>
     );
   });

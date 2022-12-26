@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
+import { useNavigate } from "react-router-dom";
 import { reducer } from "./CartReducer";
 
 const CartContext = createContext();
@@ -7,11 +8,13 @@ const cartState = {
   totalCount: 0,
   message: "",
   fullCartWarning: false,
+  crowdedCheckoutWarning: false,
+  tempCheckout: {},
 };
 
 const initializeFun = (arg) => {
   let cart = [];
-  let checkout = [];
+  let checkout = {};
 
   if (arg.cartString) {
     cart = JSON.parse(arg.cartString);
@@ -36,6 +39,8 @@ const CartContextProvider = ({ children }) => {
     initializeFun
   );
 
+  const navigate = useNavigate();
+
   const addToCart = (restaurant, menu, count) => {
     dispatch({ type: "ADD_TO_CART", payload: { restaurant, menu, count } });
     dispatch({ type: "CALCULATE_TOTAL" });
@@ -59,8 +64,21 @@ const CartContextProvider = ({ children }) => {
     dispatch({ type: "HIDE_FULL_CART_WARNING" });
   };
 
+  const hideCrowdedCheckoutWarning = () => {
+    dispatch({ type: "HIDE_CROWDED_CHECKOUT_WARNING" });
+  };
+
+  const checkCheckout = () => {
+    dispatch({ type: "HIDE_CROWDED_CHECKOUT_WARNING" });
+    navigate("/myAccount/cart/cartCheckout");
+  };
+
+  const clearAndProceedCheckout = () => {
+    dispatch({ type: "CLEAR_AND_PROCEED_CHECKOUT" });
+    navigate("/myAccount/cart/cartCheckout");
+  };
+
   const addMessage = (messageArray) => {
-    console.log("contxt mess arr", messageArray);
     dispatch({
       type: "ADD_MESSAGE",
       payload: {
@@ -76,11 +94,28 @@ const CartContextProvider = ({ children }) => {
         restaurantId,
       },
     });
+    if (Object.keys(state.checkout).length === 0) {
+      navigate("/myAccount/cart/cartCheckout");
+    }
+  };
+
+  const clearCheckout = () => {
+    dispatch({ type: "CLEAR_CHECKOUT" });
+  };
+
+  const backToCart = () => {
+    dispatch({ type: "BACK_TO_CART" });
+
+    navigate("/myAccount/cart/cartMenu");
   };
 
   useEffect(() => {
     dispatch({ type: "CALCULATE_TOTAL" });
   }, []);
+
+  useEffect(() => {
+    sessionStorage.setItem("checkout", JSON.stringify(state.checkout));
+  }, [state.checkout]);
 
   useEffect(() => {
     sessionStorage.setItem("cart", JSON.stringify(state.cart));
@@ -97,6 +132,11 @@ const CartContextProvider = ({ children }) => {
         hideFullCartWarning,
         addMessage,
         toCheckout,
+        clearCheckout,
+        backToCart,
+        hideCrowdedCheckoutWarning,
+        checkCheckout,
+        clearAndProceedCheckout,
       }}
     >
       {children}

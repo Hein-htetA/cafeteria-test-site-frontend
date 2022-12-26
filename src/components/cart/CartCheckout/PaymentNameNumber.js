@@ -3,9 +3,11 @@ import PhoneNumber from "../PhoneNumber";
 import CheckoutField from "./CheckoutField";
 import CheckoutGridContainer from "./CheckoutGridContainer";
 import CheckoutValue from "./CheckoutValue";
+import PaymentNameInput from "./PaymentNameInput";
+import PaymentNumberInput from "./PaymentNumberInput";
 import ValueInput from "./ValueInput";
 
-const PaymentNameNumber = () => {
+const PaymentNameNumber = ({ paymentMethod, onChangeAdditionalInfo }) => {
   return (
     <>
       <CheckoutField>
@@ -13,7 +15,10 @@ const PaymentNameNumber = () => {
       </CheckoutField>
       <CheckoutField>:</CheckoutField>
       <CheckoutValue>
-        <ValueInput />
+        <PaymentNameInput
+          name={paymentMethod.additionalInfo.name}
+          onChangeAdditionalInfo={onChangeAdditionalInfo}
+        />
       </CheckoutValue>
 
       <CheckoutField>
@@ -21,7 +26,10 @@ const PaymentNameNumber = () => {
       </CheckoutField>
       <CheckoutField>:</CheckoutField>
       <CheckoutValue>
-        <PhoneNumber />
+        <PaymentNumberInput
+          number={paymentMethod.additionalInfo.number}
+          onChangeAdditionalInfo={onChangeAdditionalInfo}
+        />
       </CheckoutValue>
     </>
   );

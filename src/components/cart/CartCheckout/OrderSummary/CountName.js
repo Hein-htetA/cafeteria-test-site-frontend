@@ -1,6 +1,6 @@
 import React from "react";
 
-const CountName = () => {
+const CountName = ({ count, name }) => {
   return (
     <div
       style={{
@@ -10,9 +10,9 @@ const CountName = () => {
         marginLeft: "5px",
       }}
     >
-      <div>34</div>
+      <div>{count}</div>
       <div>x</div>
-      <div>Item name</div>
+      <div>{name}</div>
     </div>
   );
 };

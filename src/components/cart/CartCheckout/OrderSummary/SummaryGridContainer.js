@@ -6,7 +6,6 @@ const SummaryGridContainer = ({ children }) => {
       style={{
         display: "grid",
         gridTemplateColumns: "2fr 1fr",
-        marginTop: "10px",
       }}
     >
       {children}

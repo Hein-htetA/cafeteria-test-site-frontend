@@ -38,7 +38,7 @@ export const reducer = (state, action) => {
 
       if (!isRestaurantMatch) {
         //restaurant didnt exist
-        if (copyState.cart.length + copyState.checkout.length < 3) {
+        if (copyState.cart.length < 3) {
           //maximum number of restaurant in cart context
           copyState.cart[copyState.cart.length] = {
             restaurantId,
@@ -131,6 +131,9 @@ export const reducer = (state, action) => {
     case "HIDE_FULL_CART_WARNING":
       return { ...copyState, fullCartWarning: false };
 
+    case "HIDE_CROWDED_CHECKOUT_WARNING":
+      return { ...copyState, crowdedCheckoutWarning: false, tempCheckout: {} };
+
     case "ADD_MESSAGE":
       const cartWithMessage = copyState.cart.map((restaurant, index) => {
         restaurant.message = action.payload.messageArray[index] || ""; //it is undefined or empty string
@@ -143,15 +146,51 @@ export const reducer = (state, action) => {
       const restaurantToChange = copyState.cart.find(
         (restaurant) => restaurant.restaurantId === action.payload.restaurantId
       );
-      const restaurantInCart = copyState.cart.filter(
-        (restaurant) => restaurant.restaurantId !== action.payload.restaurantId
-      );
 
+      if (Object.keys(copyState.checkout).length === 0) {
+        //there isnt an order in checkout
+        const restaurantInCartFilter = copyState.cart.filter(
+          (restaurant) =>
+            restaurant.restaurantId !== action.payload.restaurantId
+        );
+
+        return {
+          ...copyState,
+          cart: restaurantInCartFilter,
+          checkout: restaurantToChange,
+        };
+      } else {
+        //there is an order in checkout
+
+        copyState.crowdedCheckoutWarning = true;
+        copyState.tempCheckout = restaurantToChange; // add tempCheckout
+
+        return {
+          ...copyState,
+        };
+      }
+
+    case "CLEAR_CHECKOUT":
+      return { ...copyState, checkout: {} };
+
+    case "CLEAR_AND_PROCEED_CHECKOUT":
+      const cartAfterFilter = copyState.cart.filter(
+        (restaurant) =>
+          restaurant.restaurantId !== copyState.tempCheckout.restaurantId
+      );
+      copyState.checkout = copyState.tempCheckout;
+      copyState.tempCheckout = {};
       return {
         ...copyState,
-        cart: restaurantInCart,
-        checkout: [...copyState.checkout, restaurantToChange],
+        cart: cartAfterFilter,
+        crowdedCheckoutWarning: false,
       };
+
+    case "BACK_TO_CART":
+      copyState.cart.push(copyState.checkout);
+      copyState.checkout = {};
+
+      return { ...copyState };
 
     default:
       throw new Error("Action Type Not Supported Yet");

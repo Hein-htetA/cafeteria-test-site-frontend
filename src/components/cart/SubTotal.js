@@ -3,12 +3,12 @@ import DeliveryFee from "./DeliveryFee";
 import ItemPrice from "./ItemPrice";
 import TwoColumnGridContainer from "./TwoColumnGridContainer";
 
-const SubTotal = () => {
+const SubTotal = ({ amount }) => {
   return (
     <TwoColumnGridContainer>
       <div style={{ fontSize: "1rem", fontWeight: "bold" }}>Subtotal</div>
-      <ItemPrice />
-      <DeliveryFee />
+      <ItemPrice amount={amount} />
+      <DeliveryFee amount={amount} />
     </TwoColumnGridContainer>
   );
 };

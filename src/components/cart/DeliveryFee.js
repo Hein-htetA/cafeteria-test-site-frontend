@@ -5,7 +5,7 @@ const DeliveryFee = () => {
   return (
     <>
       <div>Delivery Fee</div>
-      <ItemPrice />
+      <ItemPrice amount={100} />
     </>
   );
 };

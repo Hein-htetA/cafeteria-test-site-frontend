@@ -1,17 +1,17 @@
 import React from "react";
 
-const ValueInput = ({ name, onChangeInput }) => {
+const PaymentNameInput = ({ name, onChangeAdditionalInfo }) => {
   return (
     <div className="ph-no-container">
       <input
         value={name}
         style={{ border: "none", fontSize: "1rem" }}
         name="name"
-        placeholder="Enter Your Name"
-        onChange={onChangeInput}
+        placeholder="Name"
+        onChange={onChangeAdditionalInfo}
       />
     </div>
   );
 };
 
-export default ValueInput;
+export default PaymentNameInput;

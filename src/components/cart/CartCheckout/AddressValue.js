@@ -1,6 +1,6 @@
 import React from "react";
 
-const AddressValue = () => {
+const AddressValue = ({ address, onChangeInput }) => {
   return (
     <textarea
       style={{
@@ -10,10 +10,10 @@ const AddressValue = () => {
         overflow: "scroll",
         textAlign: "justify",
       }}
-      value={
-        "A box-shadow CSS generator that helps you quickly generate box-sh"
-      }
-      readOnly
+      value={address}
+      name="address"
+      placeholder="Delivery Location"
+      onChange={onChangeInput}
     ></textarea>
   );
 };

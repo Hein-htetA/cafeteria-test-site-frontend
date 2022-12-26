@@ -24,7 +24,7 @@ const FullCart = () => {
         </div>
         <div className="full-cart-btn-container">
           <button className="check-cart-btn" onClick={checkCartCheckout}>
-            check cart & checkout
+            check cart
           </button>
         </div>
         <FontAwesomeIcon

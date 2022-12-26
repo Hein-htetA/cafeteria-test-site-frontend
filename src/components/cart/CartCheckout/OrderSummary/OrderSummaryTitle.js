@@ -11,6 +11,7 @@ const OrderSummaryTitle = () => {
         gap: "5px",
         fontSize: "1.1rem",
         marginRight: "auto",
+        marginBottom: "10px",
       }}
     >
       <FontAwesomeIcon icon={faClipboard} /> <div>Order Summary</div>

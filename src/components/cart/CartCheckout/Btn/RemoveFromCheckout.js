@@ -2,7 +2,7 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
-const RemoveFromCheckout = () => {
+const RemoveFromCheckout = ({ clearCheckout }) => {
   return (
     <button
       style={{
@@ -12,7 +12,7 @@ const RemoveFromCheckout = () => {
         border: "none",
         backgroundColor: "transparent",
       }}
-      onClick={() => {}}
+      onClick={clearCheckout}
     >
       <FontAwesomeIcon
         icon={faXmark}
