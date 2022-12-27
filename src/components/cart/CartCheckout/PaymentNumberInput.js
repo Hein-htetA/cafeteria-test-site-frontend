@@ -1,6 +1,10 @@
 import React from "react";
 
-const PaymentNumberInput = ({ number, onChangeAdditionalInfo }) => {
+const PaymentNumberInput = ({
+  number,
+  onChangeAdditionalInfo,
+  paymentNumberError,
+}) => {
   return (
     <div className="ph-no-container">
       <input value={"+95"} readOnly className="ph-no-prefix" />
@@ -12,6 +16,15 @@ const PaymentNumberInput = ({ number, onChangeAdditionalInfo }) => {
         placeholder="9xxxxxxxxx"
         onChange={onChangeAdditionalInfo}
       />
+      <span
+        style={{
+          fontSize: "0.8rem",
+          color: "red",
+          marginRight: "5px",
+        }}
+      >
+        {paymentNumberError}
+      </span>
     </div>
   );
 };

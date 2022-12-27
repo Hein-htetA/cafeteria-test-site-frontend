@@ -118,6 +118,22 @@ const OwnRestaurantInfo = () => {
     });
   };
 
+  const onChangeDeliverySelect = (e) => {
+    setFormValues({
+      ...formValues,
+      deliveryService: JSON.parse(e.target.value),
+    });
+    setFormErrors({
+      nameError: "",
+      firstPhoneError: "",
+    });
+    setUpdateStatus({
+      ...updateStatus,
+      updateError: false,
+      updateSuccess: false,
+    });
+  };
+
   const onChangeCheckbox = (event, index, type) => {
     const tempPaymentMethods = JSON.parse(
       JSON.stringify(formValues.paymentMethods)
@@ -225,8 +241,8 @@ const OwnRestaurantInfo = () => {
             isOwner={true}
           />
           <RegisterDelivery
-            delivery={formValues.delivery}
-            onChangeInput={onChangeInput}
+            deliveryService={formValues.deliveryService}
+            onChangeDeliverySelect={onChangeDeliverySelect}
             isOwner={true}
           />
           <RegisterPaymentMethod

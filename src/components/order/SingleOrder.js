@@ -46,6 +46,8 @@ const SingleOrder = (props) => {
     updatedAt,
     customerName,
     address,
+    totalAmount,
+    requestDelivery,
     paymentStatus,
     phoneNumber,
     messageHide,
@@ -59,7 +61,6 @@ const SingleOrder = (props) => {
     paymentStatusNoEdit,
     paymentStatusLoading,
     paymentStatusError,
-    totalAmount,
   } = props;
 
   const { onChangeInputSelect, onClickHideShow, retryPaymentStatus } =
@@ -99,7 +100,7 @@ const SingleOrder = (props) => {
               <li className="name-count-container" key={order._id}>
                 <div className="food-name">
                   <input
-                    value={order.foodName}
+                    value={order.name}
                     placeholder="Name"
                     onChange={(e) =>
                       onChangeInputSelect(order._id, "foodName", e)
@@ -109,7 +110,7 @@ const SingleOrder = (props) => {
                 </div>
                 <div className="food-count">
                   <div style={{ marginRight: "20px" }}>x</div>
-                  <input type="text" value={order.foodCount} readOnly />
+                  <input type="text" value={order.count} readOnly />
                 </div>
               </li>
             );
@@ -196,7 +197,9 @@ const SingleOrder = (props) => {
               <div>Address</div>
               <div>:</div>
               <div className="address-box">
-                <div className={"address-text"}>{address}</div>
+                <div className={"address-text"}>
+                  {requestDelivery ? <div>Pick-up at restaurant</div> : address}
+                </div>
               </div>
             </li>
             <li>
@@ -209,7 +212,7 @@ const SingleOrder = (props) => {
                 </a>
               </div>
             </li>
-            {/* <li>
+            <li>
               <div>Payment</div>
               <div>:</div>
               <div className="payment-box">
@@ -222,9 +225,15 @@ const SingleOrder = (props) => {
                 </div>
                 <div className="payment-info">
                   <div className="payment-method-name">
-                    {paymentMethod.method}
+                    {paymentMethod.value}
                   </div>
-                  <div>( {paymentMethod.additionalInfo} )</div>
+                  <div>
+                    {" - "}
+                    {paymentMethod.additionalInfo.number +
+                      " (" +
+                      paymentMethod.additionalInfo.name +
+                      ")"}
+                  </div>
                 </div>
                 <div className="select-spinner">
                   <select
@@ -267,7 +276,7 @@ const SingleOrder = (props) => {
                   </span>
                 </div>
               </div>
-            </li> */}
+            </li>
           </CollapsibleContainer>
           {orderState === "newOrder" ? (
             <NewOrderBtnGroup _id={_id} detailHide={detailHide} />

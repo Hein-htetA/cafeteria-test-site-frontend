@@ -116,7 +116,7 @@
 
 .message-text {
   height: 100px;
-  overflow-y: scroll;
+  overflow: scroll;
   transition: height 0.3s linear;
 }
 

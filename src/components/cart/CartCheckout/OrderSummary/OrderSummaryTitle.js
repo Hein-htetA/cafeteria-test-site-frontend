@@ -1,8 +1,10 @@
 import { faClipboard, faNoteSticky } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { useCartContext } from "../../../../Context/CartContext";
 
 const OrderSummaryTitle = () => {
+  const { checkout } = useCartContext();
   return (
     <div
       style={{
@@ -14,7 +16,8 @@ const OrderSummaryTitle = () => {
         marginBottom: "10px",
       }}
     >
-      <FontAwesomeIcon icon={faClipboard} /> <div>Order Summary</div>
+      <FontAwesomeIcon icon={faClipboard} />{" "}
+      <div>Order Summary ({" " + checkout.restaurantName + " "})</div>
     </div>
   );
 };

@@ -51,11 +51,23 @@ const NewSingleMenu = () => {
   });
 
   const onChangeName = (e) => {
-    setMenu({ ...menu, name: e.target.value, nameError: false });
+    setMenu({
+      ...menu,
+      name: e.target.value,
+      nameError: false,
+      saveSuccess: false,
+      saveError: false,
+    });
   };
 
   const onChangePrice = (e) => {
-    setMenu({ ...menu, price: e.target.value, priceError: false });
+    setMenu({
+      ...menu,
+      price: e.target.value,
+      priceError: false,
+      saveError: false,
+      saveSuccess: false,
+    });
   };
 
   const onChangeDescription = (e) => {

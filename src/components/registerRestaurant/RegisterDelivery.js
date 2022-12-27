@@ -2,7 +2,7 @@ import React from "react";
 import "./RegisterDelivery.css";
 
 const RegisterDelivery = (props) => {
-  const { delivery, onChangeInput, isOwner } = props;
+  const { deliveryService, onChangeDeliverySelect, isOwner } = props;
   return (
     <>
       <div>
@@ -11,17 +11,15 @@ const RegisterDelivery = (props) => {
       <div>:</div>
       <div>
         <select
-          name="delivery"
+          name="deliveryService"
           id="delivery"
           className="delivery-select"
-          onChange={onChangeInput}
-          value={delivery}
+          onChange={onChangeDeliverySelect}
+          value={deliveryService}
           disabled={!isOwner}
         >
-          <option value={"Available"}>Available</option>
-          <option value={"Unavailable (Pick-up Only)"}>
-            Unavailable (Pick-up Only)
-          </option>
+          <option value={true}>Available</option>
+          <option value={false}>Unavailable (Pick-up Only)</option>
         </select>
       </div>
     </>

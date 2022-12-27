@@ -9,3 +9,9 @@
   color: rgb(238, 94, 118);
   font-weight: bold;
 }
+
+.delivery-not-available-text {
+  font-size: 0.7rem;
+  margin-top: 5px;
+
+}

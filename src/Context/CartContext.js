@@ -75,6 +75,7 @@ const CartContextProvider = ({ children }) => {
 
   const clearAndProceedCheckout = () => {
     dispatch({ type: "CLEAR_AND_PROCEED_CHECKOUT" });
+    dispatch({ type: "CALCULATE_TOTAL" });
     navigate("/myAccount/cart/cartCheckout");
   };
 
@@ -95,6 +96,7 @@ const CartContextProvider = ({ children }) => {
       },
     });
     if (Object.keys(state.checkout).length === 0) {
+      dispatch({ type: "CALCULATE_TOTAL" });
       navigate("/myAccount/cart/cartCheckout");
     }
   };
@@ -105,7 +107,7 @@ const CartContextProvider = ({ children }) => {
 
   const backToCart = () => {
     dispatch({ type: "BACK_TO_CART" });
-
+    dispatch({ type: "CALCULATE_TOTAL" });
     navigate("/myAccount/cart/cartMenu");
   };
 

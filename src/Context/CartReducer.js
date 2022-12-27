@@ -4,6 +4,7 @@ export const reducer = (state, action) => {
     case "ADD_TO_CART":
       const count = action.payload.count;
       const restaurantName = action.payload.restaurant.name;
+      const deliveryService = action.payload.restaurant.deliveryService; //required to disable delivery in checkout page
       const { _id: menuId, name, price, restaurantId } = action.payload.menu;
 
       let isRestaurantMatch = false; //restaurant exist check
@@ -44,6 +45,7 @@ export const reducer = (state, action) => {
             restaurantId,
             menuArray: [{ _id: menuId, name, price, count: 1 }],
             restaurantName,
+            deliveryService, //required to disable delivery select in checkout
           };
         } else {
           copyState.fullCartWarning = true;

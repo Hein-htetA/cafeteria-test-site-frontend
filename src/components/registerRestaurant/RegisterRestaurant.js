@@ -46,7 +46,7 @@ const RegisterRestaurant = () => {
     secondPhone: "",
     address: "",
     establishedIn: 2022,
-    delivery: "Available",
+    deliveryService: false,
     paymentMethods: [
       {
         checked: true,
@@ -108,6 +108,17 @@ const RegisterRestaurant = () => {
 
   const onChangeInput = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
+    setFormErrors({
+      nameError: "",
+      firstPhoneError: "",
+    });
+  };
+
+  const onChangeDeliverySelect = (e) => {
+    setFormValues({
+      ...formValues,
+      deliveryService: JSON.parse(e.target.value),
+    });
     setFormErrors({
       nameError: "",
       firstPhoneError: "",
@@ -222,8 +233,8 @@ const RegisterRestaurant = () => {
             isOwner={true}
           />
           <RegisterDelivery
-            delivery={formValues.delivery}
-            onChangeInput={onChangeInput}
+            deliveryService={formValues.deliveryService}
+            onChangeDeliverySelect={onChangeDeliverySelect}
             isOwner={true}
           />
           <RegisterPaymentMethod
