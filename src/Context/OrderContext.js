@@ -412,9 +412,12 @@ const OrderContextProvider = ({ children }) => {
       try {
         //setOrderLoading();
         dispatch({ type: "ORDER_LOADING" });
-        const response = await fetch(`${localBaseUrl}/orders/${restaurantId}`, {
-          signal: controller.signal,
-        });
+        const response = await fetch(
+          `${localBaseUrl}/orders/restaurant/${restaurantId}`,
+          {
+            signal: controller.signal,
+          }
+        );
         if (!response.ok) {
           const message = `An error has occured: ${response.status}`;
           throw new Error(message);

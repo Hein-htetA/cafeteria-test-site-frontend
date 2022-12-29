@@ -10,11 +10,13 @@ const cartState = {
   fullCartWarning: false,
   crowdedCheckoutWarning: false,
   tempCheckout: {},
+  orderHistoryLoading: false,
 };
 
 const initializeFun = (arg) => {
   let cart = [];
   let checkout = {};
+  let orderHistory = [];
 
   if (arg.cartString) {
     cart = JSON.parse(arg.cartString);
@@ -24,7 +26,7 @@ const initializeFun = (arg) => {
     checkout = JSON.parse(arg.checkoutString);
   }
 
-  return { cart, ...cartState, checkout };
+  return { cart, ...cartState, checkout, orderHistory };
 };
 
 const CartContextProvider = ({ children }) => {
@@ -111,6 +113,32 @@ const CartContextProvider = ({ children }) => {
     navigate("/myAccount/cart/cartMenu");
   };
 
+  const setOrderHistoryLoading = () => {
+    dispatch({ type: "SET_ORDER_HISTORY_LOADING" });
+  };
+
+  const setOrderHistory = (orderHistory) => {
+    dispatch({ type: "SET_ORDER_HISTORY", payload: { orderHistory } });
+  };
+
+  const unshiftOrderHistory = (newOrder) => {
+    dispatch({ type: "UNSHIFT_ORDER_HISTORY", payload: { newOrder } });
+  };
+
+  const showHideOrderHistory = (orderId, type) => {
+    dispatch({
+      type: "SHOW_HIDE_ORDER_HISTORY",
+      payload: { orderId, type },
+    });
+  };
+
+  const updateOrderHistory = (orderId, orderState, paymentStatus) => {
+    dispatch({
+      type: "UPDATE_ORDER_HISTORY",
+      payload: { orderId, orderState, paymentStatus },
+    });
+  };
+
   useEffect(() => {
     dispatch({ type: "CALCULATE_TOTAL" });
   }, []);
@@ -121,6 +149,7 @@ const CartContextProvider = ({ children }) => {
 
   useEffect(() => {
     sessionStorage.setItem("cart", JSON.stringify(state.cart));
+    sessionStorage.setItem("orderHistory", JSON.stringify(state.orderHistory));
   });
 
   return (
@@ -139,6 +168,11 @@ const CartContextProvider = ({ children }) => {
         hideCrowdedCheckoutWarning,
         checkCheckout,
         clearAndProceedCheckout,
+        unshiftOrderHistory,
+        showHideOrderHistory,
+        setOrderHistory,
+        setOrderHistoryLoading,
+        updateOrderHistory,
       }}
     >
       {children}

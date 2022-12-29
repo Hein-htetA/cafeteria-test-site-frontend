@@ -59,8 +59,13 @@ const CartCheckout = () => {
   });
 
   const { user } = useUserContext();
-  const { checkout, clearCheckout, backToCart } = useCartContext();
+  const { checkout, clearCheckout, backToCart, unshiftOrderHistory } =
+    useCartContext();
   const navigate = useNavigate();
+
+  const closePlaceOrderError = () => {
+    setPlaceOrderStatus({ ...placeOrderStatus, placeOrderError: false });
+  };
 
   const onChangeInput = (e) => {
     setFormValues({
@@ -73,8 +78,8 @@ const CartCheckout = () => {
     if (e.target.checked) {
       setFormValues({
         ...formValues,
-        name: user.name,
-        phone: user.phone,
+        customerName: user.name,
+        phoneNumber: user.phone,
         address: user.address,
       });
     }
@@ -100,21 +105,12 @@ const CartCheckout = () => {
     });
   };
 
-  // const handlePlaceOrder = () => {
-  //   const error = ValidateCheckout(formValues);
-  //   setFormErrors({ ...formErrors, ...error });
-  // };
-
   const handlePlaceOrder = async () => {
     const error = ValidateCheckout(formValues);
     setFormErrors({ ...formErrors, ...error });
     if (Object.keys(error).length !== 0) return;
 
     //preparing for req body
-    const order = checkout.menuArray.map((menu) => {
-      const { _id, name, count } = menu;
-      return { menuId: _id, name, count };
-    });
 
     const restaurantId = checkout.restaurantId;
 
@@ -124,7 +120,9 @@ const CartCheckout = () => {
 
     const customerName = user.name;
 
-    const totalAmount = checkout.totalAmount;
+    const totalAmount = checkout.restaurantTotalAmount;
+
+    const menuArray = checkout.menuArray;
 
     const requestOptions = {
       method: "POST",
@@ -135,12 +133,12 @@ const CartCheckout = () => {
           formValues.phoneNumber[0] === "0"
             ? formValues.phoneNumber.slice(1)
             : formValues.phoneNumber.slice(0),
-        order,
         restaurantId,
         message,
         customerId,
         customerName,
         totalAmount,
+        menuArray,
       }),
     };
     try {
@@ -155,7 +153,12 @@ const CartCheckout = () => {
       if (!response.ok) {
         throw new Error("something went wrong!");
       }
-      // const { restaurant, user } = await response.json();
+      const { newOrder } = await response.json();
+
+      unshiftOrderHistory(newOrder);
+
+      clearCheckout();
+
       setPlaceOrderStatus({
         ...placeOrderStatus,
         placeOrderLoading: false,
@@ -163,9 +166,9 @@ const CartCheckout = () => {
         placeOrderSuccess: true,
       });
 
-      // navigate(`/myAccount/cart/cartOrder`, {
-      //   replace: true,
-      // });
+      navigate(`/myAccount/cart/cartOrder`, {
+        replace: true,
+      });
     } catch (error) {
       setPlaceOrderStatus({
         ...placeOrderStatus,
@@ -191,11 +194,12 @@ const CartCheckout = () => {
 
   return (
     <>
-      {JSON.stringify(formValues)}
-      {JSON.stringify(formErrors)}
       <CheckoutContainer>
-        {/* <CheckoutError />
-        <CheckoutLoading /> */}
+        {placeOrderStatus.placeOrderLoading && <CheckoutLoading />}
+        {placeOrderStatus.placeOrderError && (
+          <CheckoutError closePlaceOrderError={closePlaceOrderError} />
+        )}
+
         <CustomerInfoTitle />
         <CheckoutGridContainer>
           <CheckoutField>
@@ -270,7 +274,10 @@ const CartCheckout = () => {
         </CheckoutGridContainer>
         <AccountInfoCheckbox onChangeAccountInfo={onChangeAccountInfo} />
         <OrderSummaryTitle />
-        <OrderSummary checkout={checkout} />
+        <OrderSummary
+          menuArray={checkout.menuArray}
+          amount={checkout.restaurantTotalAmount}
+        />
         <RemoveFromCheckout clearCheckout={clearCheckout} />
         {/*Cross sign at the top*/}
       </CheckoutContainer>
@@ -278,6 +285,8 @@ const CartCheckout = () => {
       <CheckoutBtn
         backToCart={backToCart}
         handlePlaceOrder={handlePlaceOrder}
+        placeOrderError={placeOrderStatus.placeOrderError}
+        placeOrderLoading={placeOrderStatus.placeOrderLoading}
       />
       <hr
         style={{

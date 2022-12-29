@@ -40,7 +40,7 @@ const getAmPmTime = (dateString) => {
 const SingleOrder = (props) => {
   const {
     _id,
-    order,
+    menuArray,
     message,
     status,
     updatedAt,
@@ -95,7 +95,7 @@ const SingleOrder = (props) => {
         {updateError && <UpdateError />}
 
         <ul className="order-ul">
-          {order.map((order) => {
+          {menuArray.map((order) => {
             return (
               <li className="name-count-container" key={order._id}>
                 <div className="food-name">
@@ -159,17 +159,11 @@ const SingleOrder = (props) => {
                     : "status-select-history"
                 }
                 onChange={(e) => onChangeInputSelect(_id, "status", e)}
-                value={
-                  orderState !== "order"
-                    ? orderState
-                    : status === "accepted"
-                    ? "accepted"
-                    : "onDelivery"
-                }
+                value={orderState}
                 disabled
               >
                 <option value="newOrder">Order Received</option>
-                <option value="accepted">Order Accepted</option>
+                <option value="order">Order Accepted</option>
                 <option value="onDelivery">On Delivery</option>
                 <option value="history">Completed</option>
                 <option value="recycleBin">Rejected</option>
@@ -227,13 +221,15 @@ const SingleOrder = (props) => {
                   <div className="payment-method-name">
                     {paymentMethod.value}
                   </div>
-                  <div>
-                    {" - "}
-                    {paymentMethod.additionalInfo.number +
-                      " (" +
-                      paymentMethod.additionalInfo.name +
-                      ")"}
-                  </div>
+                  {paymentMethod.value !== "Cash" && (
+                    <div>
+                      {" - "}
+                      {paymentMethod.additionalInfo.number +
+                        " (" +
+                        paymentMethod.additionalInfo.name +
+                        ")"}
+                    </div>
+                  )}
                 </div>
                 <div className="select-spinner">
                   <select

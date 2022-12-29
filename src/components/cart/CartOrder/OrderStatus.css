@@ -13,25 +13,30 @@
   border: 2px solid white;
   color: rgba(71, 116, 232, 0.784);
   font-weight: bold;
-
+  max-width: 200px;
 }
 
 .order-status-select-received {
-  border: 2px solid #c138b8
+  border: 2px solid #c138b8;
+  color: #c138b8;
 }
 
 .order-status-select-accepted {
-  border: 2px solid rgba(71, 116, 232, 0.784)
+  border: 2px solid rgba(71, 116, 232, 0.784);
+  color: rgba(71, 116, 232, 0.784);
 }
 
 .order-status-select-onDelivery {
+  color: rgba(71, 116, 232, 0.784);
   border: 2px solid rgba(71, 116, 232, 0.784)
 }
 
 .order-status-select-completed {
+  color: green;
   border: 2px solid green
 }
 .order-status-select-recycleBin {
+  color: #be0c0c;
   border: 2px solid #be0c0c;
 }
 .order-status-time {

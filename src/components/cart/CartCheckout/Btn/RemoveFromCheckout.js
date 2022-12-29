@@ -11,6 +11,7 @@ const RemoveFromCheckout = ({ clearCheckout }) => {
         right: "5px",
         border: "none",
         backgroundColor: "transparent",
+        zIndex: "0",
       }}
       onClick={clearCheckout}
     >

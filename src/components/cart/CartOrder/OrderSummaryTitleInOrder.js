@@ -3,7 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import DetailShowHideBtn from "./DetailShowHideBtn";
 
-const OrderSummaryTitleInOrder = () => {
+const OrderSummaryTitleInOrder = ({
+  hideOrderSummary,
+  showHideOrderHistory,
+  orderId,
+  type,
+}) => {
   return (
     <div
       style={{
@@ -12,12 +17,18 @@ const OrderSummaryTitleInOrder = () => {
         gap: "5px",
         fontSize: "1.1rem",
         marginRight: "auto",
+        marginBottom: "15px",
       }}
     >
-      <FontAwesomeIcon icon={faClipboard} />{" "}
+      <FontAwesomeIcon icon={faClipboard} />
       <div>
         Order Summary
-        <DetailShowHideBtn />
+        <DetailShowHideBtn
+          hide={hideOrderSummary}
+          showHideOrderHistory={showHideOrderHistory}
+          type={type}
+          orderId={orderId}
+        />
       </div>
     </div>
   );

@@ -1,7 +1,12 @@
 import React from "react";
 import DetailShowHideBtn from "../DetailShowHideBtn";
 
-const CustomerDetailTitle = () => {
+const CustomerDetailTitle = ({
+  hideCustomerDetails,
+  type,
+  orderId,
+  showHideOrderHistory,
+}) => {
   return (
     <div
       style={{
@@ -14,8 +19,13 @@ const CustomerDetailTitle = () => {
       }}
     >
       <div>
-        Customer Detail
-        <DetailShowHideBtn />
+        Customer Details
+        <DetailShowHideBtn
+          hide={hideCustomerDetails}
+          type={type}
+          showHideOrderHistory={showHideOrderHistory}
+          orderId={orderId}
+        />
       </div>
     </div>
   );

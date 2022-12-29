@@ -105,7 +105,6 @@ export const reducer = (state, action) => {
     case "SEND_TO_HISTORY":
       const tempState6 = copyState.data.map((order) => {
         if (order._id === action.payload.id) {
-          console.log("send to history if run");
           order.status = "onDelivery";
           order.paymentStatus = true;
           order.orderState = "history";

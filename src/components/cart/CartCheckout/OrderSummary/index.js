@@ -6,10 +6,10 @@ import CountName from "./CountName";
 import ItemPrice from "../../ItemPrice";
 import SubTotal from "../../SubTotal";
 
-const OrderSummary = ({ checkout }) => {
+const OrderSummary = ({ menuArray, amount }) => {
   return (
     <div className="order-summary-container">
-      {checkout.menuArray.map((menu) => {
+      {menuArray.map((menu) => {
         return (
           <SummaryGridContainer key={menu._id}>
             <CountName count={menu.count} name={menu.name} />
@@ -26,7 +26,7 @@ const OrderSummary = ({ checkout }) => {
           marginTop: "10px",
         }}
       />
-      <SubTotal amount={checkout.restaurantTotalAmount} />
+      <SubTotal amount={amount} />
     </div>
   );
 };

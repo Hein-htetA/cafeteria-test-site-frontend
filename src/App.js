@@ -48,75 +48,79 @@ const App = () => {
       <UserContextProvider>
         <OrderContextProvider>
           <MenuContextProvider>
-            <CartContextProvider>
-              <Routes>
-                <Route path="/" element={<MainSharedLayout />}>
-                  <Route
-                    index
-                    element={
-                      localStorage.getItem("user") ? (
-                        <Navigate to="/marketplace" />
-                      ) : (
-                        <Login />
-                      )
-                    }
-                  />
-                  <Route path="register" element={<Register />} />
-                  <Route
-                    path="marketplace"
-                    element={
-                      <PublicDataContextProvider>
-                        <MarketplaceSharedLayout />
-                      </PublicDataContextProvider>
-                    }
-                  >
-                    <Route index element={<Marketplace />} />
+            <PublicDataContextProvider>
+              <CartContextProvider>
+                <Routes>
+                  <Route path="/" element={<MainSharedLayout />}>
                     <Route
-                      path="restaurant/:restaurantId"
-                      element={<PublicRestaurantsSharedLayout />}
+                      index
+                      element={
+                        localStorage.getItem("user") ? (
+                          <Navigate to="/marketplace" />
+                        ) : (
+                          <Login />
+                        )
+                      }
+                    />
+                    <Route path="register" element={<Register />} />
+                    <Route
+                      path="marketplace"
+                      element={<MarketplaceSharedLayout />}
                     >
-                      <Route path="info" element={<PublicRestaurantInfo />} />
-                      <Route path="menu" element={<MenuSharedLayout />}>
-                        <Route index element={<PublicRestaurantMenu />} />
-                        <Route path=":menuCategory" element={<PublicMenu />} />
+                      <Route index element={<Marketplace />} />
+                      <Route
+                        path="restaurant/:restaurantId"
+                        element={<PublicRestaurantsSharedLayout />}
+                      >
+                        <Route path="info" element={<PublicRestaurantInfo />} />
+                        <Route path="menu" element={<MenuSharedLayout />}>
+                          <Route index element={<PublicRestaurantMenu />} />
+                          <Route
+                            path=":menuCategory"
+                            element={<PublicMenu />}
+                          />
+                          <Route
+                            path=":menuCategory/:menuId"
+                            element={<PublicSingleMenuDetail />}
+                          />
+                        </Route>
+                      </Route>
+                    </Route>
+                    <Route path="myAccount" element={<MyAccountSharedLayout />}>
+                      <Route path="profile" element={<Profile />} />
+                      <Route path="order" element={<Order />} />
+                      <Route path="recycleBin" element={<RecycleBin />} />
+                      <Route path="history" element={<History />} />
+                      <Route path="newOrder" element={<NewOrder />} />
+                      <Route path="cart" element={<CartSharedLayout />}>
+                        <Route path="cartMenu" element={<CartMenu />} />
+                        <Route path="cartCheckout" element={<CartCheckout />} />
+                        <Route path="cartOrder" element={<CartOrder />} />
+                      </Route>
+                      <Route
+                        path="myRestaurant"
+                        element={<RestaurantSharedLayout />}
+                      >
                         <Route
-                          path=":menuCategory/:menuId"
-                          element={<PublicSingleMenuDetail />}
+                          path="register"
+                          element={<RegisterRestaurant />}
                         />
+                        <Route path="info" element={<OwnRestaurantInfo />} />
+                        <Route path="menu" element={<MenuSharedLayout />}>
+                          <Route index element={<RestaurantMenu />} />
+                          <Route path=":menuCategory" element={<Menu />} />
+                          <Route
+                            path=":menuCategory/:menuId"
+                            element={<SingleMenuDetail />}
+                          />
+                        </Route>
                       </Route>
                     </Route>
                   </Route>
-                  <Route path="myAccount" element={<MyAccountSharedLayout />}>
-                    <Route path="profile" element={<Profile />} />
-                    <Route path="order" element={<Order />} />
-                    <Route path="recycleBin" element={<RecycleBin />} />
-                    <Route path="history" element={<History />} />
-                    <Route path="newOrder" element={<NewOrder />} />
-                    <Route path="cart" element={<CartSharedLayout />}>
-                      <Route path="cartMenu" element={<CartMenu />} />
-                      <Route path="cartCheckout" element={<CartCheckout />} />
-                      <Route path="cartOrder" element={<CartOrder />} />
-                    </Route>
-                    <Route
-                      path="myRestaurant"
-                      element={<RestaurantSharedLayout />}
-                    >
-                      <Route path="register" element={<RegisterRestaurant />} />
-                      <Route path="info" element={<OwnRestaurantInfo />} />
-                      <Route path="menu" element={<MenuSharedLayout />}>
-                        <Route index element={<RestaurantMenu />} />
-                        <Route path=":menuCategory" element={<Menu />} />
-                        <Route
-                          path=":menuCategory/:menuId"
-                          element={<SingleMenuDetail />}
-                        />
-                      </Route>
-                    </Route>
-                  </Route>
-                </Route>
-                {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
-              </Routes>
-            </CartContextProvider>
+                  {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
+                </Routes>
+              </CartContextProvider>
+            </PublicDataContextProvider>
           </MenuContextProvider>
         </OrderContextProvider>
       </UserContextProvider>

@@ -120,14 +120,14 @@
   position: absolute;
   top: -5px;
   right: -5px;
-  border-radius: 50%;
-  height: 15px;
-  width: 15px;
+  border-radius: 10px;
+  min-width: 15px;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 0.7rem;
+  font-size: 0.6rem;
+  padding: 1px
 }
 
 .online-indicator {

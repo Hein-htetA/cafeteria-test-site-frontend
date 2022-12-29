@@ -22,8 +22,6 @@ const CartMenu = () => {
   const { cart, totalAmount, addMessage, toCheckout, crowdedCheckoutWarning } =
     useCartContext();
 
-  console.log("warnign", crowdedCheckoutWarning);
-
   const navigate = useNavigate();
 
   const navigateToRestaurant = (restaurantId) => {

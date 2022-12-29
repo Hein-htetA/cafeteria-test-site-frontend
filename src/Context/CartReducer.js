@@ -1,3 +1,9 @@
+const orderHistoryUiState = {
+  hideOrderSummary: true,
+  hideRestaurantDetails: true,
+  hideCustomerDetails: true,
+};
+
 export const reducer = (state, action) => {
   const copyState = JSON.parse(JSON.stringify(state));
   switch (action.type) {
@@ -194,6 +200,47 @@ export const reducer = (state, action) => {
 
       return { ...copyState };
 
+    case "SET_ORDER_HISTORY_LOADING":
+      return {
+        ...copyState,
+        orderHistoryLoading: !copyState.orderHistoryLoading,
+      };
+
+    case "SET_ORDER_HISTORY":
+      return {
+        ...copyState,
+        orderHistory: action.payload.orderHistory.map((order) => ({
+          ...order,
+          ...orderHistoryUiState,
+        })),
+      };
+
+    case "UNSHIFT_ORDER_HISTORY":
+      copyState.orderHistory.unshift({
+        ...action.payload.newOrder,
+        ...orderHistoryUiState, //adding ui state on first fetch
+      });
+      return { ...copyState };
+
+    case "SHOW_HIDE_ORDER_HISTORY":
+      const orderHistory = copyState.orderHistory.map((order) => {
+        if (order._id === action.payload.orderId) {
+          //console.log("show hide if");
+          order[action.payload.type] = !order[action.payload.type];
+        }
+        return order;
+      });
+      return { ...copyState, orderHistory };
+
+    case "UPDATE_ORDER_HISTORY":
+      const updatedOrderHistory = copyState.orderHistory.map((order) => {
+        if (order._id === action.payload.orderId) {
+          order.orderState = action.payload.orderState;
+          order.paymentStatus = action.payload.paymentStatus;
+        }
+        return order;
+      });
+      return { ...copyState, orderHistory: updatedOrderHistory };
     default:
       throw new Error("Action Type Not Supported Yet");
   }

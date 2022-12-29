@@ -171,7 +171,6 @@
   font-family: Arial, Helvetica, sans-serif;
   width: 60%;
   border-radius: 5px;
-  color:rgba(71, 116, 232, 0.784);
   font-size: 0.8rem;
   font-weight: bold;
   padding: 3px 0px;
@@ -180,18 +179,22 @@
 
 .status-select-newOrder {
   border: 2px solid #c138b8;
+  color: #c138b8;
 }
 
 .status-select-order, .status-select-onDelivery {
   border: 2px solid rgb(60, 36, 240);
+  color: rgb(60, 36, 240);
 }
 
 .status-select-recycleBin {
   border: 2px solid #be0c0c;
+  color: #be0c0c;
 }
 
 .status-select-history {
   border: 2px solid green;
+  color: green;
 }
 
 option:checked {

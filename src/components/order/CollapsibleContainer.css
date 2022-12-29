@@ -1,11 +1,11 @@
-.order-ul .detail-container {
+.order-ul .collapse-container {
   overflow: hidden;
   display: grid;
   opacity: 1;
   transition: height 0.5s linear, opacity 0.5s linear;
 }
 
-.order-ul .detail-container-hidden {
+.order-ul .collapse-container-hidden {
   overflow: hidden;
   opacity: 0;
 }

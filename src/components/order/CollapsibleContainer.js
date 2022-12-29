@@ -41,8 +41,8 @@ const CollapsibleContainer = ({
       ref={collapseContainerRef}
       className={
         detailHide
-          ? " detail-container detail-container-hidden"
-          : "detail-container"
+          ? " collapse-container collapse-container-hidden"
+          : "collapse-container"
       }
       style={{
         height: firstRender.current
