@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./NewSingleMenu.css";
 import { Navigate, redirect, useNavigate, useParams } from "react-router-dom";
 import { useMenuContext } from "../../Context/MenuContext";
@@ -108,7 +108,10 @@ const NewSingleMenu = () => {
       menu;
     const requestOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
       body: JSON.stringify({
         name,
         price,

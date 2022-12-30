@@ -3,24 +3,39 @@ import { reducer } from "./UserReducer";
 
 const initialState = {
   isLoggedIn: false,
-  navbar: false,
-  orderNav: false,
   online: false,
   user: {},
+};
+
+const initializeFun = (userString) => {
+  let user = {};
+  let isLoggedIn = false;
+
+  if (userString) {
+    user = JSON.parse(userString);
+    isLoggedIn = true;
+  }
+
+  return { ...initialState, user, isLoggedIn };
 };
 
 const UserContext = createContext();
 
 const UserContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  useEffect(() => {
-    const loggedInUser = localStorage.getItem("user");
-    if (loggedInUser) {
-      const foundUser = JSON.parse(loggedInUser);
-      dispatch({ type: "SET_USER", payload: foundUser });
-      dispatch({ type: "SET_LOGGED_IN" });
-    }
-  }, []);
+  const [state, dispatch] = useReducer(
+    reducer,
+    localStorage.getItem("user"),
+    initializeFun
+  );
+
+  // useEffect(() => {
+  //   const loggedInUser = localStorage.getItem("user");
+  //   if (loggedInUser) {
+  //     const foundUser = JSON.parse(loggedInUser);
+  //     dispatch({ type: "SET_USER", payload: foundUser });
+  //     dispatch({ type: "SET_LOGGED_IN" });
+  //   }
+  // }, []);
   const openNavbar = () => {
     dispatch({ type: "OPEN_NAVBAR" });
   };

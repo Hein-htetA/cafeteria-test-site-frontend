@@ -59,7 +59,7 @@ const Login = () => {
       if (!response.ok) {
         throw new Error("something went wrong!");
       }
-      const { user } = await response.json();
+      const { user, token } = await response.json();
       setLoginStatus({
         ...loginStatus,
         loginLoading: false,
@@ -68,6 +68,7 @@ const Login = () => {
       setLoggedIn();
       setUser(user);
       localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", token);
       navigate("/myAccount/profile", {
         replace: true,
       });

@@ -18,11 +18,15 @@ const CartSharedLayout = () => {
         //setOrderLoading();
         const controller = new AbortController();
         setOrderHistoryLoading();
+        const requestOptions = {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          signal: controller.signal,
+        };
         const response = await fetch(
           `${localBaseUrl}/orders/customer/${user._id}`,
-          {
-            signal: controller.signal,
-          }
+          requestOptions
         );
         if (!response.ok) {
           const message = `An error has occured: ${response.status}`;

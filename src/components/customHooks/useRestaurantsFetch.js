@@ -23,26 +23,23 @@ function useRestaurantsFetch() {
         } else {
           setMoreRestaurantLoading();
         }
+        // console.log("use fetch", localStorage.getItem("token"));
+        const requestOptions = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          signal,
+        };
         const response = await fetch(
           `${localBaseUrl}/restaurants?page=${page}`,
-          {
-            signal,
-          }
+          requestOptions
         );
         if (!response.ok) {
           throw new Error("Something went wrong!");
         }
         const { restaurants } = await response.json();
         addRestaurantState(restaurants);
-        //appending fetch restaurants to sessionStorage
-        const oldRestaurants = sessionStorage.getItem("restaurants");
-        if (oldRestaurants) {
-          const oldObj = JSON.parse(oldRestaurants);
-          const newObj = [...oldObj, ...restaurants];
-          sessionStorage.setItem("restaurants", JSON.stringify(newObj));
-        } else {
-          sessionStorage.setItem("restaurants", JSON.stringify(restaurants));
-        }
       } catch (error) {
         if (page === 1) {
           //distinguish between first time loading vs more restaurants loading

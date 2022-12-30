@@ -78,6 +78,14 @@ const PublicDataContextProvider = ({ children }) => {
     dispatch({ type: "ADD_MENU_STATE", payload: data });
   };
 
+  // useEffect(() => {
+  //   sessionStorage.setItem("restaurants", JSON.stringify(state.restaurants));
+  // }, [state.restaurants]);
+
+  // useEffect(() => {
+  //   sessionStorage.setItem("menu", JSON.stringify(state.menu));
+  // }, [state.menu]);
+
   return (
     <PublicDataContext.Provider
       value={{

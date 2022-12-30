@@ -104,7 +104,10 @@ const SingleMenuDetail = () => {
     } = menu;
     const requestOptions = {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
       body: JSON.stringify({
         _id,
         name,
@@ -158,7 +161,10 @@ const SingleMenuDetail = () => {
     const { _id } = menu;
     const requestOptions = {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     };
     try {
       setMenu({

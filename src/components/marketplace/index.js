@@ -74,7 +74,7 @@ const Marketplace = () => {
 
       <div
         className={
-          firstLoadSuccess
+          firstLoadSuccess && !moreRestaurantLoading //hide trigger while loading
             ? "load-more-restaurant-trigger "
             : "load-more-restaurant-trigger load-more-restaurant-trigger-hide"
         }

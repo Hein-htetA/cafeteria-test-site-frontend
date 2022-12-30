@@ -105,6 +105,8 @@ const CartCheckout = () => {
     });
   };
 
+  const controller = new AbortController();
+
   const handlePlaceOrder = async () => {
     const error = ValidateCheckout(formValues);
     setFormErrors({ ...formErrors, ...error });
@@ -126,7 +128,10 @@ const CartCheckout = () => {
 
     const requestOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
       body: JSON.stringify({
         ...formValues,
         phoneNumber:
@@ -140,6 +145,7 @@ const CartCheckout = () => {
         totalAmount,
         menuArray,
       }),
+      signal: controller.signal,
     };
     try {
       setPlaceOrderStatus({
@@ -187,6 +193,12 @@ const CartCheckout = () => {
       paymentNumberError: "",
     });
   }, [formValues]);
+
+  useEffect(() => {
+    return () => {
+      controller.abort();
+    };
+  }, []);
 
   if (Object.keys(checkout).length === 0) {
     return <EmptyCheckout />;

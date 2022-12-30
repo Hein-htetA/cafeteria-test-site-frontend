@@ -150,7 +150,7 @@ const Register = () => {
         }
         throw new Error("something went wrong!");
       }
-      const { user } = await response.json();
+      const { user, token } = await response.json();
       setRegisterStatus({
         ...registerStatus,
         registerLoading: false,
@@ -160,6 +160,7 @@ const Register = () => {
       setLoggedIn();
       setUser(user);
       localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", token);
       navigate("/myAccount/profile", {
         replace: true,
       });

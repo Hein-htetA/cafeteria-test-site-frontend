@@ -30,15 +30,16 @@ const OrderContextProvider = ({ children }) => {
 
     const requestOptions = {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
       body: JSON.stringify({
         orderId: id,
         paymentStatus: !order.paymentStatus, //this state is before dispatch state change
       }),
     };
     try {
-      console.log("before fetch in payment status");
-      console.log("payment status", order.paymentStatus);
       const response = await fetch(`${localBaseUrl}/orders`, requestOptions);
 
       if (!response.ok) {
@@ -81,7 +82,10 @@ const OrderContextProvider = ({ children }) => {
 
     const requestOptions = {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
       body: JSON.stringify({
         orderId: id,
         paymentStatus: order.paymentStatus,
@@ -149,7 +153,10 @@ const OrderContextProvider = ({ children }) => {
   const sendToRecycleBin = async (id) => {
     const requestOptions = {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
       body: JSON.stringify({
         orderId: id,
         orderState: "recycleBin",
@@ -195,7 +202,10 @@ const OrderContextProvider = ({ children }) => {
   const sendToOrderReceived = async (id) => {
     const requestOptions = {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
       body: JSON.stringify({
         orderId: id,
         orderState: "order",
@@ -241,7 +251,10 @@ const OrderContextProvider = ({ children }) => {
   const sendToHistory = async (id) => {
     const requestOptions = {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
       body: JSON.stringify({
         orderId: id,
         orderState: "history",
@@ -288,7 +301,10 @@ const OrderContextProvider = ({ children }) => {
   const sendToOnDelivery = async (id) => {
     const requestOptions = {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
       body: JSON.stringify({
         orderId: id,
         orderState: "onDelivery",
@@ -334,7 +350,10 @@ const OrderContextProvider = ({ children }) => {
   const removeOrder = async (id) => {
     const requestOptions = {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
       body: JSON.stringify({
         orderId: id,
       }),
@@ -380,9 +399,16 @@ const OrderContextProvider = ({ children }) => {
     const fetchOrder = async () => {
       try {
         dispatch({ type: "SSE_UPDATE_LOADING" });
-        const response = await fetch(`${localBaseUrl}/orders/${restaurantId}`, {
+        const requestOptions = {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
           signal: controller.signal,
-        });
+        };
+        const response = await fetch(
+          `${localBaseUrl}/orders/${restaurantId}`,
+          requestOptions
+        );
         if (!response.ok) {
           const message = `An error has occured: ${response.status}`;
           throw new Error(message);
@@ -412,11 +438,15 @@ const OrderContextProvider = ({ children }) => {
       try {
         //setOrderLoading();
         dispatch({ type: "ORDER_LOADING" });
+        const requestOptions = {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          signal: controller.signal,
+        };
         const response = await fetch(
           `${localBaseUrl}/orders/restaurant/${restaurantId}`,
-          {
-            signal: controller.signal,
-          }
+          requestOptions
         );
         if (!response.ok) {
           const message = `An error has occured: ${response.status}`;

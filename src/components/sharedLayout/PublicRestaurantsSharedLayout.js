@@ -19,23 +19,30 @@ const PublicRestaurantsSharedLayout = () => {
       const signal = controller.signal;
       try {
         setMenuLoading();
-        const response = await fetch(`${localBaseUrl}/menu/${restaurantId}`, {
+        const requestOptions = {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
           signal,
-        });
+        };
+        const response = await fetch(
+          `${localBaseUrl}/menu/${restaurantId}`,
+          requestOptions
+        );
         if (!response.ok) {
           throw new Error("Something went wrong");
         }
         const { data } = await response.json();
         addMenuState(data);
         //appending fetch restaurants to sessionStorage
-        const oldMenu = sessionStorage.getItem("menu");
-        if (oldMenu) {
-          const oldObj = JSON.parse(oldMenu);
-          const newObj = [...oldObj, ...data];
-          sessionStorage.setItem("menu", JSON.stringify(newObj));
-        } else {
-          sessionStorage.setItem("menu", JSON.stringify(data));
-        }
+        // const oldMenu = sessionStorage.getItem("menu");
+        // if (oldMenu) {
+        //   const oldObj = JSON.parse(oldMenu);
+        //   const newObj = [...oldObj, ...data];
+        //   sessionStorage.setItem("menu", JSON.stringify(newObj));
+        // } else {
+        //   sessionStorage.setItem("menu", JSON.stringify(data));
+        // }
       } catch (error) {
         setMenuError();
       }

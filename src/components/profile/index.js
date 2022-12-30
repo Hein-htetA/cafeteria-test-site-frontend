@@ -85,6 +85,7 @@ const Profile = () => {
 
   const logOut = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
     setLoggedIn();
     navigate("/");
   };
@@ -96,7 +97,10 @@ const Profile = () => {
     if (Object.keys(error).length !== 0) return;
     const requestOptions = {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
       body: JSON.stringify({
         ...formValues,
         phone:

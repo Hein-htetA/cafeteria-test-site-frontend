@@ -21,11 +21,15 @@ const MenuContextProvider = ({ children }) => {
     const fetchMenu = async () => {
       try {
         dispatch({ type: "MENU_LOADING" });
+        const requestOptions = {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          signal: controller.signal,
+        };
         const response = await fetch(
           `${localBaseUrl}/menu/${state.restaurant._id}`,
-          {
-            signal: controller.signal,
-          }
+          requestOptions
         );
         if (!response.ok) {
           const message = `An error has occured: ${response.status}`;
@@ -76,11 +80,15 @@ const MenuContextProvider = ({ children }) => {
     const fetchRestaurant = async () => {
       try {
         dispatch({ type: "RESTAURANT_LOADING" });
+        const requestOptions = {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          signal: controller.signal,
+        };
         const response = await fetch(
           `${localBaseUrl}/restaurants/${restaurantId}`,
-          {
-            signal: controller.signal,
-          }
+          requestOptions
         );
         if (!response.ok) {
           const message = `An error has occured: ${response.status}`;
@@ -95,9 +103,16 @@ const MenuContextProvider = ({ children }) => {
     const fetchMenu = async () => {
       try {
         dispatch({ type: "MENU_LOADING" });
-        const response = await fetch(`${localBaseUrl}/menu/${restaurantId}`, {
+        const requestOptions = {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
           signal: controller.signal,
-        });
+        };
+        const response = await fetch(
+          `${localBaseUrl}/menu/${restaurantId}`,
+          requestOptions
+        );
         if (!response.ok) {
           const message = `An error has occured: ${response.status}`;
           throw new Error(message);

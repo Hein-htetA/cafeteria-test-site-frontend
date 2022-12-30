@@ -32,7 +32,6 @@ const MainSharedLayout = () => {
       );
 
       updateOrderSSE.onopen = () => {
-        console.log("updateOrderSSE opened");
         if (updateOrderSSEOnError.current) {
           //fetch order ajax if error occured
           const fetchOrder = async () => {
@@ -40,11 +39,15 @@ const MainSharedLayout = () => {
               //setOrderLoading();
               const controller = new AbortController();
               setOrderHistoryLoading();
+              const requestOptions = {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                signal: controller.signal,
+              };
               const response = await fetch(
                 `${localBaseUrl}/orders/customer/${user._id}`,
-                {
-                  signal: controller.signal,
-                }
+                requestOptions
               );
               if (!response.ok) {
                 const message = `An error has occured: ${response.status}`;
