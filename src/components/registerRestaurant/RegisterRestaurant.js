@@ -183,7 +183,6 @@ const RegisterRestaurant = () => {
         registerError: false,
         registerSuccess: true,
       });
-      console.log("a");
       updateLocalRestaurant(restaurant);
       setUser(user);
       localStorage.setItem("user", JSON.stringify(user));

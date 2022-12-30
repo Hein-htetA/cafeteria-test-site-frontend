@@ -129,7 +129,6 @@ export const reducer = (state, action) => {
       };
 
     case "REMOVE_FROM_CART":
-      console.log(action.payload.restaurantId);
       const newCart = copyState.cart.filter(
         (restaurant) => restaurant.restaurantId !== action.payload.restaurantId
       );

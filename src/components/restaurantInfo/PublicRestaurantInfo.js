@@ -21,7 +21,6 @@ const PublicRestaurantInfo = () => {
   const restaurant = restaurants.find(
     (restaurant) => restaurant._id === restaurantId
   );
-  console.log(restaurant);
   const {
     name,
     firstPhone,

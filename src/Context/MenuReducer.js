@@ -63,7 +63,6 @@ const reducer = (state, action) => {
       return { ...copyState, data: tempState3 };
 
     case "ADD_NEW_MENU":
-      console.log(action.payload.data);
       copyState.data.push({
         ...action.payload.data,
         ...menuUiState,

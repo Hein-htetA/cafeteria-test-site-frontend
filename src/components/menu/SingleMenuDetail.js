@@ -144,7 +144,6 @@ const SingleMenuDetail = () => {
         throw new Error("Update Failed");
       }
       const { editedMenu } = await response.json();
-      console.log("editedMenu", editedMenu);
       updateMenuState(editedMenu);
     } catch (error) {
       setMenu({

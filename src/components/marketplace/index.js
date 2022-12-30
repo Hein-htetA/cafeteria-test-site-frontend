@@ -27,7 +27,7 @@ const Marketplace = () => {
   const callbackFun = useCallback((entries) => {
     const [entry] = entries;
     if (entry.isIntersecting) {
-      console.log("entry intersection & increase page");
+      // console.log("entry intersection & increase page");
       increasePage();
     }
   }, []);

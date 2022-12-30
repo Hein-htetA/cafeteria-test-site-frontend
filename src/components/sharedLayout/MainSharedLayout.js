@@ -19,14 +19,11 @@ const MainSharedLayout = () => {
   const onError = useRef(null);
   const updateOrderSSEOnError = useRef(null);
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     const controller = new AbortController();
     let updateOrderSSE;
     if (isLoggedIn) {
       //restaurantId is available only after user logged in
-      setOrderState(controller, user.restaurantId);
       updateOrderSSE = new EventSource(
         localBaseUrl + `/orders/${user._id}/updateOrder`
       );
@@ -67,15 +64,13 @@ const MainSharedLayout = () => {
         }
       };
       updateOrderSSE.onmessage = (e) => {
-        console.log("updateOrderSSE on message");
-        // console.log("updated order", e.data);
+        // console.log("updateOrderSSE on message");
         const { _id: orderId, orderState, paymentStatus } = JSON.parse(e.data);
         updateOrderHistory(orderId, orderState, paymentStatus);
         // console.log("updated order", JSON.parse(e.data));
         // addNewOrder(JSON.parse(e.data));
       };
       updateOrderSSE.onerror = () => {
-        console.log("Error in connecting sse");
         updateOrderSSEOnError.current = true; //not to update fetch on without error
       };
     }
@@ -95,7 +90,7 @@ const MainSharedLayout = () => {
         localBaseUrl + `/orders/${user.restaurantId}/newOrder`
       );
       sse.onopen = () => {
-        console.log("sse opened");
+        // console.log("sse opened");
         onlineIndicate(true);
         if (onError.current) {
           //fetch order ajax if error occured
@@ -103,11 +98,9 @@ const MainSharedLayout = () => {
         }
       };
       sse.onmessage = (e) => {
-        console.log("sse on message");
         addNewOrder(JSON.parse(e.data));
       };
       sse.onerror = () => {
-        console.log("Error in connecting sse");
         onlineIndicate(false);
         onError.current = true; //not to update fetch on without error
       };
@@ -120,11 +113,9 @@ const MainSharedLayout = () => {
 
   useEffect(() => {
     const offlineHandler = () => {
-      console.log("offline handler ran");
       onlineIndicate(false);
     };
     const onlineHandler = () => {
-      console.log("online handler ran");
       onlineIndicate(true);
     };
     window.addEventListener("offline", offlineHandler);
