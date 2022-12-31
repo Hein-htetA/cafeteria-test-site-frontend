@@ -1,73 +1,52 @@
 const reducer = (state, action) => {
   // console.log("menu reducer run");
-  const copyState = JSON.parse(JSON.stringify(state));
-  const menuUiState = {
-    imageError: false,
-    nameError: false,
-    priceError: false,
-    deleteConfirmationBox: false,
-    deleteLoading: false,
-    saveLoading: false,
-    deleteError: false,
-    deleteSuccess: false,
-    saveError: false,
-    saveSuccess: false,
-  };
   switch (action.type) {
     case "SET_MENU_STATE":
-      const tempState1 = action.payload.data.map((menu) => ({
-        ...menu,
-        ...menuUiState,
-      }));
       return {
-        ...copyState,
-        data: tempState1,
+        ...state,
+        data: action.payload.data,
         menuLoading: false,
         menuError: false,
       };
 
     case "UPDATE_LOCAL_RESTAURANT":
       return {
-        ...copyState,
+        ...state,
         restaurant: action.payload,
         restaurantLoading: false,
         restaurantError: false,
       };
 
     case "RESTAURANT_LOADING":
-      return { ...copyState, restaurantLoading: true, restaurantError: false };
+      return { ...state, restaurantLoading: true, restaurantError: false };
 
     case "RESTAURANT_ERROR":
-      return { ...copyState, restaurantLoading: false, restaurantError: true };
+      return { ...state, restaurantLoading: false, restaurantError: true };
 
     case "MENU_LOADING":
-      return { ...copyState, menuLoading: true, menuError: false };
+      return { ...state, menuLoading: true, menuError: false };
 
     case "MENU_ERROR":
-      return { ...copyState, menuLoading: false, menuError: true };
+      return { ...state, menuLoading: false, menuError: true };
 
     case "UPDATE_MENU_STATE":
       //const { _id, name, price, description, imageUrl } = action.payload;
-      const tempState2 = copyState.data.map((menu) => {
+      const tempState2 = state.data.map((menu) => {
         if (menu._id === action.payload._id) {
           return { ...menu, ...action.payload };
         }
         return menu;
       });
-      return { ...copyState, data: tempState2 };
+      return { ...state, data: tempState2 };
 
     case "DELETE_MENU_STATE":
-      const tempState3 = copyState.data.filter(
+      const tempState3 = state.data.filter(
         (menu) => menu._id !== action.payload._id
       );
-      return { ...copyState, data: tempState3 };
+      return { ...state, data: tempState3 };
 
     case "ADD_NEW_MENU":
-      copyState.data.push({
-        ...action.payload.data,
-        ...menuUiState,
-      });
-      return { ...copyState };
+      return { ...state, data: [...state.data, action.payload.data] };
     default:
       throw new Error("action type not supported");
   }

@@ -2,8 +2,9 @@ import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import "./OrderStatus.css";
+import { getAmPmTime } from "../../order/SingleOrder";
 
-const OrderStatus = ({ orderState }) => {
+const OrderStatus = ({ orderState, updatedAt }) => {
   return (
     <div className="order-status-container">
       <select
@@ -31,7 +32,7 @@ const OrderStatus = ({ orderState }) => {
       </select>
       <div className="status-time">
         <FontAwesomeIcon icon={faClock} style={{ marginRight: "2px" }} />
-        3:03 AM
+        {getAmPmTime(updatedAt)}
       </div>
     </div>
   );

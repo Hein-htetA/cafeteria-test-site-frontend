@@ -13,7 +13,6 @@ const CustomerDetail = (props) => {
   const { customerName, phoneNumber, requestDelivery, address, paymentMethod } =
     props;
 
-  console.log("payment method cus detail", paymentMethod);
   return (
     <CheckoutGridContainer>
       <CheckoutField>Name</CheckoutField>

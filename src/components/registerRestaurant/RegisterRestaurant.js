@@ -209,6 +209,7 @@ const RegisterRestaurant = () => {
         <RegRestaurantAddPhoto
           onChangePhoto={onChangePhoto}
           removePhoto={removePhoto}
+          photoError={formErrors.photoError}
         />
         <RestaurantDetailGrid>
           <RestaurantName

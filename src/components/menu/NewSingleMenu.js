@@ -1,20 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./NewSingleMenu.css";
-import { Navigate, redirect, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useMenuContext } from "../../Context/MenuContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import {
   faCloudArrowUp,
   faCamera,
   faArrowRotateRight,
 } from "@fortawesome/free-solid-svg-icons";
 import Resizer from "react-image-file-resizer";
-import UpdateLoading from "../order/OrderStates/UpdateLoading";
 import MenuDeleteLoading from "./MenuDelete/MenuDeleteLoading";
-import MenuDeleteConfirmation from "./MenuDelete/MenuDeleteConfirmation";
 import { defaultImageUrl, localBaseUrl } from "../utils/baseUrl";
-import { useUiContext } from "../../Context/UserContext";
 const resizeFile = (file) =>
   new Promise((resolve) => {
     Resizer.imageFileResizer(

@@ -58,7 +58,10 @@ const CartOrder = () => {
 
               <CheckoutField>Status</CheckoutField>
               <CheckoutField>:</CheckoutField>
-              <OrderStatus orderState={order.orderState} />
+              <OrderStatus
+                orderState={order.orderState}
+                updatedAt={order.updatedAt}
+              />
             </CheckoutGridContainer>
             <hr
               style={{

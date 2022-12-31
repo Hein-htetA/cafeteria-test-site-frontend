@@ -1,55 +1,40 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import { reducer } from "./MenuReducer";
-import { menuData } from "../data";
-import Resizer from "react-image-file-resizer";
 import { localBaseUrl } from "../components/utils/baseUrl";
-import { useUiContext } from "./UserContext";
 
 const MenuContext = createContext();
 
-const MenuContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, {
-    data: [],
-    menuLoading: false,
-    menuError: false,
-    restaurant: {},
-    restaurantLoading: false,
-    restaurantError: false,
-  });
+const initialState = {
+  menuLoading: false,
+  menuError: false,
+  restaurantLoading: false,
+  restaurantError: false,
+};
 
-  const setMenuState = (controller) => {
-    const fetchMenu = async () => {
-      try {
-        dispatch({ type: "MENU_LOADING" });
-        const requestOptions = {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          signal: controller.signal,
-        };
-        const response = await fetch(
-          `${localBaseUrl}/menu/${state.restaurant._id}`,
-          requestOptions
-        );
-        if (!response.ok) {
-          const message = `An error has occured: ${response.status}`;
-          throw new Error(message);
-        }
-        const responseData = await response.json();
-        dispatch({
-          type: "SET_MENU_STATE",
-          payload: {
-            data: responseData.data,
-          },
-        });
-        // console.log("data", responseData.data);
-      } catch (e) {
-        console.log(e);
-        dispatch({ type: "MENU_ERROR" });
-      }
-    };
-    fetchMenu();
-  };
+const initializeFun = (arg) => {
+  let restaurant = [];
+  let data = [];
+
+  if (arg.myRestaurant) {
+    restaurant = JSON.parse(arg.myRestaurant);
+  }
+
+  if (arg.myMenu) {
+    data = JSON.parse(arg.myMenu);
+  }
+
+  return { restaurant, data, ...initialState };
+};
+
+const MenuContextProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(
+    reducer,
+    {
+      myRestaurant: sessionStorage.getItem("myRestaurant"),
+      myMenu: sessionStorage.getItem("myMenu"),
+    },
+    initializeFun
+  );
 
   const updateMenuState = (menu) => {
     dispatch({
@@ -138,11 +123,17 @@ const MenuContextProvider = ({ children }) => {
     dispatch({ type: "UPDATE_LOCAL_RESTAURANT", payload: restaurant });
   };
 
+  useEffect(() => {
+    sessionStorage.setItem("myRestaurant", JSON.stringify(state.restaurant));
+  }, [state.restaurant]);
+  useEffect(() => {
+    sessionStorage.setItem("myMenu", JSON.stringify(state.data));
+  }, [state.data]);
+
   return (
     <MenuContext.Provider
       value={{
         ...state,
-        setMenuState,
         updateMenuState,
         deleteMenuState,
         addNewMenu,

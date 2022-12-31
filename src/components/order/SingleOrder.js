@@ -23,7 +23,7 @@ import UpdateLoading from "./OrderStates/UpdateLoading";
 import UpdateError from "./OrderStates/UpdateError";
 import DeleteConfirmation from "./OrderStates/RejectConfirmation";
 
-const getAmPmTime = (dateString) => {
+export const getAmPmTime = (dateString) => {
   const date = new Date(dateString);
   let hour = date.getHours();
   let amPm = "AM";

@@ -85,7 +85,7 @@
 }
 
 .icon-placeholder {
-  width: 60px;
+  width: 65px;
   height: 40px;
 }
 
@@ -93,7 +93,7 @@
   display: flex;
   flex-direction: column;
   margin-top: 5px;
-  min-width: 60px;
+  min-width: 65px;
 }
 
 .envolope-link-container {

@@ -18,12 +18,8 @@ import { useMenuContext } from "../../Context/MenuContext";
 import LoadingOrder from "../order/OrderStates/LoadingOrder";
 
 const OwnRestaurantInfo = () => {
-  const {
-    updateLocalRestaurant,
-    restaurant,
-    restaurantLoading,
-    restaurantSuccess,
-  } = useMenuContext();
+  const { updateLocalRestaurant, restaurant, restaurantLoading } =
+    useMenuContext();
   const [formValues, setFormValues] = useState(restaurant);
   // const [formValues, setFormValues] = useState({
   //   restaurantPhotoUrl: "",
@@ -66,12 +62,6 @@ const OwnRestaurantInfo = () => {
     updateSuccess: false,
   });
 
-  // const { setRestaurant, restaurant } = useUiContext();
-
-  // useEffect(() => {
-  //   setFormValues({ ...formValues, ...restaurant });
-  // }, []);
-
   const onChangePhoto = async (e) => {
     const inputImage = e.target.files[0];
     if (inputImage.size > 6144000) {
@@ -79,7 +69,7 @@ const OwnRestaurantInfo = () => {
       return;
     }
     try {
-      const image = await resizeRestaurant(e.target.files[0]);
+      const image = await resizeRestaurant(inputImage);
       setFormValues({ ...formValues, restaurantImage: image });
       setFormErrors({ ...formErrors, photoError: false });
     } catch (error) {
@@ -219,6 +209,16 @@ const OwnRestaurantInfo = () => {
           onChangePhoto={onChangePhoto}
           removePhoto={removePhoto}
         />
+        {formErrors.photoError && (
+          <div className="image-error-message">
+            <div className="image-error-message-first">
+              Image Size {">"} 6MB
+            </div>
+            <div className="image-error-message-second">
+              Upload Unsuccessful!
+            </div>
+          </div>
+        )}
         <RestaurantDetailGrid>
           <RestaurantName
             name={formValues.name}

@@ -9,8 +9,6 @@ import RestaurantName from "./RestaurantName";
 import RestaurantPhone from "./RestaurantPhone";
 import RestaurantAddress from "./RestaurantAddress";
 import RestaurantEstablished from "./RestaurantEstablished";
-import RestaurantDelivery from "./RestaurantDelivery";
-import { useMenuContext } from "../../Context/MenuContext";
 import { usePublicDataContext } from "../../Context/PublicDataContext";
 import RegisterPaymentMethod from "../registerRestaurant/RegisterPaymentMethod";
 import RegisterDelivery from "../registerRestaurant/RegisterDelivery";

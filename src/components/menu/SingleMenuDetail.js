@@ -38,8 +38,18 @@ const SingleMenuDetail = () => {
     menuPhotoUrl: "",
     menuPhotoId: "",
     menuImage: "",
+    imageError: false,
+    nameError: false,
+    priceError: false,
+    deleteConfirmationBox: false,
+    saveLoading: false,
+    saveError: false,
+    saveSuccess: false,
+    deleteLoading: false,
+    deleteError: false,
+    deleteSuccess: false,
   });
-  const { menuId, menuCategory } = useParams();
+  const { menuId } = useParams();
   const { user } = useUserContext();
   const { data, updateMenuState, deleteMenuState } = useMenuContext();
   const navigate = useNavigate();

@@ -79,7 +79,6 @@ const UserContextProvider = ({ children }) => {
     <UserContext.Provider
       value={{
         ...state,
-
         onlineIndicate,
         setLoggedIn,
         setUser,
