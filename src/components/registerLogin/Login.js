@@ -123,7 +123,7 @@ const Login = () => {
         </span>
       </div>
       <div className="login-error-msg">
-        {loginStatus.loginError ? "wrong password oR phone number" : ""}
+        {loginStatus.loginError ? "wrong password or phone number" : ""}
       </div>
       <button className="login-bottom" onClick={handleLogin}>
         {loginStatus.loginLoading ? "Logging In" : "Login"}
