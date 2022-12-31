@@ -6,7 +6,7 @@ import CountName from "./CountName";
 import ItemPrice from "../../ItemPrice";
 import SubTotal from "../../SubTotal";
 
-const OrderSummary = ({ menuArray, amount }) => {
+const OrderSummary = ({ menuArray, amount, deliveryFee }) => {
   return (
     <div className="order-summary-container">
       {menuArray.map((menu) => {
@@ -26,7 +26,7 @@ const OrderSummary = ({ menuArray, amount }) => {
           marginTop: "10px",
         }}
       />
-      <SubTotal amount={amount} />
+      <SubTotal amount={amount} deliveryFee={deliveryFee} />
     </div>
   );
 };

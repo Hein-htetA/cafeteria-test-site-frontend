@@ -42,7 +42,6 @@ const SingleOrder = (props) => {
     _id,
     menuArray,
     message,
-    status,
     updatedAt,
     customerName,
     address,

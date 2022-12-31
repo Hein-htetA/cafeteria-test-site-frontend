@@ -86,9 +86,9 @@ const NavLinks = ({ navbar, closeNavbar }) => {
         </NavLink>
         <hr />
       </ul>
-      {restaurant.name && (
+      {/* {restaurant.name && (
         <p className="restaurant-name">***{" " + restaurant.name + " "}***</p>
-      )}
+      )} */}
       <button className="marketplace-link" onClick={enterMarketplace}>
         <div className="marketplace-text">Enter Marketplace</div>
         <FontAwesomeIcon icon={faRightLong} className="marketplace-arrow" />

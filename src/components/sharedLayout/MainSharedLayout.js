@@ -94,7 +94,7 @@ const MainSharedLayout = () => {
         onlineIndicate(true);
         if (onError.current) {
           //fetch order ajax if error occured
-          setUpdateOrderState(controller);
+          setUpdateOrderState(controller, user.restaurantId);
         }
       };
       sse.onmessage = (e) => {

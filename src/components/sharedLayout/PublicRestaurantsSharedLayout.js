@@ -9,11 +9,11 @@ const PublicRestaurantsSharedLayout = () => {
   const { setMenuLoading, setMenuError, addMenuState, menu } =
     usePublicDataContext();
   useEffect(() => {
-    const menuByRestaurantId = menu.filter(
+    const menuByRestaurantId = menu.find(
       (menu) => menu.restaurantId === restaurantId
     );
 
-    if (menuByRestaurantId.length > 0) return; //fetch only when there is no menu in session storage
+    if (menuByRestaurantId) return; //fetch only when there is no menu in session storage
 
     const fetchMenu = async (controller) => {
       const signal = controller.signal;

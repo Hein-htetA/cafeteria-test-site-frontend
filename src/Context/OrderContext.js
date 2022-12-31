@@ -406,7 +406,7 @@ const OrderContextProvider = ({ children }) => {
           signal: controller.signal,
         };
         const response = await fetch(
-          `${localBaseUrl}/orders/${restaurantId}`,
+          `${localBaseUrl}/orders/restaurant/${restaurantId}`,
           requestOptions
         );
         if (!response.ok) {

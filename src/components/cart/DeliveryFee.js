@@ -1,11 +1,11 @@
 import React from "react";
 import ItemPrice from "./ItemPrice";
 
-const DeliveryFee = () => {
+const DeliveryFee = ({ deliveryFee }) => {
   return (
     <>
       <div>Delivery Fee</div>
-      <ItemPrice amount={100} />
+      <ItemPrice amount={deliveryFee} />
     </>
   );
 };

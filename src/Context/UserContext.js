@@ -36,19 +36,19 @@ const UserContextProvider = ({ children }) => {
   //     dispatch({ type: "SET_LOGGED_IN" });
   //   }
   // }, []);
-  const openNavbar = () => {
-    dispatch({ type: "OPEN_NAVBAR" });
-  };
-  const closeNavbar = () => {
-    dispatch({ type: "CLOSE_NAVBAR" });
-  };
-  const toggleNavbar = () => {
-    dispatch({ type: "TOGGLE_NAVBAR" });
-  };
+  // const openNavbar = () => {
+  //   dispatch({ type: "OPEN_NAVBAR" });
+  // };
+  // const closeNavbar = () => {
+  //   dispatch({ type: "CLOSE_NAVBAR" });
+  // };
+  // const toggleNavbar = () => {
+  //   dispatch({ type: "TOGGLE_NAVBAR" });
+  // };
 
-  const toggleOrderNav = () => {
-    dispatch({ type: "TOGGLE_ORDER_NAV" });
-  };
+  // const toggleOrderNav = () => {
+  //   dispatch({ type: "TOGGLE_ORDER_NAV" });
+  // };
 
   const onlineIndicate = (value) => {
     dispatch({
@@ -71,18 +71,20 @@ const UserContextProvider = ({ children }) => {
     dispatch({ type: "SET_RESTAURANT", payload: data });
   };
 
+  const logoutUser = () => {
+    dispatch({ type: "LOGOUT_USER" });
+  };
+
   return (
     <UserContext.Provider
       value={{
         ...state,
-        toggleNavbar,
-        toggleOrderNav,
+
         onlineIndicate,
         setLoggedIn,
         setUser,
         setRestaurant,
-        openNavbar,
-        closeNavbar,
+        logoutUser,
       }}
     >
       {children}

@@ -35,7 +35,7 @@ const resizeProfile = (file) =>
   });
 
 const Profile = () => {
-  const { user, setUser, setLoggedIn } = useUserContext();
+  const { user, setUser, setLoggedIn, logoutUser } = useUserContext();
   const [formValues, setFormValues] = useState({ ...user, profileImage: "" });
   const [formErrors, setFormErrors] = useState({});
   const [updateStatus, setUpdateStatus] = useState({
@@ -86,7 +86,7 @@ const Profile = () => {
   const logOut = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    setLoggedIn();
+    logoutUser();
     navigate("/");
   };
 

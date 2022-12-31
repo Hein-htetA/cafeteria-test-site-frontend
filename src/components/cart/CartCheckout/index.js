@@ -289,11 +289,17 @@ const CartCheckout = () => {
         <OrderSummary
           menuArray={checkout.menuArray}
           amount={checkout.restaurantTotalAmount}
+          deliveryFee={(formValues.requestDelivery === "true" ? 1 : 0) * 100}
         />
         <RemoveFromCheckout clearCheckout={clearCheckout} />
         {/*Cross sign at the top*/}
       </CheckoutContainer>
-      <Total amount={checkout.restaurantTotalAmount + 100} />
+      <Total
+        amount={
+          checkout.restaurantTotalAmount +
+          (formValues.requestDelivery === "true" ? 1 : 0) * 100
+        }
+      />
       <CheckoutBtn
         backToCart={backToCart}
         handlePlaceOrder={handlePlaceOrder}

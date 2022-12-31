@@ -75,7 +75,6 @@ const NewSingleMenu = () => {
   };
 
   const onChangeImage = async (e) => {
-    console.log(e.target.files);
     if (e.target.files[0].size > 6000000) {
       setMenu({ ...menu, imageError: true });
       return;
