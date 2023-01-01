@@ -82,8 +82,14 @@ const CartOrder = () => {
                 <OrderSummary
                   menuArray={order.menuArray}
                   amount={order.totalAmount}
+                  deliveryFee={(order.requestDelivery === "true" ? 1 : 0) * 100}
                 />
-                <OrderSummaryTotal amount={order.totalAmount + 100} />
+                <OrderSummaryTotal
+                  amount={
+                    order.totalAmount +
+                    (order.requestDelivery === "true" ? 1 : 0) * 100
+                  }
+                />
               </>
             )}
 

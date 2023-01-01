@@ -12,6 +12,12 @@ const PhoneNumber = ({ phoneNumber, onChangeInput, phoneError }) => {
         className="ph-no-input"
         placeholder="9xxxxxxxxx"
         onChange={onChangeInput}
+        onKeyDown={(event) => {
+          if (!/[0-9]/.test(event.key) && event.key !== "Backspace") {
+            event.stopPropagation();
+            event.preventDefault();
+          }
+        }}
       />
       <span
         style={{

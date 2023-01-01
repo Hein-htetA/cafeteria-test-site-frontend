@@ -132,10 +132,15 @@ const CartContextProvider = ({ children }) => {
     });
   };
 
-  const updateOrderHistory = (orderId, orderState, paymentStatus) => {
+  const updateOrderHistory = (
+    orderId,
+    orderState,
+    paymentStatus,
+    updatedAt
+  ) => {
     dispatch({
       type: "UPDATE_ORDER_HISTORY",
-      payload: { orderId, orderState, paymentStatus },
+      payload: { orderId, orderState, paymentStatus, updatedAt },
     });
   };
 

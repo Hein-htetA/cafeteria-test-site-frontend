@@ -21,6 +21,12 @@ const ExtraPhone = (props) => {
           name="extraPhone"
           value={extraPhone}
           onChange={onChangeInput}
+          onKeyDown={(event) => {
+            if (!/[0-9]/.test(event.key) && event.key !== "Backspace") {
+              event.stopPropagation();
+              event.preventDefault();
+            }
+          }}
         />
         <span className="register-err-msg"></span>
       </div>

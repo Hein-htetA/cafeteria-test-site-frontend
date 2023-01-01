@@ -13,7 +13,7 @@ const AddressValue = ({
           width: "100%",
           border: "none",
           height: "50px",
-          overflow: "scroll",
+          overflowY: "scroll",
           textAlign: "justify",
         }}
         value={address}

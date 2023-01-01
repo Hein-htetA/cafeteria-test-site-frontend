@@ -3,11 +3,13 @@
   border-radius: 0.5rem;
   border: none;
   display: flex;
-  padding: 5px;
-  padding-left: 0px;
   border: 2px solid white;
   color: rgb(238, 94, 118);
   font-weight: bold;
+  padding: 3px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 .delivery-not-available-text {

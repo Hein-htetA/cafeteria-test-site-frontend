@@ -55,14 +55,16 @@ const App = () => {
                     <Route
                       index
                       element={
-                        localStorage.getItem("user") ? (
-                          <Navigate to="/marketplace" />
-                        ) : (
-                          <Login />
-                        )
+                        //   localStorage.getItem("user") ? (
+                        //     <Navigate to="/marketplace" />
+                        //   ) : (
+                        //     <Login />
+                        //   )
+                        //
+                        <Navigate to="/marketplace" />
                       }
                     />
-                    {/* <Route path="login" element={<Login />} /> */}
+                    <Route path="login" element={<Login />} />
                     <Route path="register" element={<Register />} />
                     <Route
                       path="marketplace"

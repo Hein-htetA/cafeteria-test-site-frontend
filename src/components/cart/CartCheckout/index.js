@@ -122,7 +122,9 @@ const CartCheckout = () => {
 
     const customerName = user.name;
 
-    const totalAmount = checkout.restaurantTotalAmount;
+    const totalAmount =
+      checkout.restaurantTotalAmount +
+      (formValues.requestDelivery === "true" ? 1 : 0) * 100;
 
     const menuArray = checkout.menuArray;
 

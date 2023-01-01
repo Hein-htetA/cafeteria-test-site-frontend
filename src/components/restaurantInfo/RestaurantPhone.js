@@ -31,6 +31,12 @@ const RestaurantPhone = (props) => {
             onChange={onChangeInput}
             placeholder="9xxxxxxxxx"
             disabled={!isOwner}
+            onKeyDown={(event) => {
+              if (!/[0-9]/.test(event.key) && event.key !== "Backspace") {
+                event.stopPropagation();
+                event.preventDefault();
+              }
+            }}
           />
           {firstPhoneError && (
             <span
@@ -62,6 +68,12 @@ const RestaurantPhone = (props) => {
             onChange={onChangeInput}
             placeholder="9xxxxxxxxx"
             disabled={!isOwner}
+            onKeyDown={(event) => {
+              if (!/[0-9]/.test(event.key) && event.key !== "Backspace") {
+                event.stopPropagation();
+                event.preventDefault();
+              }
+            }}
           />
           <a href={`tel:+95${secondPhone}`}>
             <FontAwesomeIcon icon={faPhoneFlip} />

@@ -47,12 +47,22 @@ textarea:focus {
 
 textarea {
   font-family: 'Times New Roman', Times, serif;
+  overflow-y: scroll;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+input[type=number] {
+  appearance: none;
+  -moz-appearance: textfield;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 /* Firefox */

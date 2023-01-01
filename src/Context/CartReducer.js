@@ -236,6 +236,7 @@ export const reducer = (state, action) => {
         if (order._id === action.payload.orderId) {
           order.orderState = action.payload.orderState;
           order.paymentStatus = action.payload.paymentStatus;
+          order.updatedAt = action.payload.updatedAt;
         }
         return order;
       });

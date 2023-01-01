@@ -7,14 +7,14 @@ import ScrollToTop from "../utils/ScrollToTop";
 
 const MyAccountSharedLayout = () => {
   const { isLoggedIn } = useUserContext();
-  // if (!isLoggedIn) {
-  //   return <Navigate to="/login" replace />;
-  // }
+  if (!isLoggedIn) {
+    return <Navigate to="/login" replace />;
+  }
   return (
     <>
       <ScrollToTop />
-      {isLoggedIn ? <Outlet /> : <Navigate to="/" replace />}
-      {/* <Outlet /> */}
+      {/* {isLoggedIn ? <Outlet /> : <Navigate to="/login" replace />} */}
+      <Outlet />
     </>
   );
 };

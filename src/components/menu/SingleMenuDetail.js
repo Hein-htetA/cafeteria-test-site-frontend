@@ -304,6 +304,12 @@ const SingleMenuDetail = () => {
                 placeholder="Price"
                 onChange={onChangePrice}
                 disabled={menu.deleteConfirmationBox || menu.saveLoading}
+                onKeyDown={(event) => {
+                  if (!/[0-9]/.test(event.key) && event.key !== "Backspace") {
+                    event.stopPropagation();
+                    event.preventDefault();
+                  }
+                }}
               />
               <span className="postfix">MMK</span>
             </div>

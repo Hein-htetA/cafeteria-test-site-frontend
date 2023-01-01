@@ -96,6 +96,12 @@ const Login = () => {
           name="phone"
           value={formValues.phone}
           onChange={onChangeInput}
+          onKeyDown={(event) => {
+            if (!/[0-9]/.test(event.key) && event.key !== "Backspace") {
+              event.stopPropagation();
+              event.preventDefault();
+            }
+          }}
         />
       </div>
       <div className="password-input">
@@ -125,7 +131,11 @@ const Login = () => {
       <div className="login-error-msg">
         {loginStatus.loginError ? "wrong password or phone number" : ""}
       </div>
-      <button className="login-bottom" onClick={handleLogin}>
+      <button
+        className="login-bottom"
+        onClick={handleLogin}
+        disabled={loginStatus.loginLoading}
+      >
         {loginStatus.loginLoading ? "Logging In" : "Login"}
       </button>
       <div className="dont-have-account">

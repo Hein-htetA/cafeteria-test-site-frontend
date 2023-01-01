@@ -17,7 +17,11 @@ const ProfileBtnGroup = (props) => {
           Log Out
         </button>
       )}
-      <button className="update-profile-btn" onClick={updateUser}>
+      <button
+        className="update-profile-btn"
+        onClick={updateUser}
+        disabled={updateStatus.updateLoading}
+      >
         {updateStatus.updateLoading ? (
           <div>Updating</div>
         ) : updateStatus.updateError ? (

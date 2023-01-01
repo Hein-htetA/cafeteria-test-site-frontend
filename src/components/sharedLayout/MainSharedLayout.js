@@ -11,7 +11,7 @@ import { useCartContext } from "../../Context/CartContext";
 
 const MainSharedLayout = () => {
   const { setOrderState, addNewOrder, setUpdateOrderState } = useOrderContext();
-  const { onlineIndicate, isLoggedIn, setUser, setLoggedIn, user } =
+  const { onlineIndicate, isLoggedIn, setUser, setLoggedIn, user, logoutUser } =
     useUserContext();
 
   const { setOrderHistory, setOrderHistoryLoading, updateOrderHistory } =
@@ -65,8 +65,13 @@ const MainSharedLayout = () => {
       };
       updateOrderSSE.onmessage = (e) => {
         // console.log("updateOrderSSE on message");
-        const { _id: orderId, orderState, paymentStatus } = JSON.parse(e.data);
-        updateOrderHistory(orderId, orderState, paymentStatus);
+        const {
+          _id: orderId,
+          orderState,
+          paymentStatus,
+          updatedAt,
+        } = JSON.parse(e.data);
+        updateOrderHistory(orderId, orderState, paymentStatus, updatedAt);
         // console.log("updated order", JSON.parse(e.data));
         // addNewOrder(JSON.parse(e.data));
       };
@@ -125,6 +130,22 @@ const MainSharedLayout = () => {
       window.removeEventListener("offline", offlineHandler);
       window.removeEventListener("online", onlineHandler);
     };
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const jwtPayload = JSON.parse(window.atob(token.split(".")[1]));
+      if (jwtPayload.exp * 1000 < new Date().getTime) {
+        //token is expire
+        logoutUser();
+        localStorage.removeItem("token");
+      } else {
+        setLoggedIn(); //if there is token, user will be there too
+      }
+    } else {
+      logoutUser();
+    }
   }, []);
 
   return (

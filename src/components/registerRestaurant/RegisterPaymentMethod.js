@@ -45,6 +45,12 @@ const RegisterPaymentMethod = (props) => {
             value={paymentMethods[1].additionalInfo.number}
             onChange={(e) => onChangeCheckbox(e, 1, "additionalInfo")}
             disabled={!isOwner}
+            onKeyDown={(event) => {
+              if (!/[0-9]/.test(event.key) && event.key !== "Backspace") {
+                event.stopPropagation();
+                event.preventDefault();
+              }
+            }}
           />
         </>
       )}
@@ -72,6 +78,12 @@ const RegisterPaymentMethod = (props) => {
             value={paymentMethods[2].additionalInfo.number}
             onChange={(e) => onChangeCheckbox(e, 2, "additionalInfo")}
             disabled={!isOwner}
+            onKeyDown={(event) => {
+              if (!/[0-9]/.test(event.key) && event.key !== "Backspace") {
+                event.stopPropagation();
+                event.preventDefault();
+              }
+            }}
           />
         </>
       )}

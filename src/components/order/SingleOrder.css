@@ -173,7 +173,10 @@
   border-radius: 5px;
   font-size: 0.8rem;
   font-weight: bold;
-  padding: 3px 0px;
+  padding: 3px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 
@@ -252,6 +255,7 @@ option:not(:checked) {
   border-radius: 5px;
   width: 50%;
   margin-right: 10px;
+  padding: 1px 3px;
 }
 
 .select-spinner {

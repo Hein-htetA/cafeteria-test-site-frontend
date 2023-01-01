@@ -14,6 +14,11 @@ const getAmPmTime = () => {
 };
 
 const days = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+const getDayName = (index) => {
+  const indexAndLength = index + days.length;
+  const actualIndex = indexAndLength % 7;
+  return days[actualIndex];
+};
 
 const TodayOrdersTitle = () => {
   return (
@@ -29,11 +34,11 @@ const TodayOrdersTitle = () => {
         textTransform: "uppercase",
       }}
     >
-      {days[new Date().getDay() - 1] +
+      {getDayName(new Date().getDay() - 1) +
         " " +
         getAmPmTime() +
         "   -   " +
-        days[new Date().getDay()] +
+        getDayName(new Date().getDay()) +
         " " +
         getAmPmTime()}
     </h2>
