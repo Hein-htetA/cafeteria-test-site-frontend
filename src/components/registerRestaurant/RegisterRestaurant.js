@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import RestaurantInfoContainer from "../restaurantInfo/RestaurantInfoContainer";
-import RestaurantNameTitle from "../restaurantInfo/RestaurantNameTitle";
 import RestaurantPhoto from "../restaurantInfo/RestaurantPhoto";
 import "./RegisterRestaurant.css";
 import RestaurantDetailGrid from "../restaurantInfo/RestaurantDetailGrid";

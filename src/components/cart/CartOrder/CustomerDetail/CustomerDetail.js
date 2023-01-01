@@ -1,13 +1,6 @@
 import React from "react";
-import AddressValue from "../../CartCheckout/AddressValue";
 import CheckoutField from "../../CartCheckout/CheckoutField";
 import CheckoutGridContainer from "../../CartCheckout/CheckoutGridContainer";
-import CheckoutValue from "../../CartCheckout/CheckoutValue";
-import DeliverySelect from "../../CartCheckout/DeliverySelect";
-import PaymentNameNumber from "../../CartCheckout/PaymentNameNumber";
-import RadioPaymentMethod from "../../CartCheckout/RadioPaymentMethod";
-import ValueInput from "../../CartCheckout/ValueInput";
-import PhoneNumber from "../../PhoneNumber";
 
 const CustomerDetail = (props) => {
   const { customerName, phoneNumber, requestDelivery, address, paymentMethod } =

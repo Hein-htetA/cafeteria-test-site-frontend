@@ -1,12 +1,9 @@
-import { faPhone, faPhoneFlip } from "@fortawesome/free-solid-svg-icons";
+import { faPhoneFlip } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { usePublicDataContext } from "../../../../Context/PublicDataContext";
 import CheckoutField from "../../CartCheckout/CheckoutField";
 import CheckoutGridContainer from "../../CartCheckout/CheckoutGridContainer";
-import CheckoutValue from "../../CartCheckout/CheckoutValue";
-import ValueInput from "../../CartCheckout/ValueInput";
-import PhoneNumber from "../../PhoneNumber";
 
 const RestaurantDetail = ({ restaurantId }) => {
   const { restaurants } = usePublicDataContext();

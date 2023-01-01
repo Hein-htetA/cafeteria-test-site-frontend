@@ -1,19 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBagShopping,
-  faBars,
-  faBasketShopping,
-  faCartArrowDown,
-  faCartPlus,
-  faCartShopping,
-  faSuitcase,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
-import { faEnvelope, faBell } from "@fortawesome/free-regular-svg-icons";
+import { faBars, faCartPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import React, { useState } from "react";
 import "./index.css";
 import NavLinks from "./NavLinks";
-import { useUiContext, useUserContext } from "../../Context/UserContext";
+import { useUserContext } from "../../Context/UserContext";
 import { Link } from "react-router-dom";
 import { useOrderContext } from "../../Context/OrderContext";
 import { useCartContext } from "../../Context/CartContext";

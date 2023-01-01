@@ -1,16 +1,9 @@
 import React from "react";
-import Navbar from "./components/navbar";
 import Order from "./components/order";
 import "./App.css";
 import { OrderContextProvider } from "./Context/OrderContext";
 import { UserContextProvider } from "./Context/UserContext";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Outlet,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import MainSharedLayout from "./components/sharedLayout/MainSharedLayout";
 import Menu from "./components/menu";
 import MenuSharedLayout from "./components/sharedLayout/MenuSharedLayout";
@@ -35,7 +28,6 @@ import PublicRestaurantInfo from "./components/restaurantInfo/PublicRestaurantIn
 import PublicRestaurantMenu from "./components/menu/MenuCategory/PublicRestaurantMenu";
 import PublicMenu from "./components/menu/PublicMenuIndex";
 import PublicSingleMenuDetail from "./components/menu/PublicSingleMenuDetail";
-import Cart from "./components/cart";
 import CartSharedLayout from "./components/sharedLayout/CartSharedLayout";
 import CartMenu from "./components/cart/CartMenu";
 import CartCheckout from "./components/cart/CartCheckout";

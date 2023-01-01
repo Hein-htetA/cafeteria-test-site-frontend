@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { validate } from "../registerRestaurant/validate";
 import RestaurantInfoContainer from "../restaurantInfo/RestaurantInfoContainer";
 import RestaurantPhoto from "../restaurantInfo/RestaurantPhoto";
 import { localBaseUrl } from "../utils/baseUrl";
 import { resizeRestaurant } from "../registerRestaurant/RegisterRestaurant";
-import { useUiContext } from "../../Context/UserContext";
 import RegRestaurantAddPhoto from "../registerRestaurant/RegRestaurantAddPhoto";
 import RestaurantDetailGrid from "../restaurantInfo/RestaurantDetailGrid";
 import RestaurantName from "../restaurantInfo/RestaurantName";

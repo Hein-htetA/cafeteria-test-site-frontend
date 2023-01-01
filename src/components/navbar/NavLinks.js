@@ -4,12 +4,10 @@ import { useUserContext } from "../../Context/UserContext";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightLong, faLock } from "@fortawesome/free-solid-svg-icons";
-import { useMenuContext } from "../../Context/MenuContext";
 const activeStyle = { color: "#0478f5" };
 
 const NavLinks = ({ navbar, closeNavbar }) => {
   const { isLoggedIn, user } = useUserContext();
-  const { restaurant } = useMenuContext();
   const navigate = useNavigate();
 
   const enterMarketplace = () => {

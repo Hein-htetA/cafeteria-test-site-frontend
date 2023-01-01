@@ -1,9 +1,7 @@
 import React from "react";
 import { useOrderContext } from "../../Context/OrderContext";
 import "./index.css";
-import SingleOrder from "../order/SingleOrder";
 import { displayOrder } from "../order";
-import { useUiContext } from "../../Context/UserContext";
 import LoadingOrder from "../order/OrderStates/LoadingOrder";
 import ConnectionError from "../order/OrderStates/ConnectionError";
 

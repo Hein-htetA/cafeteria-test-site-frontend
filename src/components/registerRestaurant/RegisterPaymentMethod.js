@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./RegisterPaymentMethod.css";
 const RegisterPaymentMethod = (props) => {
   const { paymentMethods, onChangeCheckbox, isOwner } = props;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useMenuContext } from "../../Context/MenuContext";
 import SingleMenu from "./SingleMenu";
 import { Link, useParams } from "react-router-dom";

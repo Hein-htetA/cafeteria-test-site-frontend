@@ -1,6 +1,5 @@
 import { useContext, useEffect, useReducer } from "react";
 import { createContext } from "react";
-import { localBaseUrl } from "../components/utils/baseUrl";
 import { reducer } from "./PublicDataReducer";
 
 const PublicDataContext = createContext();

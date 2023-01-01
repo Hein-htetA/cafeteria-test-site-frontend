@@ -1,8 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { useOrderContext } from "../../Context/OrderContext";
 import { useUserContext } from "../../Context/UserContext";
-import { localBaseUrl } from "../utils/baseUrl";
 import ScrollToTop from "../utils/ScrollToTop";
 
 const MyAccountSharedLayout = () => {

@@ -1,16 +1,9 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React from "react";
 import { useCartContext } from "../../../Context/CartContext";
-import { useUserContext } from "../../../Context/UserContext";
 import LoadingOrder from "../../order/OrderStates/LoadingOrder";
-import { localBaseUrl } from "../../utils/baseUrl";
 import CheckoutField from "../CartCheckout/CheckoutField";
 import CheckoutGridContainer from "../CartCheckout/CheckoutGridContainer";
-import CheckoutValue from "../CartCheckout/CheckoutValue";
 import OrderSummary from "../CartCheckout/OrderSummary";
-import OrderSummaryTitle from "../CartCheckout/OrderSummary/OrderSummaryTitle";
-import ValueInput from "../CartCheckout/ValueInput";
-import Total from "../Total";
 import CartOrderContainer from "./CartOrderContainer";
 import CustomerDetail from "./CustomerDetail/CustomerDetail";
 import CustomerDetailTitle from "./CustomerDetail/CustomerDetailTitle";

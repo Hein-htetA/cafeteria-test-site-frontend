@@ -1,17 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import Navbar from "../navbar";
-import { Outlet, useNavigate } from "react-router-dom";
-import ScrollToTop from "../utils/ScrollToTop";
+import { Outlet } from "react-router-dom";
 import { localBaseUrl } from "../utils/baseUrl";
 import { useUserContext } from "../../Context/UserContext";
 import { useOrderContext } from "../../Context/OrderContext";
-import Register from "../registerLogin/Register";
-import Login from "../registerLogin/Login";
 import { useCartContext } from "../../Context/CartContext";
 
 const MainSharedLayout = () => {
   const { setOrderState, addNewOrder, setUpdateOrderState } = useOrderContext();
-  const { onlineIndicate, isLoggedIn, setUser, setLoggedIn, user, logoutUser } =
+  const { onlineIndicate, isLoggedIn, setLoggedIn, user, logoutUser } =
     useUserContext();
 
   const { setOrderHistory, setOrderHistoryLoading, updateOrderHistory } =

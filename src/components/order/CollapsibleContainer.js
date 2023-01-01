@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useOrderContext } from "../../Context/OrderContext";
 import "./CollapsibleContainer.css";
 
@@ -8,8 +8,7 @@ const CollapsibleContainer = ({
   detailContainerHeight,
   detailHide,
 }) => {
-  const { setDetailContainerHeight, onClickHideShow, onClickDetailHide } =
-    useOrderContext();
+  const { setDetailContainerHeight, onClickDetailHide } = useOrderContext();
   //console.log(detailContainerHeight);
   // const [forceRender, setForceRender] = useState(true);
 

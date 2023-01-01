@@ -1,11 +1,8 @@
 import React from "react";
-import PhoneNumber from "../PhoneNumber";
 import CheckoutField from "./CheckoutField";
-import CheckoutGridContainer from "./CheckoutGridContainer";
 import CheckoutValue from "./CheckoutValue";
 import PaymentNameInput from "./PaymentNameInput";
 import PaymentNumberInput from "./PaymentNumberInput";
-import ValueInput from "./ValueInput";
 
 const PaymentNameNumber = ({
   paymentMethod,

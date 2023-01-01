@@ -1,5 +1,4 @@
 import React from "react";
-import OrderSummaryTitle from "./OrderSummaryTitle";
 import "./index.css";
 import SummaryGridContainer from "./SummaryGridContainer";
 import CountName from "./CountName";

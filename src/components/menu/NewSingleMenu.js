@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import "./NewSingleMenu.css";
 import { useParams } from "react-router-dom";
 import { useMenuContext } from "../../Context/MenuContext";

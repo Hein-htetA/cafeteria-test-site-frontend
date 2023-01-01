@@ -12,8 +12,6 @@ import Resizer from "react-image-file-resizer";
 import { validate } from "./validate";
 import { localBaseUrl } from "../utils/baseUrl";
 import "./index.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
 import ProfileTitle from "./ProfileTitle";
 import { useNavigate } from "react-router-dom";
 import ProfileBtnGroup from "./ProfileBtnGroup";
@@ -35,7 +33,7 @@ const resizeProfile = (file) =>
   });
 
 const Profile = () => {
-  const { user, setUser, setLoggedIn, logoutUser } = useUserContext();
+  const { user, setUser, logoutUser } = useUserContext();
   const [formValues, setFormValues] = useState({ ...user, profileImage: "" });
   const [formErrors, setFormErrors] = useState({});
   const [updateStatus, setUpdateStatus] = useState({
@@ -107,6 +105,10 @@ const Profile = () => {
           formValues.phone[0] === "0"
             ? formValues.phone.slice(1)
             : formValues.phone.slice(0),
+        extraPhone:
+          formValues.extraPhone[0] === "0"
+            ? formValues.extraPhone.slice(1)
+            : formValues.extraPhone.slice(0),
       }),
     };
 
