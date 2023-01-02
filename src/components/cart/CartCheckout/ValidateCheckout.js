@@ -2,7 +2,7 @@ export const ValidateCheckout = (formValue) => {
   const error = {};
 
   ///////////
-  if (!formValue.customerName) {
+  if (!formValue.customerName.trim()) {
     error.nameError = "required"; //customer name error
   }
 

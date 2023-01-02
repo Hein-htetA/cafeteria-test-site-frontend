@@ -2,7 +2,7 @@ export const validate = (formValue) => {
   const error = {};
 
   ///////////
-  if (!formValue.name) {
+  if (!formValue.name.trim()) {
     error.nameError = "required";
   }
 
