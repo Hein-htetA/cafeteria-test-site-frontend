@@ -11,16 +11,6 @@ import LoadingOrder from "./OrderStates/LoadingOrder";
 import OrderNav from "./OrderNav";
 import SingleOrder from "./SingleOrder";
 
-const dateSortFun = (a, b) => {
-  if (a.updatedAt > b.updatedAt) {
-    return -1;
-  } else if (a.updatedAt < b.updatedAt) {
-    return 1;
-  } else {
-    return 0;
-  }
-};
-
 export const displayOrder = (data, type, orderLoading, orderError) => {
   if (orderError) {
     return <ConnectionError />;

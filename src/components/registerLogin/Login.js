@@ -3,25 +3,30 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from "react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
-import { localBaseUrl } from "../utils/baseUrl";
-import { useUserContext } from "../../Context/UserContext";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../features/user/userSlice";
 
 const Login = () => {
   const [formValues, setFormValues] = useState({ phone: "", password: "" });
   const [passwordHide, setPasswordHide] = useState(true);
-  const [loginStatus, setLoginStatus] = useState({
-    loginLoading: false,
-    loginError: false,
-  });
+
   const navigate = useNavigate();
-  const { setUser, setLoggedIn } = useUserContext();
+
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const status = useSelector((state) => state.user.status);
+  if (isLoggedIn) {
+    navigate("/myAccount/profile", {
+      replace: true,
+    });
+  }
+
+  const dispatch = useDispatch();
 
   const onChangeInput = (e) => {
     setFormValues({
       ...formValues,
       [e.target.name]: e.target.value,
     });
-    setLoginStatus({});
   };
 
   const togglePassword = () => {
@@ -32,54 +37,6 @@ const Login = () => {
     navigate("/register");
   };
 
-  const handleLogin = async () => {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ...formValues,
-        phone:
-          formValues.phone[0] === "0"
-            ? formValues.phone.slice(1)
-            : formValues.phone.slice(0),
-      }),
-    };
-
-    try {
-      setLoginStatus({
-        ...loginStatus,
-        loginLoading: true,
-        loginError: false,
-      });
-      const response = await fetch(
-        `${localBaseUrl}/auth/login`,
-        requestOptions
-      );
-
-      if (!response.ok) {
-        throw new Error("something went wrong!");
-      }
-      const { user, token } = await response.json();
-      setLoginStatus({
-        ...loginStatus,
-        loginLoading: false,
-        loginError: false,
-      });
-      setLoggedIn();
-      setUser(user);
-      localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("token", token);
-      navigate("/myAccount/profile", {
-        replace: true,
-      });
-    } catch (error) {
-      setLoginStatus({
-        ...loginStatus,
-        loginLoading: false,
-        loginError: true,
-      });
-    }
-  };
   return (
     <div className="login-container">
       <h2 className="welcome-text">Welcome</h2>
@@ -89,7 +46,7 @@ const Login = () => {
           type="number"
           placeholder="9xxxxxxxxx"
           className={
-            loginStatus.loginError
+            status === "failed"
               ? "login-phone-input login-error"
               : "login-phone-input"
           }
@@ -129,14 +86,14 @@ const Login = () => {
         </span>
       </div>
       <div className="login-error-msg">
-        {loginStatus.loginError ? "wrong password or phone number" : ""}
+        {status === "failed" ? "wrong password or phone number" : ""}
       </div>
       <button
         className="login-bottom"
-        onClick={handleLogin}
-        disabled={loginStatus.loginLoading}
+        onClick={() => dispatch(loginUser(formValues))}
+        disabled={status === "loading"}
       >
-        {loginStatus.loginLoading ? "Logging In" : "Login"}
+        {status === "loading" ? "Logging In" : "Login"}
       </button>
       <div className="dont-have-account">
         <p>Don't have an account?</p>

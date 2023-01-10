@@ -8,6 +8,7 @@ import { useUserContext } from "../../Context/UserContext";
 import { Link } from "react-router-dom";
 import { useOrderContext } from "../../Context/OrderContext";
 import { useCartContext } from "../../Context/CartContext";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [navbar, setNavbar] = useState(false);
@@ -25,8 +26,9 @@ const Navbar = () => {
   };
 
   const { data } = useOrderContext();
-  const { online } = useUserContext();
+  // const { online } = useUserContext();
   const { totalCount } = useCartContext();
+  const online = useSelector((state) => state.user.online);
 
   const newOrderCount = data.filter(
     (order) => order.orderState === "newOrder"

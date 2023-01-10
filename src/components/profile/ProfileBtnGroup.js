@@ -1,18 +1,23 @@
 import { faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../features/user/userSlice";
 
 const ProfileBtnGroup = (props) => {
-  const { errorMsg, logOut, updateUser, updateStatus } = props;
+  const dispatch = useDispatch();
+  const { updateUser } = props;
+  const error = useSelector((state) => state.user.error);
+  const status = useSelector((state) => state.user.status);
   return (
     <div className="err-msg-profile-container">
-      {errorMsg ? (
-        <div className="profile-update-err-msg">{errorMsg}</div>
+      {error.serverError ? (
+        <div className="profile-update-err-msg">{error.serverError}</div>
       ) : (
         <button
           className="update-profile-btn"
-          onClick={logOut}
-          disabled={updateStatus.updateError}
+          onClick={() => dispatch(logoutUser())}
+          disabled={status === "loading"}
         >
           Log Out
         </button>
@@ -20,16 +25,16 @@ const ProfileBtnGroup = (props) => {
       <button
         className="update-profile-btn"
         onClick={updateUser}
-        disabled={updateStatus.updateLoading}
+        disabled={status === "loading"}
       >
-        {updateStatus.updateLoading ? (
+        {status === "loading" ? (
           <div>Updating</div>
-        ) : updateStatus.updateError ? (
+        ) : status === "failed" ? (
           <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
             <FontAwesomeIcon icon={faArrowRotateRight} />
             <div>Try Again</div>
           </div>
-        ) : updateStatus.updateSuccess ? (
+        ) : status === "succeeded" ? (
           <div>Updated!</div>
         ) : (
           <div>Update</div>

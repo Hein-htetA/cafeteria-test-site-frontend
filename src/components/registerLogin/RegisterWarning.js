@@ -1,11 +1,12 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
-const RegisterWarning = (props) => {
-  const { registerError, errorMsg } = props;
+const RegisterWarning = () => {
+  const error = useSelector((state) => state.user.error);
   return (
     <>
-      {registerError ? (
-        <div className="register-server-err-msg">{errorMsg}</div>
+      {error.serverError ? (
+        <div className="register-server-err-msg">{error.serverError}</div>
       ) : (
         <div className="warning-text">
           <span>*</span> fields are required

@@ -13,6 +13,7 @@ const initializeFun = (userString) => {
 
   if (userString) {
     user = JSON.parse(userString);
+
     isLoggedIn = true;
   }
 
@@ -27,28 +28,6 @@ const UserContextProvider = ({ children }) => {
     localStorage.getItem("user"),
     initializeFun
   );
-
-  // useEffect(() => {
-  //   const loggedInUser = localStorage.getItem("user");
-  //   if (loggedInUser) {
-  //     const foundUser = JSON.parse(loggedInUser);
-  //     dispatch({ type: "SET_USER", payload: foundUser });
-  //     dispatch({ type: "SET_LOGGED_IN" });
-  //   }
-  // }, []);
-  // const openNavbar = () => {
-  //   dispatch({ type: "OPEN_NAVBAR" });
-  // };
-  // const closeNavbar = () => {
-  //   dispatch({ type: "CLOSE_NAVBAR" });
-  // };
-  // const toggleNavbar = () => {
-  //   dispatch({ type: "TOGGLE_NAVBAR" });
-  // };
-
-  // const toggleOrderNav = () => {
-  //   dispatch({ type: "TOGGLE_ORDER_NAV" });
-  // };
 
   const onlineIndicate = (value) => {
     dispatch({

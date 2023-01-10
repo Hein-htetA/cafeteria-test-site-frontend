@@ -1,13 +1,14 @@
 import React from "react";
 import "./NavLinks.css";
-import { useUserContext } from "../../Context/UserContext";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightLong, faLock } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 const activeStyle = { color: "#0478f5" };
 
 const NavLinks = ({ navbar, closeNavbar }) => {
-  const { isLoggedIn, user } = useUserContext();
+  const restaurantId = useSelector((state) => state.user.userData.restaurantId);
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const navigate = useNavigate();
 
   const enterMarketplace = () => {
@@ -35,7 +36,7 @@ const NavLinks = ({ navbar, closeNavbar }) => {
         <hr />
         <NavLink
           to={
-            user.restaurantId
+            restaurantId
               ? `/myAccount/myRestaurant/menu`
               : "/myAccount/myRestaurant/register"
           }

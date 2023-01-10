@@ -1,17 +1,17 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
-import { useUserContext } from "../../Context/UserContext";
 import ScrollToTop from "../utils/ScrollToTop";
 
 const MyAccountSharedLayout = () => {
-  const { isLoggedIn } = useUserContext();
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+
   if (!isLoggedIn) {
     return <Navigate to="/login" replace />;
   }
   return (
     <>
       <ScrollToTop />
-      {/* {isLoggedIn ? <Outlet /> : <Navigate to="/login" replace />} */}
       <Outlet />
     </>
   );

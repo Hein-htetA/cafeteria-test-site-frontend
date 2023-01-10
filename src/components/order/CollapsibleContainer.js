@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 import { useOrderContext } from "../../Context/OrderContext";
 import "./CollapsibleContainer.css";
+import { setDetailContainerHeight as setDetailContainerHeightRTK } from "../../features/user/orderSlice";
 
 const CollapsibleContainer = ({
   id,
@@ -16,11 +18,19 @@ const CollapsibleContainer = ({
   // const heightRef = useRef(null);
   const firstRender = useRef(true);
 
+  const dispatch = useDispatch();
+
   // console.log("heightRef.current", heightRef.current);
 
   useEffect(() => {
     if (firstRender.current) {
       setDetailContainerHeight(id, collapseContainerRef.current.offsetHeight);
+      dispatch(
+        setDetailContainerHeightRTK({
+          id,
+          detailContainerHeight: collapseContainerRef.current.offsetHeight,
+        })
+      );
       firstRender.current = false;
       onClickDetailHide(id);
     }

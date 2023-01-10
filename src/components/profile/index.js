@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useUserContext } from "../../Context/UserContext";
 import Address from "../registerLogin/Address";
 import Email from "../registerLogin/Email";
@@ -13,8 +13,12 @@ import { validate } from "./validate";
 import { localBaseUrl } from "../utils/baseUrl";
 import "./index.css";
 import ProfileTitle from "./ProfileTitle";
-import { useNavigate } from "react-router-dom";
 import ProfileBtnGroup from "./ProfileBtnGroup";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  resetStatusAndError,
+  updateUser as update,
+} from "../../features/user/userSlice";
 
 const resizeProfile = (file) =>
   new Promise((resolve) => {
@@ -33,19 +37,20 @@ const resizeProfile = (file) =>
   });
 
 const Profile = () => {
-  const { user, setUser, logoutUser } = useUserContext();
-  const [formValues, setFormValues] = useState({ ...user, profileImage: "" });
-  const [formErrors, setFormErrors] = useState({});
-  const [updateStatus, setUpdateStatus] = useState({
-    updateSuccess: false,
-    updateError: false,
-    updateLoading: false,
-  });
+  const error = useSelector((state) => state.user.error);
+  const userData = useSelector((state) => state.user.userData);
 
-  const navigate = useNavigate();
+  const [formValues, setFormValues] = useState({
+    ...userData,
+    profileImage: "",
+  });
+  const [formErrors, setFormErrors] = useState({});
+
+  const dispatch = useDispatch();
 
   const onChangeProfile = async (e) => {
     const inputImage = e.target.files[0];
+    dispatch(resetStatusAndError());
     if (inputImage.size > 6144000) {
       setFormErrors({ ...formErrors, profilePhoto: true });
       return;
@@ -64,98 +69,21 @@ const Profile = () => {
       ...formValues,
       [e.target.name]: e.target.value,
     });
-    setUpdateStatus({
-      ...updateStatus,
-      updateError: false,
-      updateSuccess: false,
-    });
     setFormErrors({});
+    dispatch(resetStatusAndError());
   };
 
   const removeProfile = () => {
     setFormValues({ ...formValues, profilePhotoUrl: "", profileImage: "" });
-    setUpdateStatus({
-      ...updateStatus,
-      updateError: false,
-      updateSuccess: false,
-    });
+    dispatch(resetStatusAndError());
   };
 
-  const logOut = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    logoutUser();
-    navigate("/");
-  };
-
-  const updateUser = async () => {
+  const updateUser = () => {
     const error = validate(formValues);
     setFormErrors({ ...formErrors, ...error });
-
     if (Object.keys(error).length !== 0) return;
-    const requestOptions = {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify({
-        ...formValues,
-        phone:
-          formValues.phone[0] === "0"
-            ? formValues.phone.slice(1)
-            : formValues.phone.slice(0),
-        extraPhone:
-          formValues.extraPhone[0] === "0"
-            ? formValues.extraPhone.slice(1)
-            : formValues.extraPhone.slice(0),
-      }),
-    };
 
-    try {
-      setUpdateStatus({
-        ...updateStatus,
-        updateLoading: true,
-        updateError: false,
-      });
-      const response = await fetch(`${localBaseUrl}/users`, requestOptions);
-      if (!response.ok) {
-        if (response.status === 400) {
-          const { msg } = await response.json();
-          setUpdateStatus({
-            ...updateStatus,
-            updateLoading: false,
-            updateError: true,
-          });
-          setFormErrors({
-            ...formErrors,
-            phoneError: "Unavailable",
-            errorMsg: msg,
-          });
-          return;
-        }
-        throw new Error("something went wrong!");
-      }
-      const data = await response.json();
-      const { updatedUser } = data;
-      // Update request succeessful
-      setUpdateStatus({
-        ...updateStatus,
-        updateLoading: false,
-        updateError: false,
-        updateSuccess: true,
-      });
-      setUser(updatedUser);
-      localStorage.setItem("user", JSON.stringify(updatedUser));
-      setFormValues({ ...updatedUser, profileImage: "" });
-    } catch (error) {
-      setUpdateStatus({
-        ...updateStatus,
-        updateLoading: false,
-        updateError: true,
-      });
-      setFormErrors({ ...formErrors, errorMsg: "Something went wrong!" });
-    }
+    dispatch(update(formValues));
   };
 
   return (
@@ -177,7 +105,9 @@ const Profile = () => {
         <Phone
           phone={formValues.phone}
           onChangeInput={onChangeInput}
-          phoneError={formErrors.phoneError}
+          phoneError={
+            formErrors.phoneError || (error.serverError && "Unavailable")
+          } //error is reply from server
         />
         <Address onChangeInput={onChangeInput} address={formValues.address} />
         <Email onChangeInput={onChangeInput} email={formValues.email} />
@@ -186,12 +116,7 @@ const Profile = () => {
           extraPhone={formValues.extraPhone}
         />
       </RegisterInfoContainer>
-      <ProfileBtnGroup
-        errorMsg={formErrors.errorMsg}
-        logOut={logOut}
-        updateUser={updateUser}
-        updateStatus={updateStatus}
-      />
+      <ProfileBtnGroup updateUser={updateUser} />
     </RegisterContainer>
   );
 };
