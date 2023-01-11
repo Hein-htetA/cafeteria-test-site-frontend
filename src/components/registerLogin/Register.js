@@ -20,7 +20,7 @@ import ExtraPhone from "./ExtraPhone";
 import { useNavigate } from "react-router-dom";
 import LinkToLogin from "./LinkToLogin";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "../../features/user/userSlice";
+import { registerUser } from "../../features/userSlice";
 
 const resizeProfile = (file) =>
   new Promise((resolve) => {

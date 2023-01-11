@@ -1,11 +1,17 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { useOrderContext } from "../../../Context/OrderContext";
+import {
+  rejectOrder,
+  toggleRejectConfirmationBox,
+} from "../../../features/orderSlice";
 import "./RejectConfirmation.css";
 
 const DeleteConfirmation = (props) => {
   const { hideRejectConfirmationBox, sendToRecycleBin } = useOrderContext();
+  const dispatch = useDispatch();
   const recycleBinAndHide = (id) => {
-    sendToRecycleBin(id);
+    dispatch(rejectOrder(id));
     hideRejectConfirmationBox(id);
   };
   return (
@@ -13,10 +19,10 @@ const DeleteConfirmation = (props) => {
       <h5>Reject this Order?</h5>
       <p>This order will be rejected and moved to Recycle Bin.</p>
       <div className="confirmation-btn-container">
-        <button onClick={() => hideRejectConfirmationBox(props.id)}>
+        <button onClick={() => dispatch(toggleRejectConfirmationBox(props.id))}>
           Cancel
         </button>
-        <button onClick={() => recycleBinAndHide(props.id)}>Move</button>
+        <button onClick={() => dispatch(rejectOrder(props.id))}>Move</button>
       </div>
     </div>
   );

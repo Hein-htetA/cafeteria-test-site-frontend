@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   resetStatusAndError,
   updateUser as update,
-} from "../../features/user/userSlice";
+} from "../../features/userSlice";
 
 const resizeProfile = (file) =>
   new Promise((resolve) => {

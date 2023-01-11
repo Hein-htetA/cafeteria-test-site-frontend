@@ -109,20 +109,9 @@
   justify-content: flex-end;
 }
 
-.message-box, .address-box {
+.order-message-box {
   text-align: justify;
-  position: relative;
-}
-
-.message-text {
-  height: 100px;
-  overflow: scroll;
-  transition: height 0.3s linear;
-}
-
-.message-text-hidden, .address-text-hidden {
-  height: 2.7em;
-  overflow: hidden
+  padding-bottom: 5px;
 }
 
 .message-button-toggle, .address-button-toggle {

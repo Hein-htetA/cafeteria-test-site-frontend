@@ -6,20 +6,25 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { useOrderContext } from "../../../Context/OrderContext";
+import {
+  acceptOrder,
+  toggleDetailContainer,
+  toggleRejectConfirmationBox,
+} from "../../../features/orderSlice";
 
 const NewOrderBtnGroup = (props) => {
   const { _id, detailHide } = props;
 
-  const { displayRejectConfirmationBox, sendToOrderReceived, onClickHideShow } =
-    useOrderContext();
+  const dispatch = useDispatch();
 
   return (
     <div className={"order-btn-container-order"}>
       <div className="recycle-bin-btn-container">
         <button
           className={"recycle-bin-btn"}
-          onClick={() => displayRejectConfirmationBox(_id)}
+          onClick={() => dispatch(toggleRejectConfirmationBox(_id))}
         >
           Recycle Bin
           <FontAwesomeIcon icon={faTrashCan} />
@@ -28,7 +33,8 @@ const NewOrderBtnGroup = (props) => {
       <div className="toggle-detail-btn-container">
         <button
           className="toggle-detail-btn"
-          onClick={() => onClickHideShow(_id, "detailHide")}
+          // onClick={() => onClickHideShow(_id, "detailHide")}
+          onClick={() => dispatch(toggleDetailContainer(_id))}
         >
           {detailHide ? (
             <>
@@ -45,7 +51,7 @@ const NewOrderBtnGroup = (props) => {
       </div>
       <button
         className={"recycle-bin-btn"}
-        onClick={() => sendToOrderReceived(_id)}
+        onClick={() => dispatch(acceptOrder(_id))}
       >
         Accept
         <FontAwesomeIcon icon={faCheck} />

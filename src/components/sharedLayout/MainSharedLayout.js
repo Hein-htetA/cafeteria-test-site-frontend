@@ -2,19 +2,18 @@ import React, { useEffect, useRef } from "react";
 import Navbar from "../navbar";
 import { Outlet } from "react-router-dom";
 import { localBaseUrl } from "../utils/baseUrl";
-import { useOrderContext } from "../../Context/OrderContext";
 import { useCartContext } from "../../Context/CartContext";
-import { setOnline, setOffline } from "../../features/user/userSlice";
+import { setOnline, setOffline } from "../../features/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNewOrder as addNewOrderRTK,
   fetchInitialOrders,
-} from "../../features/user/orderSlice";
+  fetchOrdersAfterSSEFailed,
+} from "../../features/orderSlice";
+import { fetchMenu, fetchRestaurant } from "../../features/restaurantSlice";
 
 const MainSharedLayout = () => {
-  const { setOrderState, addNewOrder, setUpdateOrderState } = useOrderContext();
-  // const { onlineIndicate, isLoggedIn, setLoggedIn, user, logoutUser } =
-  //   useUserContext();
+  const userData = useSelector((state) => state.user.userData);
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const _id = useSelector((state) => state.user.userData._id);
   const restaurantId = useSelector((state) => state.user.userData.restaurantId);
@@ -24,7 +23,7 @@ const MainSharedLayout = () => {
 
   const dispatch = useDispatch();
 
-  const onError = useRef(null);
+  const newOrderSSE = useRef(null);
   const updateOrderSSEOnError = useRef(null);
 
   useEffect(() => {
@@ -92,34 +91,29 @@ const MainSharedLayout = () => {
   }, [isLoggedIn, restaurantId]);
 
   useEffect(() => {
-    const controller = new AbortController();
     let sse;
     if (isLoggedIn && restaurantId) {
       //restaurantId is available only after user logged in
-      setOrderState(controller, restaurantId);
       dispatch(fetchInitialOrders(restaurantId));
       sse = new EventSource(localBaseUrl + `/orders/${restaurantId}/newOrder`);
       sse.onopen = () => {
-        // console.log("sse opened");
         dispatch(setOnline());
 
-        if (onError.current) {
+        if (newOrderSSE.current) {
           //fetch order ajax if error occured
-          setUpdateOrderState(controller, restaurantId);
+          dispatch(fetchOrdersAfterSSEFailed(restaurantId));
         }
       };
       sse.onmessage = (e) => {
-        addNewOrder(JSON.parse(e.data));
         dispatch(addNewOrderRTK(JSON.parse(e.data)));
       };
       sse.onerror = () => {
         dispatch(setOffline());
-        onError.current = true; //not to update fetch on without error
+        newOrderSSE.current = true; //not to update fetch on without error
       };
     }
     return () => {
-      //sse.close();
-      controller.abort();
+      sse.close();
     };
   }, [isLoggedIn, restaurantId]);
 
@@ -137,6 +131,14 @@ const MainSharedLayout = () => {
       window.removeEventListener("offline", offlineHandler);
       window.removeEventListener("online", onlineHandler);
     };
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchRestaurant(userData.restaurantId));
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchMenu(userData.restaurantId));
   }, []);
 
   return (

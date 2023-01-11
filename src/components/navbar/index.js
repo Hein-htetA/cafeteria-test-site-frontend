@@ -25,14 +25,14 @@ const Navbar = () => {
     setNavbar((navbar) => !navbar);
   };
 
-  const { data } = useOrderContext();
-  // const { online } = useUserContext();
   const { totalCount } = useCartContext();
   const online = useSelector((state) => state.user.online);
+  const orderData = useSelector((state) => state.order.orderData);
 
-  const newOrderCount = data.filter(
+  const newOrderCount = orderData.filter(
     (order) => order.orderState === "newOrder"
   ).length;
+
   return (
     <>
       <nav className="nav-container">

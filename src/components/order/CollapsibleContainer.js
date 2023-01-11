@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useOrderContext } from "../../Context/OrderContext";
 import "./CollapsibleContainer.css";
-import { setDetailContainerHeight as setDetailContainerHeightRTK } from "../../features/user/orderSlice";
+import { setDetailContainerHeight as setDetailContainerHeightRTK } from "../../features/orderSlice";
 
 const CollapsibleContainer = ({
   id,

@@ -10,13 +10,12 @@ import "./index.css";
 import LoadingOrder from "./OrderStates/LoadingOrder";
 import OrderNav from "./OrderNav";
 import SingleOrder from "./SingleOrder";
+import { useSelector } from "react-redux";
 
-export const displayOrder = (data, type, orderLoading, orderError) => {
-  if (orderError) {
+export const displayOrder = (data, type, status) => {
+  if (status === "failed") {
     return <ConnectionError />;
-  }
-
-  if (orderLoading) {
+  } else if (status === "loading") {
     return <LoadingOrder />;
   }
 
@@ -29,7 +28,7 @@ export const displayOrder = (data, type, orderLoading, orderError) => {
 };
 
 const Order = () => {
-  const { data, orderLoading, orderError } = useOrderContext();
+  const { orderLoading, orderError } = useOrderContext();
 
   const orderReceivedRef = useRef(null);
   const orderAcceptedRef = useRef(null);
@@ -44,14 +43,17 @@ const Order = () => {
     window.scrollTo(0, onDeliveryRef.current.offsetTop);
   };
 
+  const orderData = useSelector((state) => state.order.orderData);
+  const status = useSelector((state) => state.order.status);
+
   return (
     <main className="order-container">
       <OrderNav {...{ onClick1, onClick2, onClick3 }} />
       <h3 ref={orderAcceptedRef}>Order Queue</h3>
-      {displayOrder(data, "order", orderLoading, orderError)}
+      {displayOrder(orderData, "order", status)}
 
       <h3 ref={onDeliveryRef}>On Delivery</h3>
-      {displayOrder(data, "onDelivery", orderLoading, orderError)}
+      {displayOrder(orderData, "onDelivery", status)}
     </main>
   );
 };

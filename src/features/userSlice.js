@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { localBaseUrl } from "../../components/utils/baseUrl";
+import { localBaseUrl } from "../components/utils/baseUrl";
 
 const initializeFun = () => {
   const userData =

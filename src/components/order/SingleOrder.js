@@ -1,15 +1,12 @@
-import React, { useRef } from "react";
+import React from "react";
 import "./SingleOrder.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faClock,
-  faSquareCaretDown,
-  faSquareCaretUp,
   faArrowRotateRight,
   faSpinner,
   faPhoneFlip,
 } from "@fortawesome/free-solid-svg-icons";
-import { useOrderContext } from "../../Context/OrderContext";
 import CollapsibleContainer from "./CollapsibleContainer";
 import NewOrderBtnGroup from "./BtnGroup/NewOrderBtnGroup";
 import OrderBtnGroup from "./BtnGroup/OrderBtnGroup";
@@ -19,6 +16,8 @@ import HistoryBtnGroup from "./BtnGroup/HistoryBtnGroup";
 import UpdateLoading from "./OrderStates/UpdateLoading";
 import UpdateError from "./OrderStates/UpdateError";
 import DeleteConfirmation from "./OrderStates/RejectConfirmation";
+import { useDispatch } from "react-redux";
+import { onChangePaymentStatus } from "../../features/orderSlice";
 
 export const getAmPmTime = (dateString) => {
   const date = new Date(dateString);
@@ -46,32 +45,16 @@ const SingleOrder = (props) => {
     requestDelivery,
     paymentStatus,
     phoneNumber,
-    messageHide,
     detailContainerHeight,
     detailHide,
     orderState,
     paymentMethod,
-    updateLoading,
-    updateError,
-    displayConfirmationBox,
-    paymentStatusNoEdit,
-    paymentStatusLoading,
-    paymentStatusError,
+    updateStatus,
+    paymentStatusStatus,
+    displayRejectConfirmationBox,
   } = props;
 
-  const { onChangeInputSelect, onClickHideShow, retryPaymentStatus } =
-    useOrderContext();
-
-  const scrollRef = useRef(null);
-
-  const hideShowScroll = () => {
-    onClickHideShow(_id, "messageHide");
-    scrollRef.current.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
-  };
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -86,23 +69,16 @@ const SingleOrder = (props) => {
             : "single-order-container-history"
         }
       >
-        {displayConfirmationBox && <DeleteConfirmation id={_id} />}
-        {updateLoading && <UpdateLoading />}
-        {updateError && <UpdateError />}
+        {displayRejectConfirmationBox && <DeleteConfirmation id={_id} />}
+        {updateStatus === "loading" && <UpdateLoading />}
+        {updateStatus === "failed" && <UpdateError />}
 
         <ul className="order-ul">
           {menuArray.map((order) => {
             return (
               <li className="name-count-container" key={order._id}>
                 <div className="food-name">
-                  <input
-                    value={order.name}
-                    placeholder="Name"
-                    onChange={(e) =>
-                      onChangeInputSelect(order._id, "foodName", e)
-                    }
-                    readOnly
-                  />
+                  <input value={order.name} placeholder="Name" readOnly />
                 </div>
                 <div className="food-count">
                   <div style={{ marginRight: "20px" }}>x</div>
@@ -114,28 +90,8 @@ const SingleOrder = (props) => {
           <li className="message-container">
             <div>Message</div>
             <div>:</div>
-            <div className="message-box">
-              <div
-                className={
-                  messageHide
-                    ? "message-text message-text-hidden"
-                    : "message-text"
-                }
-                ref={scrollRef}
-              >
-                {message}
-              </div>
-              <div className="message-button-toggle">
-                {messageHide ? (
-                  <button onClick={hideShowScroll}>
-                    <FontAwesomeIcon icon={faSquareCaretDown} />
-                  </button>
-                ) : (
-                  <button onClick={hideShowScroll}>
-                    <FontAwesomeIcon icon={faSquareCaretUp} />
-                  </button>
-                )}
-              </div>
+            <div className={"order-message-box"}>
+              <div className={"message-text"}>{message}</div>
             </div>
           </li>
           <li>
@@ -154,7 +110,6 @@ const SingleOrder = (props) => {
                     ? "status-select-onDelivery"
                     : "status-select-history"
                 }
-                onChange={(e) => onChangeInputSelect(_id, "status", e)}
                 value={orderState}
                 disabled
               >
@@ -229,9 +184,9 @@ const SingleOrder = (props) => {
                 </div>
                 <div className="select-spinner">
                   <select
-                    onChange={(e) => onChangeInputSelect(_id, e)}
+                    onChange={() => dispatch(onChangePaymentStatus(_id))}
                     value={paymentStatus}
-                    disabled={paymentStatusLoading}
+                    disabled={paymentStatusStatus === "loading"}
                     className={
                       paymentStatus
                         ? "payment-select-received"
@@ -243,22 +198,22 @@ const SingleOrder = (props) => {
                   </select>
                   <span
                     className={
-                      paymentStatusNoEdit
+                      false
                         ? "payment-status-container payment-status-container-hide"
                         : "payment-status-container"
                     }
                   >
-                    {paymentStatusError && (
+                    {paymentStatusStatus === "failed" && (
                       <>
                         <button
                           className="try-again-btn"
-                          onClick={() => retryPaymentStatus(_id)}
+                          onClick={() => dispatch(onChangePaymentStatus(_id))}
                         >
                           <FontAwesomeIcon icon={faArrowRotateRight} />
                         </button>
                       </>
-                    )}{" "}
-                    {paymentStatusLoading && (
+                    )}
+                    {paymentStatusStatus === "loading" && (
                       <FontAwesomeIcon
                         icon={faSpinner}
                         spin

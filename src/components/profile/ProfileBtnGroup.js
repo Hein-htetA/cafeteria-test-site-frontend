@@ -2,7 +2,7 @@ import { faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../../features/user/userSlice";
+import { logoutUser } from "../../features/userSlice";
 
 const ProfileBtnGroup = (props) => {
   const dispatch = useDispatch();

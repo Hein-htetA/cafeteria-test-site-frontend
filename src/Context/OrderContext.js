@@ -158,7 +158,6 @@ const OrderContextProvider = ({ children }) => {
       body: JSON.stringify({
         orderId: id,
         orderState: "recycleBin",
-        status: "received",
       }),
     };
     try {

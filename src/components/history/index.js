@@ -1,18 +1,15 @@
 import React from "react";
-import { useOrderContext } from "../../Context/OrderContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import SingleOrder from "../order/SingleOrder";
 import { displayOrder } from "../order";
-import { useUiContext } from "../../Context/UserContext";
+import { useSelector } from "react-redux";
 
 const History = () => {
-  const { data, orderLoading, orderError } = useOrderContext();
+  const orderData = useSelector((state) => state.order.orderData);
+  const status = useSelector((state) => state.order.status);
 
   return (
     <div className="trashbin-container">
       <div className="trashbin-title">Completed Orders</div>
-      {displayOrder(data, "history", orderLoading, orderError)}
+      {displayOrder(orderData, "history", status)}
     </div>
   );
 };
