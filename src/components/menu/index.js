@@ -1,17 +1,17 @@
 import React from "react";
-import { useMenuContext } from "../../Context/MenuContext";
 import SingleMenu from "./SingleMenu";
 import { Link, useParams } from "react-router-dom";
 import "./index.css";
 import MenuLoading from "./MenuLoadingError/MenuLoading";
 import MenuError from "./MenuLoadingError/MenuError";
 import NewSingleMenu from "./NewSingleMenu";
+import { useSelector } from "react-redux";
 
 const Menu = () => {
-  const { data, menuLoading, menuError, setRestaurantState } = useMenuContext();
+  const menuData = useSelector((state) => state.restaurant.menuData);
+  const menuStatus = useSelector((state) => state.restaurant.menuStatus);
   const { menuCategory } = useParams();
 
-  //console.log("category", menuCategory);
   return (
     <div className="single-category-container">
       <h2 className="category-title">
@@ -26,13 +26,13 @@ const Menu = () => {
           : "additional items"}
       </h2>
       <div className="single-menu-container">
-        {menuLoading ? (
+        {menuStatus === "loading" ? (
           <MenuLoading />
-        ) : menuError ? (
-          <MenuError setRestaurantState={setRestaurantState} />
+        ) : menuStatus === "failed" ? (
+          <MenuError />
         ) : (
           <>
-            {data
+            {menuData
               .filter((menu) => menu.category === menuCategory)
               .map((menu) => (
                 <Link

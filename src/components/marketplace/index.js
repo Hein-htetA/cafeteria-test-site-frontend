@@ -4,31 +4,46 @@ import { Link } from "react-router-dom";
 import SingleRestaurant from "./SingleRestaurant";
 import RestaurantLoading from "./Marketplace_States/RestaurantLoading";
 import TryAgain from "./Marketplace_States/TryAgain";
-import { usePublicDataContext } from "../../Context/PublicDataContext";
-import useRestaurantsFetch from "../customHooks/useRestaurantsFetch";
 import MoreRestaurantLoading from "./Marketplace_States/MoreRestaurantLoading";
 import NoMoreRestaurant from "./Marketplace_States/NoMoreRestaurant";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchRestaurantsByPage,
+  increasePage as increasePageRTK,
+} from "../../features/publicDataSlice";
 
 const Marketplace = () => {
-  const {
-    increasePage,
-    restaurantLoading,
-    restaurantError,
-    restaurants,
-    moreRestaurantLoading,
-    firstLoadSuccess,
-    noMoreRestaurant,
-  } = usePublicDataContext();
+  // const {
+  //   increasePage,
+  //   restaurantLoading,
+  //   restaurantError,
+  //   restaurants,
+  //   moreRestaurantLoading,
+  //   firstLoadSuccess,
+  //   noMoreRestaurant,
+  // } = usePublicDataContext();
+
+  const publicRestaurants = useSelector(
+    (state) => state.publicData.publicRestaurants
+  );
+  const page = useSelector((state) => state.publicData.page);
+  const restaurantStatus = useSelector(
+    (state) => state.publicData.restaurantStatus
+  );
+  const endOfResult = useSelector((state) => state.publicData.endOfResult);
 
   const containerRef = useRef(null);
 
-  useRestaurantsFetch();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchRestaurantsByPage(page));
+  }, [page]);
 
   const callbackFun = useCallback((entries) => {
     const [entry] = entries;
     if (entry.isIntersecting) {
-      // console.log("entry intersection & increase page");
-      increasePage();
+      dispatch(increasePageRTK());
     }
   }, []);
 
@@ -49,17 +64,17 @@ const Marketplace = () => {
   return (
     <div className="restaurant-link-container">
       <div className="marketplace-title">Marketplace</div>
-      {restaurantLoading ? (
+      {restaurantStatus === "loading" && publicRestaurants.length === 0 ? (
         <>
           <RestaurantLoading />
           <RestaurantLoading />
         </>
-      ) : restaurantError ? (
+      ) : restaurantStatus === "failed" ? (
         <RestaurantLoading>
           <TryAgain />
         </RestaurantLoading>
       ) : (
-        restaurants.map((restaurant) => {
+        publicRestaurants.map((restaurant) => {
           return (
             <Link
               key={restaurant._id}
@@ -72,18 +87,19 @@ const Marketplace = () => {
         })
       )}
 
+      <div className="loading-endOfResult">
+        {restaurantStatus === "loading" && <MoreRestaurantLoading />}
+        {endOfResult && <NoMoreRestaurant />}
+      </div>
+
       <div
         className={
-          firstLoadSuccess && !moreRestaurantLoading //hide trigger while loading
-            ? "load-more-restaurant-trigger "
-            : "load-more-restaurant-trigger load-more-restaurant-trigger-hide"
+          restaurantStatus === "loading" || endOfResult
+            ? "load-more-restaurant-trigger load-more-restaurant-trigger-hide"
+            : "load-more-restaurant-trigger "
         }
         ref={containerRef}
       ></div>
-
-      {moreRestaurantLoading && !noMoreRestaurant && <MoreRestaurantLoading />}
-      {/* This component can only be conditionally mounted to get prefer scroll behavious */}
-      {noMoreRestaurant && <NoMoreRestaurant />}
     </div>
   );
 };

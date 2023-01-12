@@ -3,12 +3,14 @@ import userSlice from "./features/userSlice";
 import orderSlice from "./features/orderSlice";
 import { handleLocalStorageMiddleware } from "./middleware/handleLocalStorage";
 import restaurantSlice from "./features/restaurantSlice";
+import publicDataSlice from "./features/publicDataSlice";
 
 const store = configureStore({
   reducer: {
     user: userSlice,
     order: orderSlice,
     restaurant: restaurantSlice,
+    publicData: publicDataSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(handleLocalStorageMiddleware),

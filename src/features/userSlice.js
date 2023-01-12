@@ -171,6 +171,9 @@ const userSlice = createSlice({
       state.status = "idle";
       state.error = "";
     },
+    updateUserRestaurantId: (state, action) => {
+      state.userData.restaurantId = action.payload;
+    },
   },
   extraReducers(builder) {
     builder
@@ -220,7 +223,12 @@ const userSlice = createSlice({
 
 export { loginUser, updateUser, registerUser };
 
-export const { logoutUser, setOnline, setOffline, resetStatusAndError } =
-  userSlice.actions;
+export const {
+  logoutUser,
+  setOnline,
+  setOffline,
+  resetStatusAndError,
+  updateUserRestaurantId,
+} = userSlice.actions;
 
 export default userSlice.reducer;

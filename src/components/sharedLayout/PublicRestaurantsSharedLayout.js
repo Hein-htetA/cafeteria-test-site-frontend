@@ -34,15 +34,6 @@ const PublicRestaurantsSharedLayout = () => {
         }
         const { data } = await response.json();
         addMenuState(data);
-        //appending fetch restaurants to sessionStorage
-        // const oldMenu = sessionStorage.getItem("menu");
-        // if (oldMenu) {
-        //   const oldObj = JSON.parse(oldMenu);
-        //   const newObj = [...oldObj, ...data];
-        //   sessionStorage.setItem("menu", JSON.stringify(newObj));
-        // } else {
-        //   sessionStorage.setItem("menu", JSON.stringify(data));
-        // }
       } catch (error) {
         setMenuError();
       }

@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useDispatch } from "react-redux";
 import { usePublicDataContext } from "../../Context/PublicDataContext";
+import { fetchRestaurantsByPage } from "../../features/publicDataSlice";
 import { localBaseUrl } from "../utils/baseUrl";
 
 function useRestaurantsFetch() {
@@ -12,6 +14,8 @@ function useRestaurantsFetch() {
     setRestaurantError,
     noMoreRestaurant,
   } = usePublicDataContext();
+
+  const dispatch = useDispatch();
 
   const fetchRestaurants = useCallback(
     async (controller) => {
@@ -51,6 +55,10 @@ function useRestaurantsFetch() {
     },
     [page]
   );
+
+  useEffect(() => {
+    dispatch(fetchRestaurantsByPage(page));
+  }, [page]);
 
   useEffect(() => {
     if (noMoreRestaurant) return;

@@ -33,3 +33,12 @@
   position: fixed;
   bottom: -500px;
 }
+
+.loading-endOfResult {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+}
+

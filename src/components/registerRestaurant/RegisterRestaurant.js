@@ -13,11 +13,10 @@ import RegisterPaymentMethod from "./RegisterPaymentMethod";
 import RegisterDelivery from "./RegisterDelivery";
 import RegisterRestaurantBtn from "./RegisterRestaurantBtn";
 import { validate } from "./validate";
-import { localBaseUrl } from "../utils/baseUrl";
-import { useUserContext } from "../../Context/UserContext";
 import { useNavigate } from "react-router-dom";
 import RegRestaurantAddPhoto from "./RegRestaurantAddPhoto";
-import { useMenuContext } from "../../Context/MenuContext";
+import { useDispatch } from "react-redux";
+import { registerRestaurant } from "../../features/restaurantSlice";
 
 export const resizeRestaurant = (file) =>
   new Promise((resolve) => {
@@ -71,16 +70,8 @@ const RegisterRestaurant = () => {
     photoError: "",
   });
 
-  const [registerStatus, setRegisterStatus] = useState({
-    registerLoading: false,
-    registerError: false,
-    registerSuccess: false,
-  });
-
-  const { user, setUser } = useUserContext();
-  const { updateLocalRestaurant } = useMenuContext();
-
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onChangePhoto = async (e) => {
     const inputImage = e.target.files[0];
@@ -142,59 +133,10 @@ const RegisterRestaurant = () => {
     const error = validate(formValues);
     setFormErrors({ ...formErrors, ...error });
     if (Object.keys(error).length !== 0) return;
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify({
-        ...formValues,
-        firstPhone:
-          formValues.firstPhone[0] === "0"
-            ? formValues.firstPhone.slice(1)
-            : formValues.firstPhone.slice(0),
-        secondPhone:
-          formValues.secondPhone[0] === "0"
-            ? formValues.secondPhone.slice(1)
-            : formValues.secondPhone.slice(0),
-        ownerId: user._id,
-      }),
-    };
-    try {
-      setRegisterStatus({
-        ...registerStatus,
-        registerLoading: true,
-        registerError: false,
-      });
-      const response = await fetch(
-        `${localBaseUrl}/restaurants`,
-        requestOptions
-      );
-
-      if (!response.ok) {
-        throw new Error("something went wrong!");
-      }
-      const { restaurant, user } = await response.json();
-      setRegisterStatus({
-        ...registerStatus,
-        registerLoading: false,
-        registerError: false,
-        registerSuccess: true,
-      });
-      updateLocalRestaurant(restaurant);
-      setUser(user);
-      localStorage.setItem("user", JSON.stringify(user));
-      navigate(`/myAccount/myRestaurant/menu`, {
-        replace: true,
-      });
-    } catch (error) {
-      setRegisterStatus({
-        ...registerStatus,
-        registerLoading: false,
-        registerError: true,
-      });
-    }
+    await dispatch(registerRestaurant(formValues)).unwrap();
+    navigate(`/myAccount/myRestaurant/menu`, {
+      replace: true,
+    });
   };
 
   return (
@@ -248,7 +190,6 @@ const RegisterRestaurant = () => {
       </RestaurantInfoContainer>
       <RegisterRestaurantBtn
         handleRegisterRestaurant={handleRegisterRestaurant}
-        registerStatus={registerStatus}
       />
     </div>
   );

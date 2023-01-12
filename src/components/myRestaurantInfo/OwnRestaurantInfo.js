@@ -13,41 +13,13 @@ import RestaurantEstablished from "../restaurantInfo/RestaurantEstablished";
 import RegisterDelivery from "../registerRestaurant/RegisterDelivery";
 import RegisterPaymentMethod from "../registerRestaurant/RegisterPaymentMethod";
 import RestaurantUpdateBtn from "./RestaurantUpdateBtn";
-import { useMenuContext } from "../../Context/MenuContext";
-import LoadingOrder from "../order/OrderStates/LoadingOrder";
+import { useDispatch, useSelector } from "react-redux";
+import { resetUpdateRestaurantStatus } from "../../features/restaurantSlice";
 
 const OwnRestaurantInfo = () => {
-  const { updateLocalRestaurant, restaurant, restaurantLoading } =
-    useMenuContext();
+  const restaurant = useSelector((state) => state.restaurant.restaurantData);
+
   const [formValues, setFormValues] = useState(restaurant);
-  // const [formValues, setFormValues] = useState({
-  //   restaurantPhotoUrl: "",
-  //   restaurantPhotoId: "",
-  //   restaurantImage: "",
-  //   name: "",
-  //   firstPhone: "",
-  //   secondPhone: "",
-  //   address: "",
-  //   establishedIn: 2022,
-  //   delivery: "Available",
-  //   paymentMethods: [
-  //     {
-  //       checked: false,
-  //       value: "Cash",
-  //       additionalInfo: { name: "", number: "" },
-  //     },
-  //     {
-  //       checked: false,
-  //       value: "KBZPay",
-  //       additionalInfo: { name: "", number: "" },
-  //     },
-  //     {
-  //       checked: false,
-  //       value: "WavePay",
-  //       additionalInfo: { name: "", number: "" },
-  //     },
-  //   ],
-  // });
 
   const [formErrors, setFormErrors] = useState({
     nameError: "",
@@ -55,11 +27,7 @@ const OwnRestaurantInfo = () => {
     photoError: "",
   });
 
-  const [updateStatus, setUpdateStatus] = useState({
-    updateLoading: false,
-    updateError: false,
-    updateSuccess: false,
-  });
+  const dispatch = useDispatch();
 
   const onChangePhoto = async (e) => {
     const inputImage = e.target.files[0];
@@ -74,11 +42,7 @@ const OwnRestaurantInfo = () => {
     } catch (error) {
       console.log(error);
     }
-    setUpdateStatus({
-      ...updateStatus,
-      updateError: false,
-      updateSuccess: false,
-    });
+    dispatch(resetUpdateRestaurantStatus());
   };
 
   const removePhoto = () => {
@@ -87,11 +51,7 @@ const OwnRestaurantInfo = () => {
       restaurantPhotoUrl: "",
       restaurantImage: "",
     });
-    setUpdateStatus({
-      ...updateStatus,
-      updateError: false,
-      updateSuccess: false,
-    });
+    dispatch(resetUpdateRestaurantStatus());
   };
 
   const onChangeInput = (e) => {
@@ -100,11 +60,7 @@ const OwnRestaurantInfo = () => {
       nameError: "",
       firstPhoneError: "",
     });
-    setUpdateStatus({
-      ...updateStatus,
-      updateError: false,
-      updateSuccess: false,
-    });
+    dispatch(resetUpdateRestaurantStatus());
   };
 
   const onChangeDeliverySelect = (e) => {
@@ -116,11 +72,7 @@ const OwnRestaurantInfo = () => {
       nameError: "",
       firstPhoneError: "",
     });
-    setUpdateStatus({
-      ...updateStatus,
-      updateError: false,
-      updateSuccess: false,
-    });
+    dispatch(resetUpdateRestaurantStatus());
   };
 
   const onChangeCheckbox = (event, index, type) => {
@@ -134,69 +86,9 @@ const OwnRestaurantInfo = () => {
         event.target.value;
     }
     setFormValues({ ...formValues, paymentMethods: [...tempPaymentMethods] });
-    setUpdateStatus({
-      ...updateStatus,
-      updateError: false,
-      updateSuccess: false,
-    });
+    dispatch(resetUpdateRestaurantStatus());
   };
 
-  const handleUpdateRestaurant = async () => {
-    const error = validate(formValues);
-    setFormErrors({ ...formErrors, ...error });
-    if (Object.keys(error).length !== 0) return;
-    const requestOptions = {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify({
-        ...formValues,
-        firstPhone:
-          formValues.firstPhone[0] === "0"
-            ? formValues.firstPhone.slice(1)
-            : formValues.firstPhone.slice(0),
-        secondPhone:
-          formValues.secondPhone[0] === "0"
-            ? formValues.secondPhone.slice(1)
-            : formValues.secondPhone.slice(0),
-      }),
-    };
-    try {
-      setUpdateStatus({
-        ...updateStatus,
-        updateLoading: true,
-        updateError: false,
-      });
-      const response = await fetch(
-        `${localBaseUrl}/restaurants`,
-        requestOptions
-      );
-
-      if (!response.ok) {
-        throw new Error("something went wrong!");
-      }
-      const { updatedRestaurant } = await response.json();
-      setUpdateStatus({
-        ...updateStatus,
-        updateLoading: false,
-        updateError: false,
-        updateSuccess: true,
-      });
-      updateLocalRestaurant(updatedRestaurant);
-    } catch (error) {
-      setUpdateStatus({
-        ...updateStatus,
-        updateLoading: false,
-        updateError: true,
-      });
-    }
-  };
-  if (restaurantLoading) {
-    //handle navigating to restaurantinfo while restaurant data is still fetching
-    return <LoadingOrder />;
-  }
   return (
     <div className="register-restaurant-container">
       <RestaurantInfoContainer>
@@ -254,10 +146,7 @@ const OwnRestaurantInfo = () => {
           />
         </RestaurantDetailGrid>
       </RestaurantInfoContainer>
-      <RestaurantUpdateBtn
-        handleUpdateRestaurant={handleUpdateRestaurant}
-        updateStatus={updateStatus}
-      />
+      <RestaurantUpdateBtn formValues={formValues} />
     </div>
   );
 };

@@ -6,6 +6,7 @@
   font-weight: bold;
   border: 1px solid white;
   letter-spacing: 1px;
+  width: fit-content;
 }
 
 .more-res-loading-container-hide {

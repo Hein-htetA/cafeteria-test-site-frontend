@@ -15,7 +15,7 @@ import { fetchMenu, fetchRestaurant } from "../../features/restaurantSlice";
 const MainSharedLayout = () => {
   const userData = useSelector((state) => state.user.userData);
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  const _id = useSelector((state) => state.user.userData._id);
+  const userId = useSelector((state) => state.user.userData._id);
   const restaurantId = useSelector((state) => state.user.userData.restaurantId);
 
   const { setOrderHistory, setOrderHistoryLoading, updateOrderHistory } =
@@ -23,7 +23,7 @@ const MainSharedLayout = () => {
 
   const dispatch = useDispatch();
 
-  const newOrderSSE = useRef(null);
+  const newOrderSSEOnError = useRef(null);
   const updateOrderSSEOnError = useRef(null);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const MainSharedLayout = () => {
     if (isLoggedIn) {
       //restaurantId is available only after user logged in
       updateOrderSSE = new EventSource(
-        localBaseUrl + `/orders/${_id}/updateOrder`
+        localBaseUrl + `/orders/${userId}/updateOrder`
       );
 
       updateOrderSSE.onopen = () => {
@@ -50,7 +50,7 @@ const MainSharedLayout = () => {
                 signal: controller.signal,
               };
               const response = await fetch(
-                `${localBaseUrl}/orders/customer/${_id}`,
+                `${localBaseUrl}/orders/customer/${userId}`,
                 requestOptions
               );
               if (!response.ok) {
@@ -91,30 +91,30 @@ const MainSharedLayout = () => {
   }, [isLoggedIn, restaurantId]);
 
   useEffect(() => {
-    let sse;
+    const newOrderSSE = new EventSource(
+      localBaseUrl + `/orders/${restaurantId}/newOrder`
+    );
     if (isLoggedIn && restaurantId) {
       //restaurantId is available only after user logged in
       dispatch(fetchInitialOrders(restaurantId));
-      sse = new EventSource(localBaseUrl + `/orders/${restaurantId}/newOrder`);
-      sse.onopen = () => {
+      newOrderSSE.onopen = () => {
         dispatch(setOnline());
 
-        if (newOrderSSE.current) {
+        if (newOrderSSEOnError.current) {
           //fetch order ajax if error occured
           dispatch(fetchOrdersAfterSSEFailed(restaurantId));
         }
       };
-      sse.onmessage = (e) => {
+      newOrderSSE.onmessage = (e) => {
         dispatch(addNewOrderRTK(JSON.parse(e.data)));
       };
-      sse.onerror = () => {
+      newOrderSSE.onerror = () => {
         dispatch(setOffline());
-        newOrderSSE.current = true; //not to update fetch on without error
+        newOrderSSEOnError.current = true; //not to update fetch on without error
       };
+    } else {
+      newOrderSSE.close();
     }
-    return () => {
-      sse.close();
-    };
   }, [isLoggedIn, restaurantId]);
 
   useEffect(() => {
@@ -134,11 +134,20 @@ const MainSharedLayout = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(fetchRestaurant(userData.restaurantId));
+    if (
+      restaurantId &&
+      !sessionStorage.getItem("restaurant") &&
+      !sessionStorage.getItem("menu")
+    ) {
+      dispatch(fetchMenu(restaurantId));
+      dispatch(fetchRestaurant(restaurantId));
+    }
   }, []);
 
   useEffect(() => {
-    dispatch(fetchMenu(userData.restaurantId));
+    if (restaurantId) {
+      dispatch(fetchMenu(restaurantId));
+    }
   }, []);
 
   return (

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./SingleMenuDetail.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { useMenuContext } from "../../Context/MenuContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faXmark,
@@ -11,8 +10,13 @@ import {
 import Resizer from "react-image-file-resizer";
 import MenuDeleteLoading from "./MenuDelete/MenuDeleteLoading";
 import MenuDeleteConfirmation from "./MenuDelete/MenuDeleteConfirmation";
-import { localBaseUrl, defaultImageUrl } from "../utils/baseUrl";
-import { useUserContext } from "../../Context/UserContext";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteMenu,
+  resetUpdateMenuStatus,
+  updateMenu,
+} from "../../features/restaurantSlice";
+import { defaultImageUrl } from "../utils/baseUrl";
 const resizeFile = (file) =>
   new Promise((resolve) => {
     Resizer.imageFileResizer(
@@ -30,216 +34,125 @@ const resizeFile = (file) =>
   });
 
 const SingleMenuDetail = () => {
-  const [menu, setMenu] = useState({
-    name: "",
-    price: 0,
-    description: "",
-    menuPhotoUrl: "",
-    menuPhotoId: "",
+  const menuData = useSelector((state) => state.restaurant.menuData);
+  const updateMenuStatus = useSelector(
+    (state) => state.restaurant.updateMenuStatus
+  );
+
+  const { menuId, menuCategory } = useParams();
+
+  const [formValues, setFormValues] = useState(() => ({
+    ...menuData.find((menu) => menu._id === menuId),
     menuImage: "",
+    deleteConfirmationBox: false,
+  }));
+
+  const [formErrors, setFormErrors] = useState({
     imageError: false,
     nameError: false,
     priceError: false,
-    deleteConfirmationBox: false,
-    saveLoading: false,
-    saveError: false,
-    saveSuccess: false,
-    deleteLoading: false,
-    deleteError: false,
-    deleteSuccess: false,
   });
-  const { menuId } = useParams();
-  const { user } = useUserContext();
-  const { data, updateMenuState, deleteMenuState } = useMenuContext();
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const menuInitial = data.find((menu) => menu._id === menuId);
-    if (!menuInitial) {
-      //menu delete case
-      // navigating to parent route on refresh
-      navigate(`..`);
-      return;
-    }
-    setMenu({ ...menuInitial, menuImage: "" });
-  }, []);
-
-  const onChangeName = (e) => {
-    if (e.target.value.length < 1) {
-      setMenu({ ...menu, name: e.target.value, nameError: true });
-      return;
-    }
-    setMenu({ ...menu, name: e.target.value, nameError: false });
-  };
-
-  const onChangePrice = (e) => {
-    if (e.target.value.length < 1) {
-      setMenu({ ...menu, price: e.target.value, priceError: true });
-      return;
-    }
-    setMenu({ ...menu, price: e.target.value, priceError: false });
-  };
-
-  const onChangeDescription = (e) => {
-    setMenu({ ...menu, description: e.target.value });
+  const onChangeInput = (e) => {
+    setFormValues({ ...formValues, [e.target.name]: e.target.value });
+    setFormErrors({
+      imageError: false,
+      nameError: false,
+      priceError: false,
+    });
+    dispatch(resetUpdateMenuStatus());
   };
 
   const onChangeImage = async (e) => {
     if (e.target.files[0].size > 6000000) {
-      setMenu({ ...menu, imageError: true });
+      setFormErrors({ ...formErrors, imageError: true });
       return;
     }
     try {
       const image = await resizeFile(e.target.files[0]);
-      setMenu({ ...menu, menuImage: image, imageError: false });
+      setFormValues({ ...formValues, menuImage: image });
+      setFormErrors({
+        ...formErrors,
+        imageError: false,
+        nameError: false,
+        priceError: false,
+      });
+      dispatch(resetUpdateMenuStatus());
     } catch (err) {
-      setMenu({ ...menu, imageError: true });
+      console.log(err);
     }
   };
 
   const resetMenu = () => {
-    navigate(`/myAccount/myRestaurant/menu/${menu.category}`);
+    navigate(`/myAccount/myRestaurant/menu/${formValues.category}`);
   };
 
-  const updateMenuServer = async () => {
-    const {
-      _id,
-      name,
-      price,
-      description,
-      menuImage,
-      menuPhotoId,
-      menuPhotoUrl,
-    } = menu;
-    const requestOptions = {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify({
-        _id,
-        name,
-        price,
-        description,
-        menuImage,
-        menuPhotoUrl,
-        menuPhotoId,
-      }),
-    };
-
-    try {
-      setMenu({
-        ...menu,
-        saveLoading: true,
-        saveError: false,
-        saveSuccess: false,
-      });
-      const response = await fetch(`${localBaseUrl}/menu`, requestOptions);
-
-      setMenu({
-        ...menu,
-        saveLoading: false,
-        saveError: false,
-        saveSuccess: true,
-      });
-
-      navigate(`/myAccount/myRestaurant/menu/${menu.category}`, {
-        replace: true,
-        state: { message: "update successful" },
-      });
-
-      if (!response.ok) {
-        throw new Error("Update Failed");
-      }
-      const { editedMenu } = await response.json();
-      updateMenuState(editedMenu);
-    } catch (error) {
-      setMenu({
-        ...menu,
-        saveLoading: false,
-        saveError: true,
-        saveSuccess: false,
-      });
-      console.log(error);
+  const handleUpdateMenu = async () => {
+    const error = {};
+    if (formValues.name.length < 1) {
+      error.nameError = true;
     }
+
+    if (formValues.price.toString().length < 1) {
+      error.priceError = true;
+    }
+
+    setFormErrors(error);
+    if (Object.keys(error).length !== 0) return;
+
+    await dispatch(updateMenu(formValues)).unwrap();
+
+    navigate(`/myAccount/myRestaurant/menu/${menuCategory}`, {
+      replace: true,
+      state: { message: "update successful" },
+    });
   };
 
-  const deleteMenuServer = async () => {
-    const { _id } = menu;
-    const requestOptions = {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    };
-    try {
-      setMenu({
-        ...menu,
-        deleteLoading: true,
-        deleteError: false,
-        deleteConfirmationBox: false,
-      });
-      const response = await fetch(
-        `${localBaseUrl}/menu/${user.restaurantId}/${_id}`,
-        requestOptions
-      );
-
-      if (!response.ok) {
-        throw new Error("Update Failed");
-      }
-      setMenu({
-        ...menu,
-        deleteLoading: false,
-        deleteError: false,
-        deleteSuccess: true,
-      });
-      deleteMenuState(_id);
-      navigate(`/myAccount/myRestaurant/${menu.category}`, {
-        replace: true,
-        state: { message: "delete successful" },
-      });
-      navigate(-1); // required to prevent need to double back in browser path
-    } catch (error) {
-      setMenu({
-        ...menu,
-        deleteLoading: false,
-        deleteError: true,
-      });
-      console.log(error);
-    }
+  const handleDeleteMenu = async () => {
+    await dispatch(deleteMenu(formValues._id)).unwrap();
+    navigate(`/myAccount/myRestaurant/menu/${formValues.category}`, {
+      replace: true,
+    });
   };
 
   const displayDeleteConfirmationBox = () => {
-    setMenu({ ...menu, deleteConfirmationBox: true });
+    setFormValues({ ...formValues, deleteConfirmationBox: true });
   };
 
   const hideDeleteConfirmationBox = () => {
-    setMenu({ ...menu, deleteConfirmationBox: false });
+    setFormValues({ ...formValues, deleteConfirmationBox: false });
   };
 
   return (
     <div className="detail-container">
       <h2 className="category-title" onClick={resetMenu}>
-        {menu.category === "curry"
+        {menuCategory === "curry"
           ? "rice & curries"
-          : menu.category === "sideDish"
+          : menuCategory === "sideDish"
           ? "side dishes"
-          : menu.category === "drink"
+          : menuCategory === "drink"
           ? "snacks & drinks"
           : "additionals"}
       </h2>
       <div className="image-info-container">
         <div className="img-container">
           <img
-            src={menu.menuImage || menu.menuPhotoUrl || defaultImageUrl}
+            src={
+              formValues.menuImage || formValues.menuPhotoUrl || defaultImageUrl
+            }
             alt="uploadImg"
           />
           <label
             htmlFor="inputTag"
             style={{
-              opacity: menu.deleteConfirmationBox || menu.saveLoading ? 0.5 : 1,
+              opacity:
+                formValues.deleteConfirmationBox ||
+                updateMenuStatus === "loading"
+                  ? 0.5
+                  : 1,
             }}
           >
             <FontAwesomeIcon icon={faCamera} />
@@ -249,10 +162,13 @@ const SingleMenuDetail = () => {
               accept="image/png, image/jpg, image/gif, image/jpeg"
               onChange={onChangeImage}
               style={{ display: "none" }}
-              disabled={menu.deleteConfirmationBox || menu.saveLoading}
+              disabled={
+                formValues.deleteConfirmationBox ||
+                updateMenuStatus === "loading"
+              }
             />
           </label>
-          {menu.imageError && (
+          {formErrors.imageError && (
             <div className="image-error-message">
               <div className="image-error-message-first">
                 Image Size {">"} 6MB
@@ -267,16 +183,24 @@ const SingleMenuDetail = () => {
           <div className="food-title-box">
             <input
               className={
-                menu.nameError ? "food-title food-title-error" : "food-title"
+                formErrors.nameError
+                  ? "food-title food-title-error"
+                  : "food-title"
               }
-              value={menu.name}
-              onChange={onChangeName}
+              value={formValues.name}
+              name="name"
+              onChange={onChangeInput}
               placeholder="Name"
-              disabled={menu.deleteConfirmationBox || menu.saveLoading}
+              disabled={
+                formValues.deleteConfirmationBox ||
+                updateMenuStatus === "loading"
+              }
             />
             <div
               className={
-                menu.nameError ? "error-msg" : "error-msg error-msg-hidden"
+                formErrors.nameError
+                  ? "error-msg"
+                  : "error-msg error-msg-hidden"
               }
             >
               required
@@ -285,24 +209,29 @@ const SingleMenuDetail = () => {
           <div className="food-price-box">
             <div
               className={
-                menu.priceError
+                formErrors.priceError
                   ? "price-postfix price-postfix-error"
                   : "price-postfix"
               }
               style={{
                 backgroundColor:
-                  menu.deleteConfirmationBox || menu.saveLoading
+                  formValues.deleteConfirmationBox ||
+                  updateMenuStatus === "loading"
                     ? "transparent"
                     : "white",
               }}
             >
               <input
                 type={"number"}
+                name="price"
                 className={"food-price"}
-                value={menu.price}
+                value={formValues.price}
                 placeholder="Price"
-                onChange={onChangePrice}
-                disabled={menu.deleteConfirmationBox || menu.saveLoading}
+                onChange={onChangeInput}
+                disabled={
+                  formValues.deleteConfirmationBox ||
+                  updateMenuStatus === "loading"
+                }
                 onKeyDown={(event) => {
                   if (!/[0-9]/.test(event.key) && event.key !== "Backspace") {
                     event.stopPropagation();
@@ -314,7 +243,9 @@ const SingleMenuDetail = () => {
             </div>
             <div
               className={
-                menu.priceError ? "error-msg" : "error-msg error-msg-hidden"
+                formErrors.priceError
+                  ? "error-msg"
+                  : "error-msg error-msg-hidden"
               }
             >
               required
@@ -323,16 +254,20 @@ const SingleMenuDetail = () => {
           <div className="textarea-container">
             <textarea
               className={"description"}
-              value={menu.description}
-              onChange={onChangeDescription}
-              disabled={menu.deleteConfirmationBox || menu.saveLoading}
+              name="description"
+              value={formValues.description}
+              onChange={onChangeInput}
+              disabled={
+                formValues.deleteConfirmationBox ||
+                updateMenuStatus === "loading"
+              }
             ></textarea>
           </div>
         </div>
-        {menu.deleteLoading && <MenuDeleteLoading />}
-        {menu.deleteConfirmationBox && (
+        {updateMenuStatus === "loading" && <MenuDeleteLoading />}
+        {formValues.deleteConfirmationBox && (
           <MenuDeleteConfirmation
-            deleteMenuServer={deleteMenuServer}
+            handleDeleteMenu={handleDeleteMenu}
             hideDeleteConfirmationBox={hideDeleteConfirmationBox}
           />
         )}
@@ -342,7 +277,9 @@ const SingleMenuDetail = () => {
           <button
             className="remove-order-btn"
             onClick={displayDeleteConfirmationBox}
-            disabled={menu.deleteConfirmationBox || menu.saveLoading}
+            disabled={
+              formValues.deleteConfirmationBox || updateMenuStatus === "loading"
+            }
           >
             <FontAwesomeIcon icon={faXmark} />
             Remove
@@ -351,19 +288,16 @@ const SingleMenuDetail = () => {
         <div className="save-cancel-container">
           <button
             className="save-change-btn"
-            onClick={updateMenuServer}
+            onClick={handleUpdateMenu}
             disabled={
-              menu.deleteConfirmationBox ||
-              menu.saveLoading ||
-              menu.nameError ||
-              menu.priceError
+              formValues.deleteConfirmationBox || updateMenuStatus === "loading"
             }
           >
-            {menu.saveLoading ? (
+            {updateMenuStatus === "loading" ? (
               <div style={{ minWidth: "60px" }}>Saving...</div>
-            ) : menu.saveSuccess ? (
+            ) : updateMenuStatus === "succeeded" ? (
               <div style={{ minWidth: "60px" }}>Saved!</div>
-            ) : menu.saveError ? (
+            ) : updateMenuStatus === "failed" ? (
               <div>
                 <FontAwesomeIcon
                   icon={faArrowRotateRight}
@@ -378,7 +312,9 @@ const SingleMenuDetail = () => {
           <button
             className="cancel-change-btn"
             onClick={resetMenu}
-            disabled={menu.deleteConfirmationBox || menu.saveLoading}
+            disabled={
+              formValues.deleteConfirmationBox || updateMenuStatus === "loading"
+            }
           >
             <div style={{ minWidth: "60px" }}>Cancel</div>
           </button>

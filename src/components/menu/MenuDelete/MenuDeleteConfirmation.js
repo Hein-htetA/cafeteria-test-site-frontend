@@ -2,7 +2,7 @@ import React from "react";
 import "./MenuDeleteConfirmation.css";
 
 const MenuDeleteConfirmation = (props) => {
-  const { hideDeleteConfirmationBox, deleteMenuServer } = props;
+  const { hideDeleteConfirmationBox, handleDeleteMenu } = props;
   return (
     <div className="menu-delete-confirmation-container">
       <h3>Remove this item?</h3>
@@ -10,7 +10,7 @@ const MenuDeleteConfirmation = (props) => {
         <button className="cancel-btn" onClick={hideDeleteConfirmationBox}>
           Cancel
         </button>
-        <button onClick={deleteMenuServer}>Remove</button>
+        <button onClick={handleDeleteMenu}>Remove</button>
       </div>
     </div>
   );
