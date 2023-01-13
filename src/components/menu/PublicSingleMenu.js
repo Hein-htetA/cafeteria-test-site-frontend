@@ -1,23 +1,27 @@
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useCartContext } from "../../Context/CartContext";
-import { usePublicDataContext } from "../../Context/PublicDataContext";
+import { addToCart } from "../../features/cartSlice";
 import { defaultImageUrl } from "../utils/baseUrl";
-import FullCart from "./MenuLoadingError/FullCart";
 import "./PublicSingleMenu.css";
 
 const PublicSingleMenu = (props) => {
   const { name, menuPhotoUrl, price, _id, restaurantId } = props.menu;
-  const { restaurants } = usePublicDataContext();
 
   //to add to cart(it is required to extract restaurant name in cart)
-  const restaurant = restaurants.find(
+  const publicRestaurants = useSelector(
+    (state) => state.publicData.publicRestaurants
+  );
+  const restaurant = publicRestaurants.find(
     (restaurant) => restaurant._id === restaurantId
   );
 
-  const { addToCart, cart } = useCartContext();
+  const { cart } = useCartContext();
+
+  const dispatch = useDispatch();
 
   //extract count of single menu to display
   const resInCart = cart.find((res) => res.restaurantId === restaurantId);
@@ -40,7 +44,9 @@ const PublicSingleMenu = (props) => {
         <div className="public-item-btn-container">
           <button
             className="public-add-to-cart-btn"
-            onClick={() => addToCart(restaurant, props.menu, 1)}
+            onClick={() =>
+              dispatch(addToCart({ restaurant, menu: props.menu, count: 1 }))
+            }
           >
             <FontAwesomeIcon icon={faCartPlus} style={{ marginRight: "5px" }} />
             Cart

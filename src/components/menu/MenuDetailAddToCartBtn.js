@@ -1,18 +1,19 @@
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useCartContext } from "../../Context/CartContext";
+import { addToCart } from "../../features/cartSlice";
 import "./MenuDetailAddToCartBtn.css";
 
 const MenuDetailAddToCartBtn = ({ menu, restaurant }) => {
   const [count, setCount] = useState(1);
-  const { addToCart } = useCartContext();
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const addAndNavigate = () => {
-    addToCart(restaurant, menu, count);
+    dispatch(addToCart({ restaurant, menu, count }));
     navigate(-1);
   };
 

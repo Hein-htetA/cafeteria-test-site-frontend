@@ -4,10 +4,7 @@ import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import React, { useState } from "react";
 import "./index.css";
 import NavLinks from "./NavLinks";
-import { useUserContext } from "../../Context/UserContext";
 import { Link } from "react-router-dom";
-import { useOrderContext } from "../../Context/OrderContext";
-import { useCartContext } from "../../Context/CartContext";
 import { useSelector } from "react-redux";
 
 const Navbar = () => {
@@ -25,7 +22,7 @@ const Navbar = () => {
     setNavbar((navbar) => !navbar);
   };
 
-  const { totalCount } = useCartContext();
+  const totalCount = useSelector((state) => state.cart.totalCount);
   const online = useSelector((state) => state.user.online);
   const orderData = useSelector((state) => state.order.orderData);
 

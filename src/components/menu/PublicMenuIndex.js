@@ -1,23 +1,24 @@
-import React, { useEffect } from "react";
-import { useMenuContext } from "../../Context/MenuContext";
-import SingleMenu from "./SingleMenu";
-import { Link, useParams } from "react-router-dom";
+import React from "react";
+import { useParams } from "react-router-dom";
 import "./index.css";
 import MenuLoading from "./MenuLoadingError/MenuLoading";
-import { usePublicDataContext } from "../../Context/PublicDataContext";
 import PublicMenuError from "./MenuLoadingError/PublicMenuError";
 import PublicSingleMenu from "./PublicSingleMenu";
 import EmptyMenuInCategory from "./MenuDelete/EmptyMenuInCategory";
 import FullCart from "./MenuLoadingError/FullCart";
+import { useSelector } from "react-redux";
 
 const PublicMenu = () => {
-  const { menu, menuLoading, menuError } = usePublicDataContext();
   const { menuCategory, restaurantId } = useParams();
 
-  const menuAfterFilter = menu.filter(
-    (menu) =>
-      menu.category === menuCategory && menu.restaurantId === restaurantId
+  const publicRestaurants = useSelector(
+    (state) => state.publicData.publicRestaurants
   );
+  const menuStatus = useSelector((state) => state.publicData.menuStatus);
+
+  const menuAfterFilter = publicRestaurants.find(
+    (restaurant) => restaurant._id === restaurantId
+  ).menu;
 
   return (
     <div className="single-category-container">
@@ -33,14 +34,15 @@ const PublicMenu = () => {
           : "additional items"}
       </h2>
       <div className="single-menu-container">
-        {menuLoading ? (
+        {menuStatus === "loading" ? (
           <MenuLoading />
-        ) : menuError ? (
+        ) : menuStatus === "failed" ? (
           <PublicMenuError />
         ) : (
           <>
-            {menuAfterFilter.length === 0 && <EmptyMenuInCategory />}
-            {menuAfterFilter.map((menu) => (
+            {/* menuFilter is undefined on refresh/// error prevent fetching menu */}
+            {menuAfterFilter?.length === 0 && <EmptyMenuInCategory />}
+            {menuAfterFilter?.map((menu) => (
               <div key={menu._id} to={`${menu._id}`} className="menu-link">
                 <PublicSingleMenu menu={menu} />
               </div>

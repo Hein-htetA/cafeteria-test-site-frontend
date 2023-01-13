@@ -16,13 +16,21 @@ import ClearCartBtn from "./ClearCartBtn";
 import { useNavigate } from "react-router-dom";
 import BackToCart from "../CartCheckout/Btn/BackToCart";
 import FullCheckout from "./FullCheckout/FullCheckout";
+import { useDispatch, useSelector } from "react-redux";
+import { cartToCheckout } from "../../../features/cartSlice";
 
 const CartMenu = () => {
-  const [messageArray, setMessageArray] = useState([]);
-  const { cart, totalAmount, addMessage, toCheckout, crowdedCheckoutWarning } =
-    useCartContext();
+  const [message, setMessage] = useState({});
+  // const { cart, totalAmount, addMessage, toCheckout, crowdedCheckoutWarning } =
+  //   useCartContext();
+
+  const cart = useSelector((state) => state.cart.cart);
+  const fullCheckoutWarning = useSelector(
+    (state) => state.cart.fullCheckoutWarning
+  );
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const navigateToRestaurant = (restaurantId) => {
     navigate(`/marketplace/restaurant/${restaurantId}/menu`);
@@ -32,18 +40,15 @@ const CartMenu = () => {
     return <EmptyCart />;
   }
 
-  const onChangeTextarea = (e, index) => {
-    const copyMsgArray = [...messageArray];
-    copyMsgArray[index] = e.target.value;
-    setMessageArray(copyMsgArray);
+  const onChangeTextarea = (e, restaurantId) => {
+    setMessage((message) => ({ ...message, [restaurantId]: e.target.value }));
   };
 
   const handleReviewPayment = (restaurantId) => {
-    addMessage(messageArray);
-    toCheckout(restaurantId);
+    dispatch(cartToCheckout({ restaurantId, message: message[restaurantId] }));
   };
 
-  return cart.map((singleRestaurant, index) => {
+  return cart.map((singleRestaurant) => {
     //index is for message array
     const { restaurantName, menuArray } = singleRestaurant;
     return (
@@ -85,9 +90,9 @@ const CartMenu = () => {
             navigateToRestaurant={navigateToRestaurant}
           />
           <MessageBox
-            messageArray={messageArray}
+            restaurantId={singleRestaurant.restaurantId}
+            message={message}
             onChangeTextarea={onChangeTextarea}
-            index={index}
           />
         </CartContainer>
         <Total amount={singleRestaurant.restaurantTotalAmount} />
@@ -104,7 +109,7 @@ const CartMenu = () => {
             marginTop: "20px",
           }}
         />
-        {crowdedCheckoutWarning && <FullCheckout />}
+        {fullCheckoutWarning && <FullCheckout />}
       </div>
     );
   });

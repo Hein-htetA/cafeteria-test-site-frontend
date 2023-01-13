@@ -2,8 +2,6 @@ import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { useMenuContext } from "../../../Context/MenuContext";
 import MenuCategory from "./MenuCategory";
 import "./RestaurantMenu.css";
 

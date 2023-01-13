@@ -9,14 +9,16 @@ import RestaurantName from "./RestaurantName";
 import RestaurantPhone from "./RestaurantPhone";
 import RestaurantAddress from "./RestaurantAddress";
 import RestaurantEstablished from "./RestaurantEstablished";
-import { usePublicDataContext } from "../../Context/PublicDataContext";
 import RegisterPaymentMethod from "../registerRestaurant/RegisterPaymentMethod";
 import RegisterDelivery from "../registerRestaurant/RegisterDelivery";
+import { useSelector } from "react-redux";
 
 const PublicRestaurantInfo = () => {
-  const { restaurants } = usePublicDataContext();
+  const publicRestaurants = useSelector(
+    (state) => state.publicData.publicRestaurants
+  );
   const { restaurantId } = useParams();
-  const restaurant = restaurants.find(
+  const restaurant = publicRestaurants.find(
     (restaurant) => restaurant._id === restaurantId
   );
   const {
@@ -51,7 +53,7 @@ const PublicRestaurantInfo = () => {
             paymentMethods={paymentMethods}
             isOwner={false}
           />
-          <RegisterDelivery isOwner={false} />
+          <RegisterDelivery delivery={delivery} isOwner={false} />
         </RestaurantDetailGrid>
       </RestaurantInfoContainer>
     </div>

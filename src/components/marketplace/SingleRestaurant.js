@@ -1,6 +1,5 @@
 import React from "react";
 import "./SingleRestaurant.css";
-import photo4 from "../../img/photo4.jpg";
 import { defaultRestaurantPhoto } from "../utils/baseUrl";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";

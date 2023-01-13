@@ -1,23 +1,26 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { usePublicDataContext } from "../../Context/PublicDataContext";
 import { defaultImageUrl } from "../utils/baseUrl";
 import MenuDetailAddToCartBtn from "./MenuDetailAddToCartBtn";
 import FullCart from "./MenuLoadingError/FullCart";
 
 const PublicSingleMenuDetail = () => {
-  const { menu, restaurants } = usePublicDataContext();
-  const { menuId } = useParams();
+  const { menuId, restaurantId } = useParams();
 
-  const singleMenu = menu.find((menu) => menu._id === menuId);
+  const publicRestaurants = useSelector(
+    (state) => state.publicData.publicRestaurants
+  );
 
-  const { name, price, description, menuPhotoUrl, category, restaurantId } =
-    singleMenu;
-
-  //to add to cart(it is required to extract restaurant name in cart)
-  const restaurant = restaurants.find(
+  const restaurant = publicRestaurants.find(
     (restaurant) => restaurant._id === restaurantId
   );
+
+  const singleMenu = restaurant.menu.find((menu) => menu._id === menuId);
+
+  const { name, price, description, menuPhotoUrl, category } = singleMenu;
+
+  //to add to cart(it is required to extract restaurant name in cart)
 
   const navigate = useNavigate();
   const resetMenu = () => {

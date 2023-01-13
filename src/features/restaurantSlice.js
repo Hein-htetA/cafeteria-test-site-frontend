@@ -243,7 +243,7 @@ const restaurantSlice = createSlice({
   reducers: {
     resetUpdateRestaurantStatus: (state) => {
       if (state.updateRestaurantStatus !== "idle") {
-        state.restaurantStatus = "idle";
+        state.updateRestaurantStatus = "idle";
       }
     },
     resetUpdateMenuStatus: (state) => {
