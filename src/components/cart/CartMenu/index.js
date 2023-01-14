@@ -28,6 +28,7 @@ const CartMenu = () => {
   const fullCheckoutWarning = useSelector(
     (state) => state.cart.fullCheckoutWarning
   );
+  const checkout = useSelector((state) => state.cart.checkout);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -46,6 +47,10 @@ const CartMenu = () => {
 
   const handleReviewPayment = (restaurantId) => {
     dispatch(cartToCheckout({ restaurantId, message: message[restaurantId] }));
+
+    if (Object.keys(checkout).length === 0) {
+      navigate("/myAccount/cart/cartCheckout");
+    }
   };
 
   return cart.map((singleRestaurant) => {
@@ -109,7 +114,9 @@ const CartMenu = () => {
             marginTop: "20px",
           }}
         />
-        {fullCheckoutWarning && <FullCheckout />}
+        {fullCheckoutWarning && (
+          <FullCheckout restaurantId={singleRestaurant.restaurantId} />
+        )}
       </div>
     );
   });

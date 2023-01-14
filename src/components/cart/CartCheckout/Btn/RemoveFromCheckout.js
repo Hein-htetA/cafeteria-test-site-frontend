@@ -1,8 +1,11 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { clearCheckout } from "../../../../features/cartSlice";
 
-const RemoveFromCheckout = ({ clearCheckout }) => {
+const RemoveFromCheckout = () => {
+  const dispatch = useDispatch();
   return (
     <button
       style={{
@@ -13,7 +16,7 @@ const RemoveFromCheckout = ({ clearCheckout }) => {
         backgroundColor: "transparent",
         zIndex: "0",
       }}
-      onClick={clearCheckout}
+      onClick={() => dispatch(clearCheckout())}
     >
       <FontAwesomeIcon
         icon={faXmark}

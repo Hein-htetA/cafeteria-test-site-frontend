@@ -1,12 +1,29 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useCartContext } from "../../../../Context/CartContext";
+import {
+  clearAndProceedToCheckout,
+  hideFullCheckoutWarning,
+} from "../../../../features/cartSlice";
 import "./FullCheckout.css";
 
-const FullCheckout = () => {
-  const { hideCrowdedCheckoutWarning, checkCheckout, clearAndProceedCheckout } =
-    useCartContext();
+const FullCheckout = ({ restaurantId }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const checkCheckout = () => {
+    dispatch(hideFullCheckoutWarning());
+    navigate("/myAccount/cart/cartCheckout");
+  };
+
+  const clearAndProceed = () => {
+    dispatch(clearAndProceedToCheckout(restaurantId));
+    navigate("/myAccount/cart/cartCheckout");
+  };
+
   return (
     <div className="full-checkout-position-container">
       <div className="full-checkout-container">
@@ -19,17 +36,14 @@ const FullCheckout = () => {
           <button className="check-checkout-btn" onClick={checkCheckout}>
             check
           </button>
-          <button
-            className="clear-checkout-btn"
-            onClick={clearAndProceedCheckout}
-          >
+          <button className="clear-checkout-btn" onClick={clearAndProceed}>
             confirm
           </button>
         </div>
         <FontAwesomeIcon
           icon={faXmark}
           className="full-cart-xmark"
-          onClick={hideCrowdedCheckoutWarning}
+          onClick={() => dispatch(hideFullCheckoutWarning())}
         />
       </div>
     </div>

@@ -24,7 +24,7 @@ const TodayOrdersTitle = () => {
   return (
     <h2
       style={{
-        margin: "auto",
+        margin: "20px auto",
         padding: "5px 15px",
         backgroundColor: "white",
         borderRadius: "0.5rem",

@@ -1,48 +1,26 @@
 import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import { useCartContext } from "../../Context/CartContext";
 import { useUserContext } from "../../Context/UserContext";
+import { fetchOrder } from "../../features/cartSlice";
 import CartNavBar from "../cart/CartNavBar";
 import { localBaseUrl } from "../utils/baseUrl";
 import "./CartSharedLayout.css";
 
 const CartSharedLayout = () => {
   const { user } = useUserContext();
-  const { setOrderHistoryLoading, setOrderHistory, orderHistory } =
-    useCartContext();
+  // const { setOrderHistoryLoading, setOrderHistory, orderHistory } =
+  //   useCartContext();
+
+  const orderHistory = useSelector((state) => state.cart.orderHistory);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (orderHistory.length !== 0) return; //dont fetch when there is already order history
-    const fetchOrder = async () => {
-      try {
-        //setOrderLoading();
-        const controller = new AbortController();
-        setOrderHistoryLoading();
-        const requestOptions = {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          signal: controller.signal,
-        };
-        const response = await fetch(
-          `${localBaseUrl}/orders/customer/${user._id}`,
-          requestOptions
-        );
-        if (!response.ok) {
-          const message = `An error has occured: ${response.status}`;
-          throw new Error(message);
-        }
-        const { orderHistory } = await response.json();
-        setOrderHistoryLoading();
-        setOrderHistory(orderHistory);
-        //orderFetchSuccessful();
-        // console.log("data", responseData.data);
-      } catch (e) {
-        //setOrderError();
-        console.log(e);
-      }
-    };
-    fetchOrder();
+    if (orderHistory.length !== 0) return;
+    //dont fetch when there is already order history
+    dispatch(fetchOrder());
   }, []);
 
   return (

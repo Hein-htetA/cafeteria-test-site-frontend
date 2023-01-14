@@ -18,8 +18,9 @@ const PublicSingleMenu = (props) => {
   const restaurant = publicRestaurants.find(
     (restaurant) => restaurant._id === restaurantId
   );
+  const cart = useSelector((state) => state.cart.cart);
 
-  const { cart } = useCartContext();
+  //const { cart } = useCartContext();
 
   const dispatch = useDispatch();
 

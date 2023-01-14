@@ -1,10 +1,11 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { useCartContext } from "../../../Context/CartContext";
+import { useDispatch } from "react-redux";
+import { removeRestaurantFromCart } from "../../../features/cartSlice";
 
 const ClearCartBtn = ({ restaurantId }) => {
-  const { removeFromCart } = useCartContext();
+  const dispatch = useDispatch();
   return (
     <button
       style={{
@@ -14,7 +15,7 @@ const ClearCartBtn = ({ restaurantId }) => {
         border: "none",
         backgroundColor: "transparent",
       }}
-      onClick={() => removeFromCart(restaurantId)}
+      onClick={() => dispatch(removeRestaurantFromCart(restaurantId))}
     >
       <FontAwesomeIcon
         icon={faXmark}

@@ -94,9 +94,11 @@ const publicDataSlice = createSlice({
       })
       .addCase(fetchRestaurantsByPage.fulfilled, (state, action) => {
         state.restaurantStatus = "succeeded";
+
         state.publicRestaurants = state.publicRestaurants
           .slice(0, (action.meta.arg - 1) * 3) //previous page hti u ml //to prevent page a sone htwet restaurants
           .concat(action.payload);
+
         if (action.payload.length < 3) {
           state.endOfResult = true;
         }

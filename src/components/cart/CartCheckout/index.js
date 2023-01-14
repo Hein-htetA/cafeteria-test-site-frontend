@@ -24,6 +24,8 @@ import CheckoutError from "./CheckoutStates/CheckoutError";
 import { ValidateCheckout } from "./ValidateCheckout";
 import { localBaseUrl } from "../../utils/baseUrl";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { placeOrder } from "../../../features/cartSlice";
 
 const CartCheckout = () => {
   const [formValues, setFormValues] = useState({
@@ -48,20 +50,12 @@ const CartCheckout = () => {
     paymentNumberError: "",
   });
 
-  const [placeOrderStatus, setPlaceOrderStatus] = useState({
-    placeOrderLoading: false,
-    placeOrderError: false,
-    placeOrderSuccess: false,
-  });
+  const checkout = useSelector((state) => state.cart.checkout);
+  const userData = useSelector((state) => state.user.userData);
+  const placeOrderStatus = useSelector((state) => state.cart.placeOrderStatus);
 
-  const { user } = useUserContext();
-  const { checkout, clearCheckout, backToCart, unshiftOrderHistory } =
-    useCartContext();
   const navigate = useNavigate();
-
-  const closePlaceOrderError = () => {
-    setPlaceOrderStatus({ ...placeOrderStatus, placeOrderError: false });
-  };
+  const dispatch = useDispatch();
 
   const onChangeInput = (e) => {
     setFormValues({
@@ -74,9 +68,9 @@ const CartCheckout = () => {
     if (e.target.checked) {
       setFormValues({
         ...formValues,
-        customerName: user.name,
-        phoneNumber: user.phone,
-        address: user.address,
+        customerName: userData.name,
+        phoneNumber: userData.phone,
+        address: userData.address,
       });
     }
   };
@@ -101,85 +95,87 @@ const CartCheckout = () => {
     });
   };
 
-  const controller = new AbortController();
-
   const handlePlaceOrder = async () => {
     const error = ValidateCheckout(formValues);
     setFormErrors({ ...formErrors, ...error });
     if (Object.keys(error).length !== 0) return;
+    await dispatch(placeOrder(formValues)).unwrap();
+    navigate(`/myAccount/cart/cartOrder`, {
+      replace: true,
+    });
 
-    //preparing for req body
+    // //preparing for req body
 
-    const restaurantId = checkout.restaurantId;
+    // const restaurantId = checkout.restaurantId;
 
-    const message = checkout.message;
+    // const message = checkout.message;
 
-    const customerId = user._id;
+    // const customerId = userData._id;
 
-    const customerName = user.name;
+    // const customerName = userData.name;
 
-    const totalAmount =
-      checkout.restaurantTotalAmount +
-      (formValues.requestDelivery === "true" ? 1 : 0) * 100;
+    // const totalAmount =
+    //   checkout.restaurantTotalAmount +
+    //   (formValues.requestDelivery === "true" ? 1 : 0) * 100;
 
-    const menuArray = checkout.menuArray;
+    // const menuArray = checkout.menuArray;
 
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify({
-        ...formValues,
-        phoneNumber:
-          formValues.phoneNumber[0] === "0"
-            ? formValues.phoneNumber.slice(1)
-            : formValues.phoneNumber.slice(0),
-        restaurantId,
-        message,
-        customerId,
-        customerName,
-        totalAmount,
-        menuArray,
-      }),
-      signal: controller.signal,
-    };
-    try {
-      setPlaceOrderStatus({
-        ...placeOrderStatus,
-        placeOrderLoading: true,
-        placeOrderError: false,
-      });
+    // const requestOptions = {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: `Bearer ${localStorage.getItem("token")}`,
+    //   },
+    //   body: JSON.stringify({
+    //     ...formValues,
+    //     phoneNumber:
+    //       formValues.phoneNumber[0] === "0"
+    //         ? formValues.phoneNumber.slice(1)
+    //         : formValues.phoneNumber.slice(0),
+    //     restaurantId,
+    //     message,
+    //     customerId,
+    //     customerName,
+    //     totalAmount,
+    //     menuArray,
+    //   }),
+    //   signal: controller.signal,
+    // };
+    // try {
+    //   setPlaceOrderStatus({
+    //     ...placeOrderStatus,
+    //     placeOrderLoading: true,
+    //     placeOrderError: false,
+    //   });
 
-      const response = await fetch(`${localBaseUrl}/orders`, requestOptions);
+    //   const response = await fetch(`${localBaseUrl}/orders`, requestOptions);
 
-      if (!response.ok) {
-        throw new Error("something went wrong!");
-      }
-      const { newOrder } = await response.json();
+    //   if (!response.ok) {
+    //     throw new Error("something went wrong!");
+    //   }
+    //   const { newOrder } = await response.json();
 
-      unshiftOrderHistory(newOrder);
+    //   unshiftOrderHistory(newOrder);
 
-      clearCheckout();
+    //   //clearCheckout();
 
-      setPlaceOrderStatus({
-        ...placeOrderStatus,
-        placeOrderLoading: false,
-        placeOrderError: false,
-        placeOrderSuccess: true,
-      });
+    //   setPlaceOrderStatus({
+    //     ...placeOrderStatus,
+    //     placeOrderLoading: false,
+    //     placeOrderError: false,
+    //     placeOrderSuccess: true,
+    //   });
 
-      navigate(`/myAccount/cart/cartOrder`, {
-        replace: true,
-      });
-    } catch (error) {
-      setPlaceOrderStatus({
-        ...placeOrderStatus,
-        placeOrderLoading: false,
-        placeOrderError: true,
-      });
-    }
+    //   navigate(`/myAccount/cart/cartOrder`, {
+    //     replace: true,
+    //   });
+    // } catch (error) {
+    //   setPlaceOrderStatus({
+    //     ...placeOrderStatus,
+    //     placeOrderLoading: false,
+    //     placeOrderError: true,
+    //   });
+    // }
   };
 
   useEffect(() => {
@@ -192,12 +188,6 @@ const CartCheckout = () => {
     });
   }, [formValues]);
 
-  useEffect(() => {
-    return () => {
-      controller.abort();
-    };
-  }, []);
-
   if (Object.keys(checkout).length === 0) {
     return <EmptyCheckout />;
   }
@@ -205,10 +195,8 @@ const CartCheckout = () => {
   return (
     <>
       <CheckoutContainer>
-        {placeOrderStatus.placeOrderLoading && <CheckoutLoading />}
-        {placeOrderStatus.placeOrderError && (
-          <CheckoutError closePlaceOrderError={closePlaceOrderError} />
-        )}
+        {placeOrderStatus === "loading" && <CheckoutLoading />}
+        {placeOrderStatus === "failed" && <CheckoutError />}
 
         <CustomerInfoTitle />
         <CheckoutGridContainer>
@@ -289,7 +277,7 @@ const CartCheckout = () => {
           amount={checkout.restaurantTotalAmount}
           deliveryFee={(formValues.requestDelivery === "true" ? 1 : 0) * 100}
         />
-        <RemoveFromCheckout clearCheckout={clearCheckout} />
+        <RemoveFromCheckout />
         {/*Cross sign at the top*/}
       </CheckoutContainer>
       <Total
@@ -298,12 +286,7 @@ const CartCheckout = () => {
           (formValues.requestDelivery === "true" ? 1 : 0) * 100
         }
       />
-      <CheckoutBtn
-        backToCart={backToCart}
-        handlePlaceOrder={handlePlaceOrder}
-        placeOrderError={placeOrderStatus.placeOrderError}
-        placeOrderLoading={placeOrderStatus.placeOrderLoading}
-      />
+      <CheckoutBtn handlePlaceOrder={handlePlaceOrder} />
       <hr
         style={{
           border: "1px solid white",

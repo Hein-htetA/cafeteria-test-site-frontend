@@ -5,6 +5,8 @@ import { handleLocalStorageMiddleware } from "./middleware/handleLocalStorage";
 import restaurantSlice from "./features/restaurantSlice";
 import publicDataSlice from "./features/publicDataSlice";
 import cartSlice from "./features/cartSlice";
+import calculateTotalMiddleware from "./middleware/calculateTotalMiddleware";
+import cartStorageMiddleware from "./middleware/cartStorageMiddleware";
 
 const store = configureStore({
   reducer: {
@@ -15,7 +17,12 @@ const store = configureStore({
     cart: cartSlice,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(handleLocalStorageMiddleware),
+    getDefaultMiddleware()
+      .prepend(
+        calculateTotalMiddleware.middleware,
+        cartStorageMiddleware.middleware
+      )
+      .concat(handleLocalStorageMiddleware),
 });
 
 export default store;

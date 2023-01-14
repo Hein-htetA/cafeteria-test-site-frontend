@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useCartContext } from "../../../Context/CartContext";
 import LoadingOrder from "../../order/OrderStates/LoadingOrder";
 import CheckoutField from "../CartCheckout/CheckoutField";
@@ -16,10 +17,15 @@ import RestaurantDetailTitle from "./RestaurantDetail/RestaurantDetailTitle";
 import TodayOrdersTitle from "./TodayOrdersTitle";
 
 const CartOrder = () => {
-  const { orderHistory, showHideOrderHistory, orderHistoryLoading } =
-    useCartContext();
+  // const { orderHistory, showHideOrderHistory, orderHistoryLoading } =
+  //   useCartContext();
 
-  if (orderHistoryLoading) {
+  const orderHistory = useSelector((state) => state.cart.orderHistory);
+  const orderHistoryStatus = useSelector(
+    (state) => state.cart.orderHistoryStatus
+  );
+
+  if (orderHistoryStatus === "loading") {
     return (
       <>
         <TodayOrdersTitle />
@@ -67,10 +73,10 @@ const CartOrder = () => {
             <OrderSummaryTitleInOrder
               hideOrderSummary={order.hideOrderSummary}
               type="hideOrderSummary"
-              showHideOrderHistory={showHideOrderHistory}
+              //showHideOrderHistory={showHideOrderHistory}
               orderId={order._id}
             />
-            {!order.hideOrderSummary && (
+            {!order.orderHistoryUiState.hideOrderSummary && (
               <>
                 <OrderSummary
                   menuArray={order.menuArray}
@@ -95,13 +101,15 @@ const CartOrder = () => {
             />
 
             <RestaurantDetailTitle
-              hideRestaurantDetails={order.hideRestaurantDetails}
+              hideRestaurantDetails={
+                order.orderHistoryUiState.hideRestaurantDetails
+              }
               type="hideRestaurantDetails"
-              showHideOrderHistory={showHideOrderHistory}
+              //showHideOrderHistory={showHideOrderHistory}
               orderId={order._id}
             />
-            {!order.hideRestaurantDetails && (
-              <RestaurantDetail restaurantId={order.restaurantId} />
+            {!order.orderHistoryUiState.hideRestaurantDetails && (
+              <RestaurantDetail restaurantName={order.restaurantName} />
             )}
             <hr
               style={{
@@ -112,12 +120,14 @@ const CartOrder = () => {
               }}
             />
             <CustomerDetailTitle
-              hideCustomerDetails={order.hideCustomerDetails}
+              hideCustomerDetails={
+                order.orderHistoryUiState.hideCustomerDetails
+              }
               type="hideCustomerDetails"
-              showHideOrderHistory={showHideOrderHistory}
+              //showHideOrderHistory={showHideOrderHistory}
               orderId={order._id}
             />
-            {!order.hideCustomerDetails && (
+            {!order.orderHistoryUiState.hideCustomerDetails && (
               <CustomerDetail
                 customerName={order.customerName}
                 phoneNumber={order.phoneNumber}

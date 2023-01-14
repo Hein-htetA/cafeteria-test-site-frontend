@@ -11,12 +11,14 @@ import {
   fetchOrdersAfterSSEFailed,
 } from "../../features/orderSlice";
 import { fetchMenu, fetchRestaurant } from "../../features/restaurantSlice";
+import { fetchRestaurantsByPage } from "../../features/publicDataSlice";
 
 const MainSharedLayout = () => {
   const userData = useSelector((state) => state.user.userData);
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const userId = useSelector((state) => state.user.userData._id);
   const restaurantId = useSelector((state) => state.user.userData.restaurantId);
+  const page = useSelector((state) => state.publicData.page);
 
   const { setOrderHistory, setOrderHistoryLoading, updateOrderHistory } =
     useCartContext();
@@ -149,6 +151,10 @@ const MainSharedLayout = () => {
       dispatch(fetchMenu(restaurantId));
     }
   }, []);
+
+  useEffect(() => {
+    dispatch(fetchRestaurantsByPage(page));
+  }, [page]);
 
   return (
     <div>

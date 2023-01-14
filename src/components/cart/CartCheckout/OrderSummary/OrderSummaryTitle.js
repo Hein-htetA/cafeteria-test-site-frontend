@@ -1,10 +1,10 @@
-import { faClipboard, faNoteSticky } from "@fortawesome/free-regular-svg-icons";
+import { faClipboard } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { useCartContext } from "../../../../Context/CartContext";
+import { useSelector } from "react-redux";
 
 const OrderSummaryTitle = () => {
-  const { checkout } = useCartContext();
+  const checkout = useSelector((state) => state.cart.checkout);
   return (
     <div
       style={{

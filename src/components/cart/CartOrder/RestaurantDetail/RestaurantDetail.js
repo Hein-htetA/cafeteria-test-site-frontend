@@ -5,18 +5,14 @@ import { usePublicDataContext } from "../../../../Context/PublicDataContext";
 import CheckoutField from "../../CartCheckout/CheckoutField";
 import CheckoutGridContainer from "../../CartCheckout/CheckoutGridContainer";
 
-const RestaurantDetail = ({ restaurantId }) => {
-  const { restaurants } = usePublicDataContext();
-  const restaurant = restaurants.find(
-    (restaurant) => restaurant._id === restaurantId
-  );
+const RestaurantDetail = ({ restaurantName }) => {
   return (
     <CheckoutGridContainer>
       <CheckoutField>Name</CheckoutField>
       <CheckoutField>:</CheckoutField>
-      <div>{restaurant.name}</div>
+      <div>{restaurantName}</div>
 
-      <CheckoutField>Phone</CheckoutField>
+      {/* <CheckoutField>Phone</CheckoutField>
       <CheckoutField>:</CheckoutField>
       <div
         style={{
@@ -34,7 +30,7 @@ const RestaurantDetail = ({ restaurantId }) => {
             />
           </a>
         </div>
-      </div>
+      </div> */}
     </CheckoutGridContainer>
   );
 };

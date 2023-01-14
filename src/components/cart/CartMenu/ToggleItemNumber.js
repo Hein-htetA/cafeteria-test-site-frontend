@@ -5,11 +5,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { useCartContext } from "../../../Context/CartContext";
+import { useDispatch } from "react-redux";
+import { toggleItemsCount } from "../../../features/cartSlice";
 import "./ToggleItemNumber.css";
 
 const ToggleItemNumber = ({ count, restaurantId, menuId }) => {
-  const { incCount, decCount } = useCartContext();
+  const dispatch = useDispatch();
   return (
     <div
       style={{
@@ -21,14 +22,18 @@ const ToggleItemNumber = ({ count, restaurantId, menuId }) => {
     >
       <button
         className="toggle-item-number-btn"
-        onClick={() => incCount(restaurantId, menuId)}
+        onClick={() =>
+          dispatch(toggleItemsCount({ restaurantId, menuId, count: 1 }))
+        }
       >
         <FontAwesomeIcon icon={faChevronUp} />
       </button>
       <div>{count}</div>
       <button
         className="toggle-item-number-btn"
-        onClick={() => decCount(restaurantId, menuId)}
+        onClick={() =>
+          dispatch(toggleItemsCount({ restaurantId, menuId, count: -1 }))
+        }
       >
         <FontAwesomeIcon icon={faChevronDown} />
       </button>

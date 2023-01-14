@@ -13,20 +13,9 @@ import {
 } from "../../features/publicDataSlice";
 
 const Marketplace = () => {
-  // const {
-  //   increasePage,
-  //   restaurantLoading,
-  //   restaurantError,
-  //   restaurants,
-  //   moreRestaurantLoading,
-  //   firstLoadSuccess,
-  //   noMoreRestaurant,
-  // } = usePublicDataContext();
-
   const publicRestaurants = useSelector(
     (state) => state.publicData.publicRestaurants
   );
-  const page = useSelector((state) => state.publicData.page);
   const restaurantStatus = useSelector(
     (state) => state.publicData.restaurantStatus
   );
@@ -35,10 +24,6 @@ const Marketplace = () => {
   const containerRef = useRef(null);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchRestaurantsByPage(page));
-  }, [page]);
 
   const callbackFun = useCallback((entries) => {
     const [entry] = entries;

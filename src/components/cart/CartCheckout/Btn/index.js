@@ -3,19 +3,11 @@ import BackToCart from "./BackToCart";
 import "./index.css";
 import PlaceOrderBtn from "./PlaceOrderBtn";
 
-const CheckoutBtn = ({
-  handlePlaceOrder,
-  placeOrderLoading,
-  placeOrderError,
-}) => {
+const CheckoutBtn = ({ handlePlaceOrder }) => {
   return (
     <div className="checkout-btn-container">
       <BackToCart />
-      <PlaceOrderBtn
-        handlePlaceOrder={handlePlaceOrder}
-        placeOrderError={placeOrderError}
-        placeOrderLoading={placeOrderLoading}
-      />
+      <PlaceOrderBtn handlePlaceOrder={handlePlaceOrder} />
     </div>
   );
 };
