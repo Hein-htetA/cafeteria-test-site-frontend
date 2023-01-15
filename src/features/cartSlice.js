@@ -79,6 +79,7 @@ const placeOrder = createAsyncThunk(
       if (!response.ok) {
         throw new Error();
       }
+      sessionStorage.removeItem("checkout");
       const { newOrder } = await response.json();
       return newOrder;
     } catch (error) {
@@ -273,6 +274,15 @@ const cartSlice = createSlice({
           action.payload.type
         ];
     },
+    updateOrderFromOrderHistory: (state, action) => {
+      const orderIndex = state.orderHistory.findIndex(
+        (order) => order._id === action.payload.orderId
+      );
+      state.orderHistory[orderIndex] = {
+        ...state.orderHistory[orderIndex],
+        ...action.payload,
+      };
+    },
   },
   extraReducers(builder) {
     builder
@@ -281,6 +291,7 @@ const cartSlice = createSlice({
       })
       .addCase(placeOrder.fulfilled, (state, action) => {
         state.placeOrderStatus = "succeeded";
+        state.checkout = {};
         state.orderHistory.unshift({
           ...action.payload,
           orderHistoryUiState,
@@ -320,6 +331,7 @@ export const {
   clearCheckout,
   closePlaceOrderError,
   toggleOrderUiState,
+  updateOrderFromOrderHistory,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

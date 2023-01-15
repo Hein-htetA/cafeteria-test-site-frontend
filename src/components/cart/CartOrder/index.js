@@ -71,7 +71,7 @@ const CartOrder = () => {
               }}
             />
             <OrderSummaryTitleInOrder
-              hideOrderSummary={order.hideOrderSummary}
+              hideOrderSummary={order.orderHistoryUiState.hideOrderSummary}
               type="hideOrderSummary"
               //showHideOrderHistory={showHideOrderHistory}
               orderId={order._id}

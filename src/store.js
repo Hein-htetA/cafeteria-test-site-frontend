@@ -7,6 +7,9 @@ import publicDataSlice from "./features/publicDataSlice";
 import cartSlice from "./features/cartSlice";
 import calculateTotalMiddleware from "./middleware/calculateTotalMiddleware";
 import cartStorageMiddleware from "./middleware/cartStorageMiddleware";
+import checkoutStorageMiddleware from "./middleware/checkoutStorageMiddleware";
+import menuStorageMiddleware from "./middleware/menuStorageMiddleware";
+import restaurantStorageMiddleware from "./middleware/restaurantStorageMiddleware";
 
 const store = configureStore({
   reducer: {
@@ -20,7 +23,10 @@ const store = configureStore({
     getDefaultMiddleware()
       .prepend(
         calculateTotalMiddleware.middleware,
-        cartStorageMiddleware.middleware
+        cartStorageMiddleware.middleware,
+        checkoutStorageMiddleware.middleware,
+        menuStorageMiddleware.middleware,
+        restaurantStorageMiddleware.middleware
       )
       .concat(handleLocalStorageMiddleware),
 });

@@ -6,7 +6,6 @@ import MenuCategory from "./MenuCategory";
 import "./RestaurantMenu.css";
 
 const RestaurantMenu = () => {
-  //const { restaurant, restaurantLoading } = useMenuContext();
   const restaurantName = useSelector(
     (state) => state.restaurant.restaurantData.name
   );

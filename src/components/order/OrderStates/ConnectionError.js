@@ -1,21 +1,16 @@
 import React from "react";
 import "./EmptyOrder.css";
 import "./ConnectionError.css";
-import { useOrderContext } from "../../../Context/OrderContext";
-import { useUserContext } from "../../../Context/UserContext";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchOrdersAfterSSEFailed } from "../../../features/orderSlice";
 
 const ConnectionError = () => {
-  const { setOrderState } = useOrderContext();
-  const { user } = useUserContext();
-  const controller = new AbortController();
-
-  // useEffect(() => {
-  //   return () => controller.abort();
-  // }, []);
+  const dispatch = useDispatch();
+  const restaurantId = useSelector((state) => state.user.userData.restaurantId);
 
   return (
     <div className="empty-box">
-      <button onClick={() => setOrderState(controller, user.restaurantId)}>
+      <button onClick={() => dispatch(fetchOrdersAfterSSEFailed(restaurantId))}>
         Try Again ?
       </button>
     </div>

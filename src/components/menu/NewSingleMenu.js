@@ -33,7 +33,6 @@ const resizeFile = (file) =>
 
 const NewSingleMenu = () => {
   const { menuCategory } = useParams();
-  //const { addNewMenu, restaurant } = useMenuContext();
 
   const [formValues, setFormValues] = useState({
     name: "",
@@ -222,7 +221,7 @@ const NewSingleMenu = () => {
         <button
           className="upload-btn"
           onClick={handleAddNewMenu}
-          // disabled={menu.deleteConfirmationBox || menu.saveLoading}
+          disabled={addNewMenuStatus === "loading"}
         >
           <FontAwesomeIcon
             icon={faCloudArrowUp}
@@ -250,7 +249,7 @@ const NewSingleMenu = () => {
         <button
           className="cancel-change-btn"
           onClick={resetForm}
-          // disabled={menu.deleteConfirmationBox || menu.saveLoading}
+          disabled={addNewMenuStatus === "loading"}
         >
           <div style={{ minWidth: "60px" }}>Clear</div>
         </button>

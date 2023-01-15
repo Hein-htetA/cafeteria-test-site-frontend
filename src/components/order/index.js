@@ -52,7 +52,9 @@ const Order = () => {
       <h3 ref={orderAcceptedRef}>Order Queue</h3>
       {displayOrder(orderData, "order", status)}
 
-      <h3 ref={onDeliveryRef}>On Delivery</h3>
+      <h3 ref={onDeliveryRef} className="on-delivery-title">
+        On Delivery
+      </h3>
       {displayOrder(orderData, "onDelivery", status)}
     </main>
   );

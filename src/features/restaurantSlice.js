@@ -34,7 +34,7 @@ const fetchRestaurant = createAsyncThunk(
         throw new Error();
       }
       const { restaurant } = await response.json();
-      sessionStorage.setItem("restaurant", JSON.stringify(restaurant));
+      //sessionStorage.setItem("restaurant", JSON.stringify(restaurant));
       return restaurant;
     } catch (error) {
       return rejectWithValue();
@@ -145,7 +145,7 @@ const fetchMenu = createAsyncThunk(
         throw new Error();
       }
       const { data } = await response.json();
-      sessionStorage.setItem("menu", JSON.stringify(data));
+      //sessionStorage.setItem("menu", JSON.stringify(data));
       return data;
     } catch (error) {
       return rejectWithValue();

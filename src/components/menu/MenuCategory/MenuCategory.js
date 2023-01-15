@@ -29,7 +29,7 @@ const MenuCategory = () => {
           <img src={snackDrinkPhoto} alt="curry" className="category-image" />
           <div className="category-text">snacks & drinks</div>
         </Link>
-        <Link to="signature" className="category-link">
+        <Link to="signatureDish" className="category-link">
           <img
             src={signatureDishPhoto}
             alt="Signature Dishes"

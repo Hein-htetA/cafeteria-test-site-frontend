@@ -148,14 +148,14 @@ const CartContextProvider = ({ children }) => {
     dispatch({ type: "CALCULATE_TOTAL" });
   }, []);
 
-  useEffect(() => {
-    sessionStorage.setItem("checkout", JSON.stringify(state.checkout));
-  }, [state.checkout]);
+  // useEffect(() => {
+  //   sessionStorage.setItem("checkout", JSON.stringify(state.checkout));
+  // }, [state.checkout]);
 
-  useEffect(() => {
-    sessionStorage.setItem("cart", JSON.stringify(state.cart));
-    sessionStorage.setItem("orderHistory", JSON.stringify(state.orderHistory));
-  });
+  // useEffect(() => {
+  //   sessionStorage.setItem("cart", JSON.stringify(state.cart));
+  //   sessionStorage.setItem("orderHistory", JSON.stringify(state.orderHistory));
+  // });
 
   return (
     <CartContext.Provider

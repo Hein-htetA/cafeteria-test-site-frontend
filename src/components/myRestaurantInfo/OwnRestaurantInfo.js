@@ -15,9 +15,14 @@ import RegisterPaymentMethod from "../registerRestaurant/RegisterPaymentMethod";
 import RestaurantUpdateBtn from "./RestaurantUpdateBtn";
 import { useDispatch, useSelector } from "react-redux";
 import { resetUpdateRestaurantStatus } from "../../features/restaurantSlice";
+import MenuLoading from "../menu/MenuLoadingError/MenuLoading";
+import LoadingOrder from "../order/OrderStates/LoadingOrder";
 
 const OwnRestaurantInfo = () => {
   const restaurant = useSelector((state) => state.restaurant.restaurantData);
+  const restaurantStatus = useSelector(
+    (state) => state.restaurant.restaurantStatus
+  );
 
   const [formValues, setFormValues] = useState(restaurant);
 
@@ -88,6 +93,10 @@ const OwnRestaurantInfo = () => {
     setFormValues({ ...formValues, paymentMethods: [...tempPaymentMethods] });
     dispatch(resetUpdateRestaurantStatus());
   };
+
+  if (restaurantStatus === "loading") {
+    return <LoadingOrder />;
+  }
 
   return (
     <div className="register-restaurant-container">

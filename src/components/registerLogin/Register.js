@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import "./Register.css";
 import { validate } from "./validateFun";
 import Resizer from "react-image-file-resizer";
-import { localBaseUrl } from "../utils/baseUrl";
-import { useUserContext } from "../../Context/UserContext";
 import RegisterBtn from "./RegisterBtn";
 import RegisterWarning from "./RegisterWarning";
 import RegisterContainer from "./RegisterContainer";
@@ -56,19 +54,11 @@ const Register = () => {
   });
   const [formErrors, setFormErrors] = useState({});
 
-  const [registerStatus, setRegisterStatus] = useState({
-    registerSuccess: false,
-    registerError: false,
-    registerLoading: false,
-    errorMsg: "",
-  });
-
   const [hidePassword, setHidePassword] = useState({
     passwordHide: true,
     confirmPasswordHide: true,
   });
 
-  const { setLoggedIn, setUser } = useUserContext();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

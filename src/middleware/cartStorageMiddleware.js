@@ -1,12 +1,16 @@
 import { createListenerMiddleware, isAnyOf } from "@reduxjs/toolkit";
-import { addToCart, toggleItemsCount } from "../features/cartSlice";
+import {
+  addToCart,
+  backToCart,
+  cartToCheckout,
+  toggleItemsCount,
+} from "../features/cartSlice";
 
 const cartStorageMiddleware = createListenerMiddleware();
 
 cartStorageMiddleware.startListening({
-  matcher: isAnyOf(addToCart, toggleItemsCount),
+  matcher: isAnyOf(addToCart, toggleItemsCount, backToCart, cartToCheckout),
   effect: (action, listenerApi) => {
-    console.log("car midd ran");
     sessionStorage.setItem(
       "cart",
       JSON.stringify(listenerApi.getState().cart.cart)

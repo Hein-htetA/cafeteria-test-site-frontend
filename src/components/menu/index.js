@@ -21,7 +21,7 @@ const Menu = () => {
           ? "side dishes"
           : menuCategory === "drink"
           ? "snacks & drinks"
-          : menuCategory === "signature"
+          : menuCategory === "signatureDish"
           ? "signature dishes"
           : "additional items"}
       </h2>

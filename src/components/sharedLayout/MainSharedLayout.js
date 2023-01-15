@@ -12,16 +12,16 @@ import {
 } from "../../features/orderSlice";
 import { fetchMenu, fetchRestaurant } from "../../features/restaurantSlice";
 import { fetchRestaurantsByPage } from "../../features/publicDataSlice";
+import {
+  fetchOrder,
+  updateOrderFromOrderHistory,
+} from "../../features/cartSlice";
 
 const MainSharedLayout = () => {
-  const userData = useSelector((state) => state.user.userData);
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const userId = useSelector((state) => state.user.userData._id);
   const restaurantId = useSelector((state) => state.user.userData.restaurantId);
   const page = useSelector((state) => state.publicData.page);
-
-  const { setOrderHistory, setOrderHistoryLoading, updateOrderHistory } =
-    useCartContext();
 
   const dispatch = useDispatch();
 
@@ -29,45 +29,16 @@ const MainSharedLayout = () => {
   const updateOrderSSEOnError = useRef(null);
 
   useEffect(() => {
-    const controller = new AbortController();
-    let updateOrderSSE;
-    if (isLoggedIn) {
-      //restaurantId is available only after user logged in
-      updateOrderSSE = new EventSource(
-        localBaseUrl + `/orders/${userId}/updateOrder`
-      );
+    const updateOrderSSE = new EventSource(
+      localBaseUrl + `/orders/${userId}/updateOrder`
+    );
 
+    if (isLoggedIn) {
+      //dont need restaurantId to order from other restaurant
       updateOrderSSE.onopen = () => {
         if (updateOrderSSEOnError.current) {
           //fetch order ajax if error occured
-          const fetchOrder = async () => {
-            try {
-              //setOrderLoading();
-              const controller = new AbortController();
-              setOrderHistoryLoading();
-              const requestOptions = {
-                headers: {
-                  Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-                signal: controller.signal,
-              };
-              const response = await fetch(
-                `${localBaseUrl}/orders/customer/${userId}`,
-                requestOptions
-              );
-              if (!response.ok) {
-                const message = `An error has occured: ${response.status}`;
-                throw new Error(message);
-              }
-              const { orderHistory } = await response.json();
-              setOrderHistoryLoading();
-              setOrderHistory(orderHistory);
-            } catch (e) {
-              //setOrderError();
-              console.log(e);
-            }
-          };
-          fetchOrder();
+          dispatch(fetchOrder());
         }
       };
       updateOrderSSE.onmessage = (e) => {
@@ -78,19 +49,22 @@ const MainSharedLayout = () => {
           paymentStatus,
           updatedAt,
         } = JSON.parse(e.data);
-        updateOrderHistory(orderId, orderState, paymentStatus, updatedAt);
-        // console.log("updated order", JSON.parse(e.data));
-        // addNewOrder(JSON.parse(e.data));
+        dispatch(
+          updateOrderFromOrderHistory({
+            orderId,
+            orderState,
+            paymentStatus,
+            updatedAt,
+          })
+        );
       };
       updateOrderSSE.onerror = () => {
         updateOrderSSEOnError.current = true; //not to update fetch on without error
       };
+    } else {
+      updateOrderSSE.close();
     }
-    return () => {
-      //updateOrderSSE.close();
-      controller.abort();
-    };
-  }, [isLoggedIn, restaurantId]);
+  }, [isLoggedIn]);
 
   useEffect(() => {
     const newOrderSSE = new EventSource(
@@ -101,7 +75,6 @@ const MainSharedLayout = () => {
       dispatch(fetchInitialOrders(restaurantId));
       newOrderSSE.onopen = () => {
         dispatch(setOnline());
-
         if (newOrderSSEOnError.current) {
           //fetch order ajax if error occured
           dispatch(fetchOrdersAfterSSEFailed(restaurantId));
@@ -146,11 +119,11 @@ const MainSharedLayout = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (restaurantId) {
-      dispatch(fetchMenu(restaurantId));
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (restaurantId) {
+  //     dispatch(fetchMenu(restaurantId));
+  //   }
+  // }, []);
 
   useEffect(() => {
     dispatch(fetchRestaurantsByPage(page));
