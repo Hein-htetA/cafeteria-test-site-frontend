@@ -8,7 +8,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useOrderContext } from "../../../Context/OrderContext";
 import {
   deliverOrder,
   toggleDetailContainer,
@@ -17,8 +16,6 @@ import {
 
 const OrderBtnGroup = (props) => {
   const { _id, detailHide } = props;
-  const { sendToOnDelivery, onClickHideShow, displayRejectConfirmationBox } =
-    useOrderContext();
 
   const dispatch = useDispatch();
   return (

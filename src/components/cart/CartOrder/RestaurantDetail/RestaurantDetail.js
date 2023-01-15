@@ -1,7 +1,4 @@
-import { faPhoneFlip } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { usePublicDataContext } from "../../../../Context/PublicDataContext";
 import CheckoutField from "../../CartCheckout/CheckoutField";
 import CheckoutGridContainer from "../../CartCheckout/CheckoutGridContainer";
 

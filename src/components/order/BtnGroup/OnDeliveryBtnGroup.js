@@ -7,7 +7,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useOrderContext } from "../../../Context/OrderContext";
 import {
   completeOrder,
   toggleDetailContainer,
@@ -19,8 +18,6 @@ const OnDeliveryBtnGroup = (props) => {
 
   const dispatch = useDispatch();
 
-  const { sendToHistory, onClickHideShow, displayRejectConfirmationBox } =
-    useOrderContext();
   return (
     <div className={"order-btn-container-order"}>
       <div className="recycle-bin-btn-container">

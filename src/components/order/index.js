@@ -1,6 +1,4 @@
-import { text } from "@fortawesome/fontawesome-svg-core";
-import React, { useEffect, useRef, useState } from "react";
-import { useOrderContext } from "../../Context/OrderContext";
+import React, { useRef } from "react";
 
 import ConnectionError from "./OrderStates/ConnectionError";
 import EmptyOrder from "./OrderStates/EmptyOrder";
@@ -28,8 +26,6 @@ export const displayOrder = (data, type, status) => {
 };
 
 const Order = () => {
-  const { orderLoading, orderError } = useOrderContext();
-
   const orderReceivedRef = useRef(null);
   const orderAcceptedRef = useRef(null);
   const onDeliveryRef = useRef(null);

@@ -1,13 +1,11 @@
 import {
   faChevronDown,
   faChevronUp,
-  faXmark,
   faTrashCanArrowUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useOrderContext } from "../../../Context/OrderContext";
 import {
   acceptOrder,
   toggleDetailContainer,

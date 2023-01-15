@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useCartContext } from "../../Context/CartContext";
 import { addToCart } from "../../features/cartSlice";
 import { defaultImageUrl } from "../utils/baseUrl";
 import "./PublicSingleMenu.css";
@@ -19,8 +18,6 @@ const PublicSingleMenu = (props) => {
     (restaurant) => restaurant._id === restaurantId
   );
   const cart = useSelector((state) => state.cart.cart);
-
-  //const { cart } = useCartContext();
 
   const dispatch = useDispatch();
 

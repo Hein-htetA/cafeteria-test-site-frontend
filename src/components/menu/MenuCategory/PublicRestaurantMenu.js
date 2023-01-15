@@ -5,7 +5,6 @@ import MenuCategory from "./MenuCategory";
 import "./RestaurantMenu.css";
 
 const PublicRestaurantMenu = () => {
-  //const { restaurants } = usePublicDataContext();
   const publicRestaurants = useSelector(
     (state) => state.publicData.publicRestaurants
   );

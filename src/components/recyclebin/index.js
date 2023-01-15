@@ -1,5 +1,4 @@
 import React from "react";
-import { useOrderContext } from "../../Context/OrderContext";
 
 import { displayOrder } from "../order";
 

@@ -3,26 +3,21 @@ import CartContainer from "./CartContainer";
 import CartRestaurantName from "../CartRestaurantName";
 import ItemName from "../ItemName";
 import ItemPrice from "../ItemPrice";
-import SubTotal from "../SubTotal";
 import Total from "../Total";
 import AddMoreItems from "./AddMoreItems";
 import MenuContainer from "./MenuContainer";
 import ReviewPaymentBtn from "./ReviewPaymentBtn";
 import ToggleItemNumber from "./ToggleItemNumber";
 import MessageBox from "./MessageBox";
-import { useCartContext } from "../../../Context/CartContext";
 import EmptyCart from "../CartStates/EmptyCart";
 import ClearCartBtn from "./ClearCartBtn";
 import { useNavigate } from "react-router-dom";
-import BackToCart from "../CartCheckout/Btn/BackToCart";
 import FullCheckout from "./FullCheckout/FullCheckout";
 import { useDispatch, useSelector } from "react-redux";
 import { cartToCheckout } from "../../../features/cartSlice";
 
 const CartMenu = () => {
   const [message, setMessage] = useState({});
-  // const { cart, totalAmount, addMessage, toCheckout, crowdedCheckoutWarning } =
-  //   useCartContext();
 
   const cart = useSelector((state) => state.cart.cart);
   const fullCheckoutWarning = useSelector(

@@ -1,16 +1,19 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useCartContext } from "../../../Context/CartContext";
+import { hideFullCartWarning } from "../../../features/cartSlice";
 import "./FullCart.css";
 
 const FullCart = () => {
-  const { fullCartWarning, hideFullCartWarning } = useCartContext();
+  const fullCartWarning = useSelector((state) => state.cart.fullCartWarning);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const checkCartCheckout = () => {
     navigate("/myAccount/cart/cartMenu");
   };
+
   if (!fullCartWarning) {
     return;
   }
@@ -30,7 +33,7 @@ const FullCart = () => {
         <FontAwesomeIcon
           icon={faXmark}
           className="full-cart-xmark"
-          onClick={hideFullCartWarning}
+          onClick={() => dispatch(hideFullCartWarning())}
         />
       </div>
     </div>

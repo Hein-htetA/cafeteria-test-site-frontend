@@ -1,6 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useCartContext } from "../../../Context/CartContext";
+import { useSelector } from "react-redux";
 import LoadingOrder from "../../order/OrderStates/LoadingOrder";
 import CheckoutField from "../CartCheckout/CheckoutField";
 import CheckoutGridContainer from "../CartCheckout/CheckoutGridContainer";
@@ -17,9 +16,6 @@ import RestaurantDetailTitle from "./RestaurantDetail/RestaurantDetailTitle";
 import TodayOrdersTitle from "./TodayOrdersTitle";
 
 const CartOrder = () => {
-  // const { orderHistory, showHideOrderHistory, orderHistoryLoading } =
-  //   useCartContext();
-
   const orderHistory = useSelector((state) => state.cart.orderHistory);
   const orderHistoryStatus = useSelector(
     (state) => state.cart.orderHistoryStatus

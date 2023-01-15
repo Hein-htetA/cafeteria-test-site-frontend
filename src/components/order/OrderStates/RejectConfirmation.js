@@ -1,6 +1,5 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useOrderContext } from "../../../Context/OrderContext";
 import {
   rejectOrder,
   toggleRejectConfirmationBox,
@@ -8,12 +7,8 @@ import {
 import "./RejectConfirmation.css";
 
 const DeleteConfirmation = (props) => {
-  const { hideRejectConfirmationBox, sendToRecycleBin } = useOrderContext();
   const dispatch = useDispatch();
-  const recycleBinAndHide = (id) => {
-    dispatch(rejectOrder(id));
-    hideRejectConfirmationBox(id);
-  };
+
   return (
     <div className="confirmation-container">
       <h5>Reject this Order?</h5>

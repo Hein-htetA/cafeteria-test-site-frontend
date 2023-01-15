@@ -15,7 +15,7 @@ const initializeFun = () => {
   const checkout =
     sessionStorage.getItem("checkout") !== null
       ? JSON.parse(sessionStorage.getItem("checkout"))
-      : [];
+      : {};
   const orderHistory =
     sessionStorage.getItem("orderHistory") !== null
       ? JSON.parse(sessionStorage.getItem("orderHistory"))
@@ -170,6 +170,9 @@ const cartSlice = createSlice({
       state.cart[
         restaurantIndex === -1 ? 0 : restaurantIndex
       ].restaurantTotalCount = restaurantTotalCount;
+    },
+    hideFullCartWarning: (state) => {
+      state.fullCartWarning = false;
     },
     toggleItemsCount: (state, action) => {
       const restaurantIndex = state.cart.findIndex(
@@ -332,6 +335,7 @@ export const {
   closePlaceOrderError,
   toggleOrderUiState,
   updateOrderFromOrderHistory,
+  hideFullCartWarning,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

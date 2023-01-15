@@ -2,11 +2,9 @@ import {
   faCheck,
   faChevronDown,
   faChevronUp,
-  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { useOrderContext } from "../../../Context/OrderContext";
 import "./HistoryBtnGroup.css";
 import { toggleDetailContainer } from "../../../features/orderSlice";
 import { useDispatch } from "react-redux";

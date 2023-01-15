@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import Navbar from "../navbar";
 import { Outlet } from "react-router-dom";
 import { localBaseUrl } from "../utils/baseUrl";
-import { useCartContext } from "../../Context/CartContext";
 import { setOnline, setOffline } from "../../features/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
