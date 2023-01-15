@@ -155,7 +155,7 @@ const cartSlice = createSlice({
 
       //calculate restaurant TotalCount and TotalAmount
       const { restaurantTotalCount, restaurantTotalAmount } = state.cart[
-        restaurantIndex === -1 ? 0 : restaurantIndex
+        restaurantIndex === -1 ? state.cart.length - 1 : restaurantIndex
       ].menuArray.reduce(
         (accu, current) => {
           accu.restaurantTotalCount += current.count;
@@ -165,10 +165,10 @@ const cartSlice = createSlice({
         { restaurantTotalCount: 0, restaurantTotalAmount: 0 }
       );
       state.cart[
-        restaurantIndex === -1 ? 0 : restaurantIndex
+        restaurantIndex === -1 ? state.cart.length - 1 : restaurantIndex
       ].restaurantTotalAmount = restaurantTotalAmount;
       state.cart[
-        restaurantIndex === -1 ? 0 : restaurantIndex
+        restaurantIndex === -1 ? state.cart.length - 1 : restaurantIndex
       ].restaurantTotalCount = restaurantTotalCount;
     },
     hideFullCartWarning: (state) => {

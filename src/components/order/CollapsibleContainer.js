@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import "./CollapsibleContainer.css";
-import { setDetailContainerHeight as setDetailContainerHeightRTK } from "../../features/orderSlice";
+import { setDetailContainerHeight } from "../../features/orderSlice";
 
 const CollapsibleContainer = ({
   id,
@@ -10,17 +10,14 @@ const CollapsibleContainer = ({
   detailHide,
 }) => {
   const collapseContainerRef = useRef(null);
-  // const heightRef = useRef(null);
   const firstRender = useRef(true);
 
   const dispatch = useDispatch();
 
-  // console.log("heightRef.current", heightRef.current);
-
   useEffect(() => {
     if (firstRender.current) {
       dispatch(
-        setDetailContainerHeightRTK({
+        setDetailContainerHeight({
           id,
           detailContainerHeight: collapseContainerRef.current.offsetHeight,
         })
@@ -43,15 +40,16 @@ const CollapsibleContainer = ({
       ref={collapseContainerRef}
       className={
         detailHide
-          ? " collapse-container collapse-container-hidden"
+          ? "collapse-container collapse-container-hidden"
           : "collapse-container"
       }
       style={{
-        height: firstRender.current
-          ? "auto"
-          : detailHide
-          ? 0
-          : detailContainerHeight,
+        height:
+          firstRender.current && detailContainerHeight === 0
+            ? "auto"
+            : detailHide
+            ? 0
+            : detailContainerHeight,
       }}
     >
       {children}

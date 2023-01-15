@@ -1,7 +1,7 @@
 import React from "react";
 import "./RegisterPaymentMethod.css";
 const RegisterPaymentMethod = (props) => {
-  const { paymentMethods, onChangeCheckbox, isOwner } = props;
+  const { paymentMethods, onChangeCheckbox, isOwner, disabled } = props;
   // const copyPaymentMethods = JSON.parse(JSON.stringify(paymentMethods))
 
   return (
@@ -15,7 +15,7 @@ const RegisterPaymentMethod = (props) => {
               type="checkbox"
               checked={method.checked}
               onChange={(e) => onChangeCheckbox(e, index, "checkbox")}
-              disabled={!isOwner}
+              disabled={!isOwner || disabled}
             />
             <span>{method.value}</span>
           </label>
@@ -32,7 +32,7 @@ const RegisterPaymentMethod = (props) => {
             name="name"
             value={paymentMethods[1].additionalInfo.name}
             onChange={(e) => onChangeCheckbox(e, 1, "additionalInfo")}
-            disabled={!isOwner}
+            disabled={!isOwner || disabled}
           />
           <div style={{ fontSize: "0.8rem", textAlign: "right" }}>
             KBZPay No.
@@ -44,7 +44,7 @@ const RegisterPaymentMethod = (props) => {
             type={"number"}
             value={paymentMethods[1].additionalInfo.number}
             onChange={(e) => onChangeCheckbox(e, 1, "additionalInfo")}
-            disabled={!isOwner}
+            disabled={!isOwner || disabled}
             onKeyDown={(event) => {
               if (!/[0-9]/.test(event.key) && event.key !== "Backspace") {
                 event.stopPropagation();
@@ -65,7 +65,7 @@ const RegisterPaymentMethod = (props) => {
             name="name"
             value={paymentMethods[2].additionalInfo.name}
             onChange={(e) => onChangeCheckbox(e, 2, "additionalInfo")}
-            disabled={!isOwner}
+            disabled={!isOwner || disabled}
           />
           <div style={{ fontSize: "0.8rem", textAlign: "right" }}>
             WavePay No.
@@ -77,7 +77,7 @@ const RegisterPaymentMethod = (props) => {
             type={"number"}
             value={paymentMethods[2].additionalInfo.number}
             onChange={(e) => onChangeCheckbox(e, 2, "additionalInfo")}
-            disabled={!isOwner}
+            disabled={!isOwner || disabled}
             onKeyDown={(event) => {
               if (!/[0-9]/.test(event.key) && event.key !== "Backspace") {
                 event.stopPropagation();

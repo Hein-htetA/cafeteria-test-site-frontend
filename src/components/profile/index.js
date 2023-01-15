@@ -37,6 +37,7 @@ const resizeProfile = (file) =>
 const Profile = () => {
   const error = useSelector((state) => state.user.error);
   const userData = useSelector((state) => state.user.userData);
+  const status = useSelector((state) => state.user.status);
 
   const [formValues, setFormValues] = useState({
     ...userData,
@@ -93,12 +94,14 @@ const Profile = () => {
         onChangeProfile={onChangeProfile}
         removeProfile={removeProfile}
         profileImage={formValues.profileImage}
+        disabled={status === "loading"}
       />
       <RegisterInfoContainer>
         <Name
           name={formValues.name}
           onChangeInput={onChangeInput}
           nameError={formErrors.nameError}
+          disabled={status === "loading"}
         />
         <Phone
           phone={formValues.phone}
@@ -106,12 +109,22 @@ const Profile = () => {
           phoneError={
             formErrors.phoneError || (error.serverError && "Unavailable")
           } //error is reply from server
+          disabled={status === "loading"}
         />
-        <Address onChangeInput={onChangeInput} address={formValues.address} />
-        <Email onChangeInput={onChangeInput} email={formValues.email} />
+        <Address
+          onChangeInput={onChangeInput}
+          address={formValues.address}
+          disabled={status === "loading"}
+        />
+        <Email
+          onChangeInput={onChangeInput}
+          email={formValues.email}
+          disabled={status === "loading"}
+        />
         <ExtraPhone
           onChangeInput={onChangeInput}
           extraPhone={formValues.extraPhone}
+          disabled={status === "loading"}
         />
       </RegisterInfoContainer>
       <ProfileBtnGroup updateUser={updateUser} />

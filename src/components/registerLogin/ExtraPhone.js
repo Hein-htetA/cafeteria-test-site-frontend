@@ -1,7 +1,7 @@
 import React from "react";
 
 const ExtraPhone = (props) => {
-  const { extraPhone, onChangeInput } = props;
+  const { extraPhone, onChangeInput, disabled } = props;
   return (
     <div className="register-form-row">
       <label>Extra Ph.</label>
@@ -21,6 +21,7 @@ const ExtraPhone = (props) => {
           name="extraPhone"
           value={extraPhone}
           onChange={onChangeInput}
+          disabled={disabled}
           onKeyDown={(event) => {
             if (!/[0-9]/.test(event.key) && event.key !== "Backspace") {
               event.stopPropagation();

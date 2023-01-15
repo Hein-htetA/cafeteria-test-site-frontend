@@ -1,10 +1,6 @@
 import React from "react";
-import { useSelector } from "react-redux";
 
-const RegRestaurantAddPhoto = ({ onChangePhoto, removePhoto }) => {
-  const updateRestaurantStatus = useSelector(
-    (state) => state.restaurant.updateRestaurantStatus
-  );
+const RegRestaurantAddPhoto = ({ onChangePhoto, removePhoto, disabled }) => {
   return (
     <div
       style={{
@@ -23,7 +19,7 @@ const RegRestaurantAddPhoto = ({ onChangePhoto, removePhoto }) => {
             accept="image/png, image/jpg, image/gif, image/jpeg"
             style={{ display: "none" }}
             onChange={onChangePhoto}
-            disabled={updateRestaurantStatus === "loading"}
+            disabled={disabled}
           />
         </label>
 

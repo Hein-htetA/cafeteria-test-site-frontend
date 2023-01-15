@@ -2,7 +2,7 @@ import React from "react";
 import "./RegisterDelivery.css";
 
 const RegisterDelivery = (props) => {
-  const { deliveryService, onChangeDeliverySelect, isOwner } = props;
+  const { deliveryService, onChangeDeliverySelect, isOwner, disabled } = props;
   return (
     <>
       <div>
@@ -16,7 +16,7 @@ const RegisterDelivery = (props) => {
           className="delivery-select"
           onChange={onChangeDeliverySelect}
           value={deliveryService}
-          disabled={!isOwner}
+          disabled={!isOwner || disabled}
         >
           <option value={true}>Available</option>
           <option value={false}>Unavailable (Pick-up Only)</option>

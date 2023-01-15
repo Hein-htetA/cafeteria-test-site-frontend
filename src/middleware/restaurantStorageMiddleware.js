@@ -10,7 +10,6 @@ restaurantStorageMiddleware.startListening({
     );
   },
   effect: (action, listenerApi) => {
-    console.log("res storage ran");
     sessionStorage.setItem(
       "restaurant",
       JSON.stringify(listenerApi.getState().restaurant.restaurantData)

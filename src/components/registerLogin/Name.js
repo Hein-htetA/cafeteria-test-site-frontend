@@ -1,7 +1,7 @@
 import React from "react";
 
 const Name = (props) => {
-  const { nameError, name, onChangeInput } = props;
+  const { nameError, name, onChangeInput, disabled } = props;
   return (
     <div className="register-form-row">
       <label>
@@ -21,6 +21,7 @@ const Name = (props) => {
           name="name"
           value={name}
           onChange={onChangeInput}
+          disabled={disabled}
         />
         <span className="register-err-msg" style={{ marginRight: "5px" }}>
           {nameError}

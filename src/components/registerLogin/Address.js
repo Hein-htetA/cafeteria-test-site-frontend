@@ -1,7 +1,7 @@
 import React from "react";
 
 const Address = (props) => {
-  const { address, onChangeInput } = props;
+  const { address, onChangeInput, disabled } = props;
   return (
     <div className="register-form-row">
       <label>Address</label>
@@ -12,6 +12,7 @@ const Address = (props) => {
           name="address"
           value={address}
           onChange={onChangeInput}
+          disabled={disabled}
         ></textarea>
       </div>
     </div>

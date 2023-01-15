@@ -3,8 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
 const RestaurantPhone = (props) => {
-  const { firstPhone, secondPhone, onChangeInput, firstPhoneError, isOwner } =
-    props;
+  const {
+    firstPhone,
+    secondPhone,
+    onChangeInput,
+    firstPhoneError,
+    isOwner,
+    disabled,
+  } = props;
   return (
     <>
       <div>
@@ -30,7 +36,7 @@ const RestaurantPhone = (props) => {
             name="firstPhone"
             onChange={onChangeInput}
             placeholder="9xxxxxxxxx"
-            disabled={!isOwner}
+            disabled={!isOwner || disabled}
             onKeyDown={(event) => {
               if (!/[0-9]/.test(event.key) && event.key !== "Backspace") {
                 event.stopPropagation();

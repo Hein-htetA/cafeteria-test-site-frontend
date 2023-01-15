@@ -9,7 +9,6 @@ menuStorageMiddleware.startListening({
     );
   },
   effect: (action, listenerApi) => {
-    console.log("menu storage ran");
     sessionStorage.setItem(
       "menu",
       JSON.stringify(listenerApi.getState().restaurant.menuData)

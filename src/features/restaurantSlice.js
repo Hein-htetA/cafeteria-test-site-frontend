@@ -329,8 +329,12 @@ const restaurantSlice = createSlice({
         state.updateMenuStatus = "failed";
       })
       //delete menu
-      .addCase(deleteMenu.pending, (state) => {
+      .addCase(deleteMenu.pending, (state, action) => {
         state.updateMenuStatus = "loading";
+        const index = state.menuData.findIndex(
+          (menu) => menu._id === action.meta.arg
+        );
+        state.menuData[index].menuDeleteLoading = true;
       })
       .addCase(deleteMenu.fulfilled, (state, action) => {
         state.updateMenuStatus = "idle";

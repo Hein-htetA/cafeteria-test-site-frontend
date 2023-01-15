@@ -8,6 +8,7 @@ const ProfilePhoto = (props) => {
     onChangeProfile,
     removeProfile,
     profileImage,
+    disabled,
   } = props;
   return (
     <>
@@ -35,10 +36,15 @@ const ProfilePhoto = (props) => {
             accept="image/png, image/jpg, image/gif, image/jpeg"
             style={{ display: "none" }}
             onChange={onChangeProfile}
+            disabled={disabled}
           />
         </label>
 
-        <button className="remove-profile-btn" onClick={removeProfile}>
+        <button
+          className="remove-profile-btn"
+          onClick={removeProfile}
+          disabled={disabled}
+        >
           remove
         </button>
       </div>

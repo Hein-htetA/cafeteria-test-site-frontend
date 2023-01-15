@@ -92,7 +92,6 @@
 .food-title {
   border: 2px solid white;
   border-radius: 0.5rem;
-  text-transform: capitalize;
   font-size: 1rem;
   width: calc(100% - 30px);
   padding: 5px;

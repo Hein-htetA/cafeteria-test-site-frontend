@@ -283,6 +283,7 @@ const orderSlice = createSlice({
         state.orderData[index].updateStatus = "succeeded";
         state.orderData[index].orderState = "recycleBin";
         state.orderData[index].updatedAt = action.payload;
+        state.orderData[index].detailContainerHeight = 0;
       })
       .addCase(rejectOrder.rejected, (state, action) => {
         const index = state.orderData.findIndex((singleOrder) => {
@@ -304,6 +305,7 @@ const orderSlice = createSlice({
         state.orderData[index].updateStatus = "succeeded";
         state.orderData[index].orderState = "order";
         state.orderData[index].updatedAt = action.payload;
+        state.orderData[index].detailContainerHeight = 0;
       })
       .addCase(acceptOrder.rejected, (state, action) => {
         const index = state.orderData.findIndex((singleOrder) => {
@@ -325,6 +327,7 @@ const orderSlice = createSlice({
         state.orderData[index].updateStatus = "succeeded";
         state.orderData[index].orderState = "onDelivery";
         state.orderData[index].updatedAt = action.payload;
+        state.orderData[index].detailContainerHeight = 0; //to recalculate detailcontainer height
       })
       .addCase(deliverOrder.rejected, (state, action) => {
         const index = state.orderData.findIndex((singleOrder) => {
@@ -346,6 +349,7 @@ const orderSlice = createSlice({
         state.orderData[index].updateStatus = "succeeded";
         state.orderData[index].orderState = "history";
         state.orderData[index].updatedAt = action.payload;
+        state.orderData[index].detailContainerHeight = 0;
       })
       .addCase(completeOrder.rejected, (state, action) => {
         const index = state.orderData.findIndex((singleOrder) => {

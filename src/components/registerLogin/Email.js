@@ -1,7 +1,7 @@
 import React from "react";
 
 const Email = (props) => {
-  const { email, onChangeInput } = props;
+  const { email, onChangeInput, disabled } = props;
   return (
     <div className="register-form-row">
       <label>Email</label>
@@ -13,6 +13,7 @@ const Email = (props) => {
           name="email"
           value={email}
           onChange={onChangeInput}
+          disabled={disabled}
         />
       </div>
     </div>

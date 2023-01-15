@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./SingleMenuDetail.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faXmark,
@@ -40,6 +40,7 @@ const SingleMenuDetail = () => {
   );
 
   const { menuId, menuCategory } = useParams();
+  const location = useLocation();
 
   const [formValues, setFormValues] = useState(() => ({
     ...menuData.find((menu) => menu._id === menuId),
@@ -103,19 +104,13 @@ const SingleMenuDetail = () => {
     setFormErrors(error);
     if (Object.keys(error).length !== 0) return;
 
-    await dispatch(updateMenu(formValues)).unwrap();
-
-    navigate(`/myAccount/myRestaurant/menu/${menuCategory}`, {
-      replace: true,
-      state: { message: "update successful" },
-    });
+    dispatch(updateMenu(formValues));
   };
 
   const handleDeleteMenu = async () => {
-    await dispatch(deleteMenu(formValues._id)).unwrap();
-    navigate(`/myAccount/myRestaurant/menu/${formValues.category}`, {
-      replace: true,
-    });
+    setFormValues({ ...formValues, deleteConfirmationBox: false });
+    navigate("/myAccount/myRestaurant/menu/curry", { replace: true });
+    dispatch(deleteMenu(formValues._id));
   };
 
   const displayDeleteConfirmationBox = () => {
