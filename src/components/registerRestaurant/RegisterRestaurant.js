@@ -15,7 +15,7 @@ import RegisterRestaurantBtn from "./RegisterRestaurantBtn";
 import { validate } from "./validate";
 import { useNavigate } from "react-router-dom";
 import RegRestaurantAddPhoto from "./RegRestaurantAddPhoto";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { registerRestaurant } from "../../features/restaurantSlice";
 
 export const resizeRestaurant = (file) =>
@@ -69,6 +69,10 @@ const RegisterRestaurant = () => {
     firstPhoneError: "",
     photoError: "",
   });
+
+  const registerRestaurantStatus = useSelector(
+    (state) => state.restaurant.registerRestaurantStatus
+  );
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -151,6 +155,7 @@ const RegisterRestaurant = () => {
           onChangePhoto={onChangePhoto}
           removePhoto={removePhoto}
           photoError={formErrors.photoError}
+          disabled={registerRestaurantStatus === "loading"}
         />
         <RestaurantDetailGrid>
           <RestaurantName
@@ -158,6 +163,7 @@ const RegisterRestaurant = () => {
             onChangeInput={onChangeInput}
             nameError={formErrors.nameError}
             isOwner={true}
+            disabled={registerRestaurantStatus === "loading"}
           />
           <RestaurantPhone
             firstPhone={formValues.firstPhone}
@@ -165,26 +171,31 @@ const RegisterRestaurant = () => {
             onChangeInput={onChangeInput}
             firstPhoneError={formErrors.firstPhoneError}
             isOwner={true}
+            disabled={registerRestaurantStatus === "loading"}
           />
           <RestaurantAddress
             address={formValues.address}
             onChangeInput={onChangeInput}
             isOwner={true}
+            disabled={registerRestaurantStatus === "loading"}
           />
           <RestaurantEstablished
             establishedIn={formValues.establishedIn}
             onChangeInput={onChangeInput}
             isOwner={true}
+            disabled={registerRestaurantStatus === "loading"}
           />
           <RegisterDelivery
             deliveryService={formValues.deliveryService}
             onChangeDeliverySelect={onChangeDeliverySelect}
             isOwner={true}
+            disabled={registerRestaurantStatus === "loading"}
           />
           <RegisterPaymentMethod
             paymentMethods={formValues.paymentMethods}
             onChangeCheckbox={onChangeCheckbox}
             isOwner={true}
+            disabled={registerRestaurantStatus === "loading"}
           />
         </RestaurantDetailGrid>
       </RestaurantInfoContainer>

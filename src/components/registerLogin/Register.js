@@ -124,12 +124,14 @@ const Register = () => {
         onChangeProfile={onChangeProfile}
         removeProfile={removeProfile}
         profileImage={formValues.profileImage}
+        disabled={status === "loading"}
       />
       <RegisterInfoContainer>
         <Name
           name={formValues.name}
           onChangeInput={onChangeInput}
           nameError={formErrors.nameError}
+          disabled={status === "loading"}
         />
 
         <hr />
@@ -139,6 +141,7 @@ const Register = () => {
           phoneError={
             formErrors.phoneError || (error.serverError && "Unavailable")
           } //error is reply from server
+          disabled={status === "loading"}
         />
 
         <hr />
@@ -148,6 +151,7 @@ const Register = () => {
           togglePassword={togglePassword}
           passwordHide={hidePassword.passwordHide}
           onChangeInput={onChangeInput}
+          disabled={status === "loading"}
         />
 
         <hr />
@@ -157,22 +161,32 @@ const Register = () => {
           toggleConfirmPassword={toggleConfirmPassword}
           confirmPasswordHide={hidePassword.confirmPasswordHide}
           onChangeInput={onChangeInput}
+          disabled={status === "loading"}
         />
 
         <hr />
-        <Address onChangeInput={onChangeInput} address={formValues.address} />
+        <Address
+          onChangeInput={onChangeInput}
+          address={formValues.address}
+          disabled={status === "loading"}
+        />
         <hr />
-        <Email onChangeInput={onChangeInput} email={formValues.email} />
+        <Email
+          onChangeInput={onChangeInput}
+          email={formValues.email}
+          disabled={status === "loading"}
+        />
         <hr />
         <ExtraPhone
           onChangeInput={onChangeInput}
           extraPhone={formValues.extraPhone}
+          disabled={status === "loading"}
         />
         <hr />
         <RegisterWarning />
       </RegisterInfoContainer>
       <RegisterBtn handleRegister={handleRegister} />
-      <LinkToLogin />
+      <LinkToLogin disabled={status === "loading"} />
     </RegisterContainer>
   );
 };

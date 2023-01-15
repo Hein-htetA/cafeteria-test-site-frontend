@@ -8,7 +8,11 @@ const RegisterBtn = (props) => {
 
   const { handleRegister } = props;
   return (
-    <button className="register-btn" onClick={handleRegister}>
+    <button
+      className="register-btn"
+      onClick={handleRegister}
+      disabled={status === "loading"}
+    >
       {status === "loading" ? (
         "Registering..."
       ) : status === "failed" ? (

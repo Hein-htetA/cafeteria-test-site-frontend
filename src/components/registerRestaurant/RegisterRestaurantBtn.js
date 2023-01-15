@@ -16,7 +16,11 @@ const RegisterRestaurantBtn = ({ handleRegisterRestaurant }) => {
       {registerRestaurantStatus === "failed" && (
         <div className="reg-res-err-msg">Something went wrong! Try Again?</div>
       )}
-      <button className="reg-res-btn" onClick={handleRegisterRestaurant}>
+      <button
+        className="reg-res-btn"
+        onClick={handleRegisterRestaurant}
+        disabled={registerRestaurantStatus === "loading"}
+      >
         {registerRestaurantStatus === "loading" ? (
           "Registering..."
         ) : registerRestaurantStatus === "failed" ? (

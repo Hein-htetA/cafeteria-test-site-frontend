@@ -9,6 +9,7 @@ const Password = (props) => {
     password,
     passwordHide,
     togglePassword,
+    disabled,
   } = props;
   return (
     <div className="register-form-row">
@@ -31,6 +32,7 @@ const Password = (props) => {
             name="password"
             value={password}
             onChange={onChangeInput}
+            disabled={disabled}
           />
           <span className={"register-err-msg"}>{passwordError}</span>
           {passwordHide ? (

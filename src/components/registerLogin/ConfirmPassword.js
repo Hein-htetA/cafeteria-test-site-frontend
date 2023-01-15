@@ -9,6 +9,7 @@ const ConfirmPassword = (props) => {
     confirmPassword,
     confirmPasswordHide,
     toggleConfirmPassword,
+    disabled,
   } = props;
   return (
     <div className="register-form-row">
@@ -30,6 +31,7 @@ const ConfirmPassword = (props) => {
           name="confirmPassword"
           value={confirmPassword}
           onChange={onChangeInput}
+          disabled={disabled}
         />
         <span
           className={
