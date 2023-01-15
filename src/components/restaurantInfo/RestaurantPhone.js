@@ -73,7 +73,7 @@ const RestaurantPhone = (props) => {
             name="secondPhone"
             onChange={onChangeInput}
             placeholder="9xxxxxxxxx"
-            disabled={!isOwner}
+            disabled={!isOwner || disabled}
             onKeyDown={(event) => {
               if (!/[0-9]/.test(event.key) && event.key !== "Backspace") {
                 event.stopPropagation();

@@ -97,9 +97,6 @@ const CartCheckout = () => {
     setFormErrors({ ...formErrors, ...error });
     if (Object.keys(error).length !== 0) return;
     await dispatch(placeOrder(formValues)).unwrap();
-    navigate(`/myAccount/cart/cartOrder`, {
-      replace: true,
-    });
   };
 
   useEffect(() => {
