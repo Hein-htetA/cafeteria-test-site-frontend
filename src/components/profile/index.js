@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useUserContext } from "../../Context/UserContext";
+import React, { useState } from "react";
 import Address from "../registerLogin/Address";
 import Email from "../registerLogin/Email";
 import ExtraPhone from "../registerLogin/ExtraPhone";
@@ -10,7 +9,6 @@ import RegisterContainer from "../registerLogin/RegisterContainer";
 import RegisterInfoContainer from "../registerLogin/RegisterInfoContainer";
 import Resizer from "react-image-file-resizer";
 import { validate } from "./validate";
-import { localBaseUrl } from "../utils/baseUrl";
 import "./index.css";
 import ProfileTitle from "./ProfileTitle";
 import ProfileBtnGroup from "./ProfileBtnGroup";

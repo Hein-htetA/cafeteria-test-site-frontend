@@ -1,5 +1,4 @@
 import React from "react";
-import { useUiContext } from "../../../Context/UserContext";
 
 const MenuError = (props) => {
   const { setRestaurantState } = props;

@@ -20,11 +20,17 @@ import LoadingOrder from "../order/OrderStates/LoadingOrder";
 
 const OwnRestaurantInfo = () => {
   const restaurant = useSelector((state) => state.restaurant.restaurantData);
-  const restaurantStatus = useSelector(
-    (state) => state.restaurant.restaurantStatus
-  );
+  if (Object.keys(restaurant).length === 0) {
+    return <LoadingOrder />;
+  }
 
+  return <OwnRestaurantInfoDisplay restaurant={restaurant} />;
+};
+
+const OwnRestaurantInfoDisplay = ({ restaurant }) => {
   const [formValues, setFormValues] = useState(restaurant);
+
+  console.log("res form values", formValues);
 
   const [formErrors, setFormErrors] = useState({
     nameError: "",
@@ -93,10 +99,6 @@ const OwnRestaurantInfo = () => {
     setFormValues({ ...formValues, paymentMethods: [...tempPaymentMethods] });
     dispatch(resetUpdateRestaurantStatus());
   };
-
-  if (restaurantStatus === "loading") {
-    return <LoadingOrder />;
-  }
 
   return (
     <div className="register-restaurant-container">

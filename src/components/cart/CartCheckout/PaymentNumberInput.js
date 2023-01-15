@@ -16,7 +16,7 @@ const PaymentNumberInput = ({
         placeholder="9xxxxxxxxx"
         onChange={onChangeAdditionalInfo}
         onKeyDown={(event) => {
-          if (!/[0-9]/.test(event.key) || event.key === "Backspace") {
+          if (!/[0-9]/.test(event.key) && event.key !== "Backspace") {
             event.stopPropagation();
             event.preventDefault();
           }
