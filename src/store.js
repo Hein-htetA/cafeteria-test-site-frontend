@@ -10,6 +10,7 @@ import cartStorageMiddleware from "./middleware/cartStorageMiddleware";
 import checkoutStorageMiddleware from "./middleware/checkoutStorageMiddleware";
 import menuStorageMiddleware from "./middleware/menuStorageMiddleware";
 import restaurantStorageMiddleware from "./middleware/restaurantStorageMiddleware";
+import publicRestaurantsStorageMiddleware from "./middleware/publicRestaurantsStorageMiddleware";
 
 const store = configureStore({
   reducer: {
@@ -26,7 +27,8 @@ const store = configureStore({
         cartStorageMiddleware.middleware,
         checkoutStorageMiddleware.middleware,
         menuStorageMiddleware.middleware,
-        restaurantStorageMiddleware.middleware
+        restaurantStorageMiddleware.middleware,
+        publicRestaurantsStorageMiddleware.middleware
       )
       .concat(handleLocalStorageMiddleware),
 });

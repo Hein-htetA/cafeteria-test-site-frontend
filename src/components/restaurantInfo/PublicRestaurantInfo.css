@@ -119,5 +119,17 @@
   color: rgb(106, 6, 6)
 }
 
+.view-profile {
+  width: 100%;
+  padding: 8px;
+  margin-top: 15px;
+  text-transform: uppercase;
+  border-radius: 0.5rem;
+  border: none;
+  box-shadow: 0px 0px 2px 2px #ce494998;
+  color: rgb(106, 6, 6);
+  font-weight: bold;
+}
+
 
 

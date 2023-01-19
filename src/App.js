@@ -28,6 +28,8 @@ import CartSharedLayout from "./components/sharedLayout/CartSharedLayout";
 import CartMenu from "./components/cart/CartMenu";
 import CartCheckout from "./components/cart/CartCheckout";
 import CartOrder from "./components/cart/CartOrder";
+import PublicProfile from "./components/publicProfiles/PublicProfile";
+import SearchResult from "./components/marketplace/SearchResult";
 
 const App = () => {
   return (
@@ -39,11 +41,13 @@ const App = () => {
           <Route path="register" element={<Register />} />
           <Route path="marketplace" element={<MarketplaceSharedLayout />}>
             <Route index element={<Marketplace />} />
+            <Route path="search" element={<SearchResult />} />
             <Route
               path="restaurant/:restaurantId"
               element={<PublicRestaurantsSharedLayout />}
             >
               <Route path="info" element={<PublicRestaurantInfo />} />
+              <Route path="profile" element={<PublicProfile />} />
               <Route path="menu" element={<MenuSharedLayout />}>
                 <Route index element={<PublicRestaurantMenu />} />
                 <Route path=":menuCategory" element={<PublicMenu />} />

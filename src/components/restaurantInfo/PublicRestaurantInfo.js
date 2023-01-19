@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./PublicRestaurantInfo.css";
 import RestaurantInfoContainer from "./RestaurantInfoContainer";
 import RestaurantNameTitle from "./RestaurantNameTitle";
@@ -21,6 +21,7 @@ const PublicRestaurantInfo = () => {
   const restaurant = publicRestaurants.find(
     (restaurant) => restaurant._id === restaurantId
   );
+  const navigate = useNavigate();
   const {
     name,
     firstPhone,
@@ -56,6 +57,14 @@ const PublicRestaurantInfo = () => {
           <RegisterDelivery delivery={delivery} isOwner={false} />
         </RestaurantDetailGrid>
       </RestaurantInfoContainer>
+      <button
+        className="view-profile"
+        onClick={() =>
+          navigate("../profile", { state: { resId: restaurantId } })
+        }
+      >
+        View Owner's Profile
+      </button>
     </div>
   );
 };

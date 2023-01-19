@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useParams } from "react-router-dom";
-import { fetchMenuByRestaurantId } from "../../features/publicDataSlice";
+import {
+  fetchMenuByRestaurantId,
+  fetchRestaurantsByPage,
+  fetchUserByRestaurantId,
+} from "../../features/publicDataSlice";
 import MenuInfoNav from "../menu/MenuInfoNav/MenuInfoNav";
 
 const PublicRestaurantsSharedLayout = () => {
@@ -14,10 +18,10 @@ const PublicRestaurantsSharedLayout = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!publicRestaurant.menu) {
-      dispatch(fetchMenuByRestaurantId(restaurantId));
-    }
+    dispatch(fetchMenuByRestaurantId(restaurantId));
+    dispatch(fetchUserByRestaurantId(restaurantId));
   }, []);
+
   return (
     <div className="restaurant-container">
       <MenuInfoNav />

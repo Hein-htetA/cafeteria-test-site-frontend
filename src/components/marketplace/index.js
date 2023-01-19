@@ -1,18 +1,17 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import "./index.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import SingleRestaurant from "./SingleRestaurant";
 import RestaurantLoading from "./Marketplace_States/RestaurantLoading";
 import TryAgain from "./Marketplace_States/TryAgain";
 import MoreRestaurantLoading from "./Marketplace_States/MoreRestaurantLoading";
 import NoMoreRestaurant from "./Marketplace_States/NoMoreRestaurant";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchRestaurantsByPage,
-  increasePage as increasePageRTK,
-} from "../../features/publicDataSlice";
+import { increasePage as increasePageRTK } from "../../features/publicDataSlice";
+import SearchBox from "./SearchBox";
 
 const Marketplace = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const publicRestaurants = useSelector(
     (state) => state.publicData.publicRestaurants
   );
@@ -20,6 +19,8 @@ const Marketplace = () => {
     (state) => state.publicData.restaurantStatus
   );
   const endOfResult = useSelector((state) => state.publicData.endOfResult);
+
+  const navigate = useNavigate();
 
   const containerRef = useRef(null);
 
@@ -48,7 +49,16 @@ const Marketplace = () => {
 
   return (
     <div className="restaurant-link-container">
-      <div className="marketplace-title">Marketplace</div>
+      <div
+        className="marketplace-title"
+        onClick={() => navigate("/marketplace")}
+      >
+        Marketplace
+      </div>
+      <SearchBox
+        searchParams={searchParams}
+        setSearchParams={setSearchParams}
+      />
       {restaurantStatus === "loading" && publicRestaurants.length === 0 ? (
         <>
           <RestaurantLoading />

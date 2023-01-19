@@ -3,12 +3,14 @@ import { localBaseUrl } from "../components/utils/baseUrl";
 import { updateUserRestaurantId } from "./userSlice";
 
 const initialState = {
-  restaurantData: sessionStorage.getItem("restaurant")
-    ? JSON.parse(sessionStorage.getItem("restaurant"))
-    : {},
-  menuData: sessionStorage.getItem("menu")
-    ? JSON.parse(sessionStorage.getItem("menu"))
-    : [],
+  restaurantData:
+    sessionStorage.getItem("restaurant") !== null
+      ? JSON.parse(sessionStorage.getItem("restaurant"))
+      : {},
+  menuData:
+    sessionStorage.getItem("menu") !== null
+      ? JSON.parse(sessionStorage.getItem("menu"))
+      : [],
   restaurantStatus: "idle", // "loading" || "succeeded" || "failed",
   updateRestaurantStatus: "idle",
   registerRestaurantStatus: "idle",
@@ -34,7 +36,6 @@ const fetchRestaurant = createAsyncThunk(
         throw new Error();
       }
       const { restaurant } = await response.json();
-      //sessionStorage.setItem("restaurant", JSON.stringify(restaurant));
       return restaurant;
     } catch (error) {
       return rejectWithValue();
@@ -77,8 +78,6 @@ const registerRestaurant = createAsyncThunk(
       const user = JSON.parse(localStorage.getItem("user"));
       user.restaurantId = restaurant._id;
       localStorage.setItem("user", JSON.stringify(user));
-
-      sessionStorage.setItem("restaurant", JSON.stringify(restaurant));
       dispatch(updateUserRestaurantId(restaurant._id));
       return restaurant;
     } catch (error) {

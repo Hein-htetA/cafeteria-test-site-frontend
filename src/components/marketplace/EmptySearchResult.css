@@ -1,0 +1,26 @@
+.empty-result-container {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 0.5rem;
+  max-width: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  row-gap: 30px;
+  padding: 20px;
+  text-align: center;
+  background-color: white;
+}
+
+.empty-result-title {
+  font-size: 1.5rem;
+}
+
+.empty-result-container p {
+  font-size: 1rem;
+}
+
+.search-params {
+  color: rgb(238, 94, 118);
+}

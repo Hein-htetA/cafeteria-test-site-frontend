@@ -1,0 +1,30 @@
+.search-box-container {
+  margin-left: auto;
+  margin-bottom: 20px;
+  background-color: white;
+  position: relative;
+  padding: 5px;
+  border-radius: 0.5rem;
+}
+
+.search-input {
+  border: none;
+  margin-left: 5px;
+  color: rgb(238, 94, 118);
+  font-size: 0.9rem;
+}
+
+.search-btn {
+  height: 100%;
+  width: 40px;
+  border: none;
+  border-radius: 0.5rem;
+  position: absolute;
+  background-color: rgb(238, 94, 118);
+  right: 0;
+  top: 0;
+}
+
+.search-btn svg {
+  color: white
+}

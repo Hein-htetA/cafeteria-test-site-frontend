@@ -20,7 +20,11 @@ const MainSharedLayout = () => {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const userId = useSelector((state) => state.user.userData._id);
   const restaurantId = useSelector((state) => state.user.userData.restaurantId);
-  const page = useSelector((state) => state.publicData.page);
+
+  const restaurantData = useSelector(
+    (state) => state.restaurant.restaurantData
+  );
+  const menuData = useSelector((state) => state.restaurant.menuData);
 
   const dispatch = useDispatch();
 
@@ -110,8 +114,7 @@ const MainSharedLayout = () => {
   useEffect(() => {
     if (
       restaurantId &&
-      !sessionStorage.getItem("restaurant") &&
-      !sessionStorage.getItem("menu")
+      (Object.keys(restaurantData).length === 0 || menuData.length === 0)
     ) {
       dispatch(fetchMenu(restaurantId));
       dispatch(fetchRestaurant(restaurantId));
@@ -124,9 +127,9 @@ const MainSharedLayout = () => {
   //   }
   // }, []);
 
-  useEffect(() => {
-    dispatch(fetchRestaurantsByPage(page));
-  }, [page]);
+  // useEffect(() => {
+  //   dispatch(fetchRestaurantsByPage(page));
+  // }, [page]);
 
   return (
     <div>

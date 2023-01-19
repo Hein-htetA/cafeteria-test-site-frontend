@@ -9,6 +9,7 @@ const ProfilePhoto = (props) => {
     removeProfile,
     profileImage,
     disabled,
+    isOwner,
   } = props;
   return (
     <>
@@ -27,27 +28,31 @@ const ProfilePhoto = (props) => {
           </div>
         )}
       </div>
-      <div className="profile-btn-container">
-        <label htmlFor="inputTag" className="profile-image-icon">
-          <div className="upload-profile-btn">Add Photo</div>
-          <input
-            id="inputTag"
-            type="file"
-            accept="image/png, image/jpg, image/gif, image/jpeg"
-            style={{ display: "none" }}
-            onChange={onChangeProfile}
-            disabled={disabled}
-          />
-        </label>
+      {isOwner ? (
+        <div className="profile-btn-container">
+          <label htmlFor="inputTag" className="profile-image-icon">
+            <div className="upload-profile-btn">Add Photo</div>
+            <input
+              id="inputTag"
+              type="file"
+              accept="image/png, image/jpg, image/gif, image/jpeg"
+              style={{ display: "none" }}
+              onChange={onChangeProfile}
+              disabled={disabled}
+            />
+          </label>
 
-        <button
-          className="remove-profile-btn"
-          onClick={removeProfile}
-          disabled={disabled}
-        >
-          remove
-        </button>
-      </div>
+          <button
+            className="remove-profile-btn"
+            onClick={removeProfile}
+            disabled={disabled}
+          >
+            remove
+          </button>
+        </div>
+      ) : (
+        <div style={{ height: "20px" }}></div>
+      )}
     </>
   );
 };
