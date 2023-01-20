@@ -19,16 +19,18 @@ const SearchBox = () => {
     navigate(`/marketplace/search?name=${searchParams}`);
   };
   return (
-    <div className="search-box-container">
-      <input
-        placeholder="Search..."
-        className="search-input"
-        onChange={(e) => setSearchParams(e.target.value)}
-        value={searchParams}
-      />
-      <button className="search-btn" onClick={handleSearch}>
-        <FontAwesomeIcon icon={faMagnifyingGlass} />
-      </button>
+    <div className="search-box-outer-container">
+      <div className="search-box-container">
+        <input
+          placeholder="Search..."
+          className="search-input"
+          onChange={(e) => setSearchParams(e.target.value)}
+          value={searchParams}
+        />
+        <button className="search-btn" onClick={handleSearch}>
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
+        </button>
+      </div>
     </div>
   );
 };

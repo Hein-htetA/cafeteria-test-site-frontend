@@ -6,11 +6,20 @@
   position: relative;
 }
 
-.public-item-image-container img {
+.menu-photo {
   width: 150px;
   height: 150px;
   object-fit: cover;
   background-color: white;
+}
+
+.outOfStock-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150px;
+  height: 150px;
+  opacity: 0.6;
 }
 
 .public-item-info-container {
@@ -71,6 +80,7 @@
   position: absolute;
   bottom: 0;
   width: 100%;
+  justify-content: center;
 }
 
 .public-item-btn-container button {

@@ -16,6 +16,7 @@ import RestaurantUpdateBtn from "./RestaurantUpdateBtn";
 import { useDispatch, useSelector } from "react-redux";
 import { resetUpdateRestaurantStatus } from "../../features/restaurantSlice";
 import LoadingOrder from "../order/OrderStates/LoadingOrder";
+import RestaurantStatus from "../registerRestaurant/RestaurantStatus";
 
 const OwnRestaurantInfo = () => {
   const restaurant = useSelector((state) => state.restaurant.restaurantData);
@@ -123,6 +124,11 @@ const OwnRestaurantInfoDisplay = ({ restaurant }) => {
             </div>
           </div>
         )}
+        <RestaurantStatus
+          status={formValues.status}
+          onChangeInput={onChangeInput}
+          disabled={updateRestaurantStatus === "loading"}
+        />
         <RestaurantDetailGrid>
           <RestaurantName
             name={formValues.name}

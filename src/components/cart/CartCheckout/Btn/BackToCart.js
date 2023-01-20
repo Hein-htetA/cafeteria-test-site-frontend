@@ -13,11 +13,14 @@ const BackToCart = () => {
     navigate("/myAccount/cart/cartMenu");
   };
   const placeOrderStatus = useSelector((state) => state.cart.placeOrderStatus);
+  const restaurantRecentlyClosedModal = useSelector(
+    (state) => state.cart.restaurantRecentlyClosedModal
+  );
   return (
     <button
       className="checkout-btn"
       onClick={backToCartAndNavigate}
-      disabled={placeOrderStatus === "loading"}
+      disabled={placeOrderStatus === "loading" || restaurantRecentlyClosedModal}
     >
       <FontAwesomeIcon icon={faAnglesLeft} style={{ marginRight: "auto" }} />
       <div className="checkout-btn-text">Back To Cart</div>

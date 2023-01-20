@@ -1,11 +1,15 @@
 import React from "react";
 import "./SingleRestaurant.css";
-import { defaultRestaurantPhoto } from "../utils/baseUrl";
+import {
+  defaultRestaurantPhoto,
+  restaurantClosedPhoto,
+} from "../utils/baseUrl";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 const SingleRestaurant = (props) => {
-  const { name, firstPhone, secondPhone, address, restaurantPhotoUrl } = props;
+  const { name, firstPhone, secondPhone, address, restaurantPhotoUrl, status } =
+    props;
   return (
     <div className="single-restaurant">
       <img
@@ -18,16 +22,12 @@ const SingleRestaurant = (props) => {
           {name}
           <FontAwesomeIcon icon={faStar} style={{ marginLeft: "3px" }} />
         </h4>
-        {/* <div className="restaurant-phone-number">
-          <div className="single-phone">{`+95${firstPhone}`}</div>
-          {secondPhone && (
-            <>
-              <span style={{ color: "black", fontSize: "1rem" }}>/</span>
-              <div className="single-phone">{`+95${secondPhone}`}</div>
-            </>
-          )}
-        </div> */}
       </div>
+      {status === "closed" && (
+        <div className="restaurant-closed-container">
+          <img src={restaurantClosedPhoto} alt="closed" />
+        </div>
+      )}
     </div>
   );
 };

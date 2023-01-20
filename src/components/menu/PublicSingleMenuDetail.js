@@ -1,9 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { defaultImageUrl } from "../utils/baseUrl";
+import { defaultImageUrl, outOfStockLarge } from "../utils/baseUrl";
 import MenuDetailAddToCartBtn from "./MenuDetailAddToCartBtn";
 import FullCart from "./MenuLoadingError/FullCart";
+import "./PublicSingleMenuDetail.css";
 
 const PublicSingleMenuDetail = () => {
   const { menuId, restaurantId } = useParams();
@@ -18,7 +19,8 @@ const PublicSingleMenuDetail = () => {
 
   const singleMenu = restaurant.menu.find((menu) => menu._id === menuId);
 
-  const { name, price, description, menuPhotoUrl, category } = singleMenu;
+  const { name, price, description, menuPhotoUrl, category, outOfStock } =
+    singleMenu;
 
   //to add to cart(it is required to extract restaurant name in cart)
 
@@ -39,6 +41,13 @@ const PublicSingleMenuDetail = () => {
             : "additionals"}
         </h2>
         <div className="image-info-container">
+          {outOfStock && (
+            <img
+              src={outOfStockLarge}
+              alt="out-of-stock"
+              className="out-of-stock-large"
+            />
+          )}
           <div className="img-container">
             <img src={menuPhotoUrl || defaultImageUrl} alt="uploadImg" />
           </div>
@@ -80,7 +89,13 @@ const PublicSingleMenuDetail = () => {
           </div>
         </div>
       </div>
-      <MenuDetailAddToCartBtn menu={singleMenu} restaurant={restaurant} />
+      {restaurant.status === "open" && (
+        <MenuDetailAddToCartBtn
+          menu={singleMenu}
+          restaurant={restaurant}
+          outOfStock={outOfStock}
+        />
+      )}
       <FullCart />
     </>
   );

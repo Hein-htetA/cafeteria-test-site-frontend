@@ -173,6 +173,23 @@
   border: none;
 }
 
+.stock-container {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+}
+
+.stock-container label {
+  color: rgb(238, 94, 118);
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.stock-container input {
+  border: none;
+}
+
 /************Button Group**********/
 
 .detail-container button:disabled {

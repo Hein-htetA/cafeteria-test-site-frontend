@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { addToCart } from "../../features/cartSlice";
 import "./MenuDetailAddToCartBtn.css";
 
-const MenuDetailAddToCartBtn = ({ menu, restaurant }) => {
+const MenuDetailAddToCartBtn = ({ menu, restaurant, outOfStock }) => {
   const [count, setCount] = useState(1);
 
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const MenuDetailAddToCartBtn = ({ menu, restaurant }) => {
         <button
           className="inc-dec-btn"
           onClick={decCount}
-          disabled={count === 1}
+          disabled={count === 1 || outOfStock}
         >
           <FontAwesomeIcon icon={faMinus} />
         </button>
@@ -37,12 +37,16 @@ const MenuDetailAddToCartBtn = ({ menu, restaurant }) => {
         <button
           className="inc-dec-btn"
           onClick={incCount}
-          disabled={count === 10}
+          disabled={count === 10 || outOfStock}
         >
           <FontAwesomeIcon icon={faPlus} />
         </button>
       </div>
-      <button className="add-to-cart-btn" onClick={addAndNavigate}>
+      <button
+        className="add-to-cart-btn"
+        onClick={addAndNavigate}
+        disabled={outOfStock}
+      >
         Add to cart
       </button>
     </div>

@@ -12,6 +12,9 @@ export const defaultProfilePhoto =
 export const defaultRestaurantPhoto =
   "https://ytu-cafeteria-restaurants.s3.ap-southeast-1.amazonaws.com/restaurant-photo-placeholder.jfif";
 
+export const restaurantClosedPhoto =
+  "https://ytu-cafeteria-restaurants.s3.ap-southeast-1.amazonaws.com/restaurant-closed.jpg";
+
 export const riceCurryPhoto =
   "https://ytu-cafeteria-menu.s3.ap-southeast-1.amazonaws.com/Default+Photos/rice_curry.jpg";
 
@@ -29,3 +32,9 @@ export const additionalItemPhoto =
 
 export const emptyCartPhoto =
   "https://ytu-cafeteria-menu.s3.ap-southeast-1.amazonaws.com/Default+Photos/empty_cart.jpg";
+
+export const outOfStockSmall =
+  "https://ytu-cafeteria-menu.s3.ap-southeast-1.amazonaws.com/out-of-stock-small.jpg";
+
+export const outOfStockLarge =
+  "https://ytu-cafeteria-menu.s3.ap-southeast-1.amazonaws.com/out-of-stock-large.jpg";

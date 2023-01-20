@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { localBaseUrl } from "../components/utils/baseUrl";
+import { updatePublicRestaurant } from "./publicDataSlice";
 
 const orderHistoryUiState = {
   hideOrderSummary: true,
@@ -34,6 +35,7 @@ const initializeFun = () => {
     placeOrderStatus: "idle",
     fullCartWarning: false,
     fullCheckoutWarning: false,
+    restaurantRecentlyClosedModal: false,
     tempCheckout: {},
     totalAmount: 0,
   };
@@ -41,7 +43,7 @@ const initializeFun = () => {
 
 const placeOrder = createAsyncThunk(
   "cart/placeOrder",
-  async (formValues, { rejectWithValue, getState }) => {
+  async (formValues, { rejectWithValue, getState, dispatch }) => {
     //preparing for req body
     const restaurantId = getState().cart.checkout.restaurantId;
     const restaurantName = getState().cart.checkout.restaurantName;
@@ -79,9 +81,16 @@ const placeOrder = createAsyncThunk(
       if (!response.ok) {
         throw new Error();
       }
-      sessionStorage.removeItem("checkout");
-      const { newOrder } = await response.json();
-      return newOrder;
+
+      if (response.status === 200) {
+        const { restaurant } = await response.json();
+        dispatch(updatePublicRestaurant(restaurant));
+        return { restaurant };
+      } else if (response.status === 201) {
+        sessionStorage.removeItem("checkout");
+        const { newOrder } = await response.json();
+        return { newOrder };
+      }
     } catch (error) {
       return rejectWithValue();
     }
@@ -173,6 +182,9 @@ const cartSlice = createSlice({
     },
     hideFullCartWarning: (state) => {
       state.fullCartWarning = false;
+    },
+    hideRestaurantRecentlyClosedModal: (state) => {
+      state.restaurantRecentlyClosedModal = false;
     },
     toggleItemsCount: (state, action) => {
       const restaurantIndex = state.cart.findIndex(
@@ -293,10 +305,16 @@ const cartSlice = createSlice({
         state.placeOrderStatus = "loading";
       })
       .addCase(placeOrder.fulfilled, (state, action) => {
+        const { restaurant, newOrder } = action.payload;
+        if (restaurant) {
+          state.restaurantRecentlyClosedModal = true;
+          state.placeOrderStatus = "idle";
+          return;
+        }
         state.placeOrderStatus = "succeeded";
         state.checkout = {};
         state.orderHistory.unshift({
-          ...action.payload,
+          ...newOrder,
           orderHistoryUiState,
         });
       })
@@ -327,6 +345,7 @@ export const {
   cartToCheckout,
   clearAndProceedToCheckout,
   hideFullCheckoutWarning,
+  hideRestaurantRecentlyClosedModal,
   calculateTotalWholeCart,
   removeRestaurantFromCart,
   toggleItemsCount,

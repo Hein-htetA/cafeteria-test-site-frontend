@@ -40,7 +40,6 @@ const SingleMenuDetail = () => {
   );
 
   const { menuId, menuCategory } = useParams();
-  const location = useLocation();
 
   const [formValues, setFormValues] = useState(() => ({
     ...menuData.find((menu) => menu._id === menuId),
@@ -65,6 +64,10 @@ const SingleMenuDetail = () => {
       priceError: false,
     });
     dispatch(resetUpdateMenuStatus());
+  };
+
+  const onChangeCheckbox = () => {
+    setFormValues({ ...formValues, outOfStock: !formValues.outOfStock });
   };
 
   const onChangeImage = async (e) => {
@@ -257,6 +260,15 @@ const SingleMenuDetail = () => {
                 updateMenuStatus === "loading"
               }
             ></textarea>
+          </div>
+          <div className="stock-container">
+            <input
+              type="checkbox"
+              name="outOfStock"
+              checked={formValues.outOfStock}
+              onChange={onChangeCheckbox}
+            />
+            <label htmlFor="outOfStock">Out of Stock</label>
           </div>
         </div>
         {updateMenuStatus === "loading" && <MenuDeleteLoading />}

@@ -23,6 +23,7 @@ import { ValidateCheckout } from "./ValidateCheckout";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { placeOrder } from "../../../features/cartSlice";
+import RestaurantClosedModal from "./Modal/RestaurantClosedModal";
 
 const CartCheckout = () => {
   const [formValues, setFormValues] = useState({
@@ -199,6 +200,7 @@ const CartCheckout = () => {
           deliveryFee={(formValues.requestDelivery === "true" ? 1 : 0) * 100}
         />
         <RemoveFromCheckout />
+        {true && <RestaurantClosedModal />}
         {/*Cross sign at the top*/}
       </CheckoutContainer>
       <Total
@@ -207,6 +209,7 @@ const CartCheckout = () => {
           (formValues.requestDelivery === "true" ? 1 : 0) * 100
         }
       />
+
       <CheckoutBtn handlePlaceOrder={handlePlaceOrder} />
       <hr
         style={{

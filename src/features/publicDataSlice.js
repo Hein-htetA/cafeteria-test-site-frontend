@@ -132,6 +132,14 @@ const publicDataSlice = createSlice({
     increasePage: (state) => {
       state.page = state.page + 1;
     },
+    updatePublicRestaurant: (state, action) => {
+      const index = state.publicRestaurants.findIndex(
+        (restaurant) => restaurant._id === action.payload._id
+      );
+      if (index !== -1) {
+        state.publicRestaurants[index] = action.payload;
+      }
+    },
   },
   extraReducers(builder) {
     builder
@@ -225,6 +233,6 @@ export {
   fetchRestaurantsByName,
 };
 
-export const { increasePage } = publicDataSlice.actions;
+export const { increasePage, updatePublicRestaurant } = publicDataSlice.actions;
 
 export default publicDataSlice.reducer;

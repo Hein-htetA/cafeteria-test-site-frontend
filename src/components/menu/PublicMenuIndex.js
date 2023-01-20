@@ -16,9 +16,9 @@ const PublicMenu = () => {
   );
   const menuStatus = useSelector((state) => state.publicData.menuStatus);
 
-  const menuAfterFilter = publicRestaurants.find(
-    (restaurant) => restaurant._id === restaurantId
-  ).menu;
+  const menuAfterFilter = publicRestaurants
+    .find((restaurant) => restaurant._id === restaurantId)
+    .menu.filter((menu) => menu.category === menuCategory);
 
   return (
     <div className="single-category-container">

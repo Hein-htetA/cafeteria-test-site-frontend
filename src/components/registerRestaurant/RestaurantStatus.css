@@ -1,0 +1,24 @@
+.status-container {
+  width: 100%;
+  background-color: white;
+}
+
+.status-container select {
+  width: 60%;
+  margin: 5px auto 10px auto;
+  padding: 10px 5px;
+  font-size: 1rem;
+  display: block;
+  text-align: center;
+  border-radius: 0.6rem;
+  background-color: rgb(238, 94, 118);
+  color: white;
+  border: none;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.status-container option {
+  color: white;
+  font-weight: bold;
+}
