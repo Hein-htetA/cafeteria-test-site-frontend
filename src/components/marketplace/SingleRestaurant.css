@@ -65,9 +65,9 @@
 }
 
 .restaurant-closed-container img {
-  width: 200px;
+  width: 50%;
+  height: 80%;
   object-fit: scale-down;
-  aspect-ratio: 1/1;
   border-radius: 10px;
   overflow: hidden;
   background-color: white;

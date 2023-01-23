@@ -1,0 +1,9 @@
+.nav-order-count {
+  background-color: pink;
+  color: white;
+  clip-path: circle(12px);
+  padding: 10px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  margin-left: -5px;
+}

@@ -4,12 +4,38 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightLong, faLock } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
+import OrderCount from "./OrderCount";
 const activeStyle = { color: "#0478f5" };
 
 const NavLinks = ({ navbar, closeNavbar }) => {
   const restaurantId = useSelector((state) => state.user.userData.restaurantId);
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const navigate = useNavigate();
+  const orderData = useSelector((state) => state.order.orderData);
+
+  const orderCounts = orderData.reduce(
+    (accumulator, currentValue) => {
+      if (currentValue.orderState === "newOrder") {
+        accumulator.newOrderCount += 1;
+      } else if (
+        currentValue.orderState === "order" ||
+        currentValue.orderState === "onDelivery"
+      ) {
+        accumulator.orderServingCount += 1;
+      } else if (currentValue.orderState === "recycleBin") {
+        accumulator.recycleBinOrderCount += 1;
+      } else {
+        accumulator.completedOrderCount += 1;
+      }
+      return accumulator;
+    },
+    {
+      newOrderCount: 0,
+      orderServingCount: 30,
+      recycleBinOrderCount: 2,
+      completedOrderCount: 20,
+    }
+  );
 
   const enterMarketplace = () => {
     closeNavbar();
@@ -53,7 +79,11 @@ const NavLinks = ({ navbar, closeNavbar }) => {
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
           <li>New Orders</li>
-          {!isLoggedIn && <FontAwesomeIcon icon={faLock} />}
+          {!isLoggedIn ? (
+            <FontAwesomeIcon icon={faLock} />
+          ) : (
+            <OrderCount count={orderCounts.newOrderCount} />
+          )}
         </NavLink>
         <hr />
         <NavLink
@@ -62,7 +92,11 @@ const NavLinks = ({ navbar, closeNavbar }) => {
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
           <li>Orders Serving</li>
-          {!isLoggedIn && <FontAwesomeIcon icon={faLock} />}
+          {!isLoggedIn ? (
+            <FontAwesomeIcon icon={faLock} />
+          ) : (
+            <OrderCount count={orderCounts.orderServingCount} />
+          )}
         </NavLink>
         <hr />
         <NavLink
@@ -71,7 +105,11 @@ const NavLinks = ({ navbar, closeNavbar }) => {
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
           <li>Completed Orders</li>
-          {!isLoggedIn && <FontAwesomeIcon icon={faLock} />}
+          {!isLoggedIn ? (
+            <FontAwesomeIcon icon={faLock} />
+          ) : (
+            <OrderCount count={orderCounts.completedOrderCount} />
+          )}
         </NavLink>
         <hr />
 
@@ -81,13 +119,14 @@ const NavLinks = ({ navbar, closeNavbar }) => {
           style={({ isActive }) => (isActive ? activeStyle : undefined)}
         >
           <li>Recycle Bin</li>
-          {!isLoggedIn && <FontAwesomeIcon icon={faLock} />}
+          {!isLoggedIn ? (
+            <FontAwesomeIcon icon={faLock} />
+          ) : (
+            <OrderCount count={orderCounts.recycleBinOrderCount} />
+          )}
         </NavLink>
         <hr />
       </ul>
-      {/* {restaurant.name && (
-        <p className="restaurant-name">***{" " + restaurant.name + " "}***</p>
-      )} */}
       <button className="marketplace-link" onClick={enterMarketplace}>
         <div className="marketplace-text">Enter Marketplace</div>
         <FontAwesomeIcon icon={faRightLong} className="marketplace-arrow" />

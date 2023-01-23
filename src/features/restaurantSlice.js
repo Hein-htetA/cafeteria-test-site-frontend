@@ -127,6 +127,36 @@ const updateRestaurant = createAsyncThunk(
   }
 );
 
+const saveSubscriptionToRestaurant = createAsyncThunk(
+  "restaurant/saveSubscriptionToRestaurant",
+  async (PushSubscription, { rejectWithValue, getState }) => {
+    console.log("xx", PushSubscription);
+    const requestOptions = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+
+      body: JSON.stringify({
+        PushSubscription,
+        restaurantId: getState().user.userData.restaurantId,
+      }),
+    };
+    try {
+      const response = await fetch(
+        `${localBaseUrl}/restaurants/save-subscription`,
+        requestOptions
+      );
+      if (!response.ok) {
+        throw new Error();
+      }
+    } catch (error) {
+      return rejectWithValue();
+    }
+  }
+);
+
 const fetchMenu = createAsyncThunk(
   "restaurant/fetchMenu",
   async (restaurantId, { rejectWithValue }) => {
@@ -352,6 +382,7 @@ export {
   fetchMenu,
   registerRestaurant,
   updateRestaurant,
+  saveSubscriptionToRestaurant,
   addNewMenu,
   updateMenu,
   deleteMenu,

@@ -1,0 +1,63 @@
+.noti-permission-outer-container {
+  position: fixed;
+  bottom: 10vh;
+  left: 15px;
+  transition: transform 1s ease-in-out;
+}
+
+.noti-permission-outer-container-hide {
+  transform: translateX(calc(-100% - 15px));
+}
+
+.noti-permission-container {
+  width: 300px;
+  text-align: center;
+  position: relative;
+  padding: 10px 5px;
+  border: 2px solid white;
+  border-radius: 0.5rem;
+}
+
+.noti-permission-container h3 {
+  margin-bottom: 3px;
+  color: rgb(238, 94, 118)
+}
+
+.noti-permission-container p {
+  margin-bottom: 8px;
+}
+
+.noti-permission-btn-container button {
+  padding: 5px 15px;
+  font-weight: bold;
+  background-color: transparent;
+  border: none;
+  font-size: 0.9rem;
+}
+
+.noti-permission-btn-container .noti-later {
+  color: rgb(238, 94, 118);
+  border-bottom: 1px solid rgb(238, 94, 118);
+}
+
+.noti-permission-btn-container .noti-okay {
+  background-color: rgb(238, 94, 118);
+  color: white;
+  border-radius: 0.5rem;
+}
+
+.noti-permission-btn-container {
+  display: flex;
+  justify-content: space-around;
+
+}
+
+.close-noti-req {
+  position: absolute;
+  top: 0;
+  right: 5px;
+  border: none;
+  background-color: transparent;
+  font-size: 1.5rem;
+  color: red;
+}

@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,11 +14,15 @@ const Login = () => {
 
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const status = useSelector((state) => state.user.status);
-  if (isLoggedIn) {
-    navigate("/myAccount/profile", {
-      replace: true,
-    });
-  }
+
+  //Only navigate after rendering login component
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/myAccount/profile", {
+        replace: true,
+      });
+    }
+  }, [isLoggedIn]);
 
   const dispatch = useDispatch();
 

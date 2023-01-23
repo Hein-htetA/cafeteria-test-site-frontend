@@ -10,7 +10,7 @@ import {
   fetchOrdersAfterSSEFailed,
 } from "../../features/orderSlice";
 import { fetchMenu, fetchRestaurant } from "../../features/restaurantSlice";
-import { fetchRestaurantsByPage } from "../../features/publicDataSlice";
+
 import {
   fetchOrder,
   updateOrderFromOrderHistory,
@@ -114,22 +114,26 @@ const MainSharedLayout = () => {
   useEffect(() => {
     if (
       restaurantId &&
+      isLoggedIn &&
       (Object.keys(restaurantData).length === 0 || menuData.length === 0)
     ) {
       dispatch(fetchMenu(restaurantId));
       dispatch(fetchRestaurant(restaurantId));
     }
+  }, [isLoggedIn]);
+
+  //clear notification when page visit
+  useEffect(() => {
+    navigator.serviceWorker.ready
+      .then((registration) => {
+        registration
+          .getNotifications()
+          .then((notifications) =>
+            notifications.forEach((notification) => notification.close())
+          );
+      })
+      .catch((e) => console.log(e));
   }, []);
-
-  // useEffect(() => {
-  //   if (restaurantId) {
-  //     dispatch(fetchMenu(restaurantId));
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   dispatch(fetchRestaurantsByPage(page));
-  // }, [page]);
 
   return (
     <div>

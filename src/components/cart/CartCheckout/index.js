@@ -22,7 +22,10 @@ import CheckoutError from "./CheckoutStates/CheckoutError";
 import { ValidateCheckout } from "./ValidateCheckout";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { placeOrder } from "../../../features/cartSlice";
+import {
+  hideRestaurantRecentlyClosedModal,
+  placeOrder,
+} from "../../../features/cartSlice";
 import RestaurantClosedModal from "./Modal/RestaurantClosedModal";
 
 const CartCheckout = () => {
@@ -51,6 +54,9 @@ const CartCheckout = () => {
   const checkout = useSelector((state) => state.cart.checkout);
   const userData = useSelector((state) => state.user.userData);
   const placeOrderStatus = useSelector((state) => state.cart.placeOrderStatus);
+  const restaurantRecentlyClosedModal = useSelector(
+    (state) => state.cart.restaurantRecentlyClosedModal
+  );
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -200,7 +206,7 @@ const CartCheckout = () => {
           deliveryFee={(formValues.requestDelivery === "true" ? 1 : 0) * 100}
         />
         <RemoveFromCheckout />
-        {true && <RestaurantClosedModal />}
+        {restaurantRecentlyClosedModal && <RestaurantClosedModal />}
         {/*Cross sign at the top*/}
       </CheckoutContainer>
       <Total
