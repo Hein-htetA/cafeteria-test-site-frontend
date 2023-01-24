@@ -130,7 +130,6 @@ const updateRestaurant = createAsyncThunk(
 const saveSubscriptionToRestaurant = createAsyncThunk(
   "restaurant/saveSubscriptionToRestaurant",
   async (PushSubscription, { rejectWithValue, getState }) => {
-    console.log("xx", PushSubscription);
     const requestOptions = {
       method: "PATCH",
       headers: {

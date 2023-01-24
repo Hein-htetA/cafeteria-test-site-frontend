@@ -96,18 +96,27 @@ const MainSharedLayout = () => {
   }, [isLoggedIn, restaurantId]);
 
   useEffect(() => {
+    const handleVisibilityChange = () => {
+      console.log("Visibility changed");
+      if (document.visibilityState === "visible") {
+        console.log("APP resumed");
+        window.location.reload();
+      }
+    };
     const offlineHandler = () => {
       dispatch(setOffline());
     };
     const onlineHandler = () => {
       dispatch(setOnline());
     };
+    window.addEventListener("visibilitychange", handleVisibilityChange);
     window.addEventListener("offline", offlineHandler);
     window.addEventListener("online", onlineHandler);
 
     return () => {
       window.removeEventListener("offline", offlineHandler);
       window.removeEventListener("online", onlineHandler);
+      window.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 

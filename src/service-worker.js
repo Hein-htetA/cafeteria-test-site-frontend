@@ -111,7 +111,7 @@ self.addEventListener("push", async function (event) {
   if (currentNotification) {
     const currentCount = currentNotification.data.count;
     options.data.count = currentCount + 1;
-    options.body = "You have " + options.data.count + " new order waiting!";
+    options.body = "You have " + options.data.count + " new orders waiting!";
   }
   const promiseChain = await self.registration.showNotification(title, options);
 });
