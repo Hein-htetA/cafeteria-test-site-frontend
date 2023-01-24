@@ -52,7 +52,7 @@ const PublicSingleMenu = (props) => {
           />
         )}
         <div className="public-item-btn-container">
-          {(restaurant.status === "open" || true) && (
+          {restaurant.status === "open" && (
             <button
               className="public-add-to-cart-btn"
               onClick={() =>

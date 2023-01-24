@@ -89,7 +89,9 @@ const Marketplace = () => {
 
       <div
         className={
-          restaurantStatus === "loading" || endOfResult
+          restaurantStatus === "loading" ||
+          endOfResult ||
+          restaurantStatus === "failed"
             ? "load-more-restaurant-trigger load-more-restaurant-trigger-hide"
             : "load-more-restaurant-trigger "
         }

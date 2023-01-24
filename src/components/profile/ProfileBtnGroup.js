@@ -8,7 +8,7 @@ const ProfileBtnGroup = (props) => {
   const dispatch = useDispatch();
   const { updateUser } = props;
   const error = useSelector((state) => state.user.error);
-  const status = useSelector((state) => state.user.status);
+  const updateStatus = useSelector((state) => state.user.updateStatus);
   return (
     <div className="err-msg-profile-container">
       {error.serverError ? (
@@ -17,7 +17,7 @@ const ProfileBtnGroup = (props) => {
         <button
           className="update-profile-btn"
           onClick={() => dispatch(logoutUser())}
-          disabled={status === "loading"}
+          disabled={updateStatus === "loading"}
         >
           Log Out
         </button>
@@ -25,16 +25,16 @@ const ProfileBtnGroup = (props) => {
       <button
         className="update-profile-btn"
         onClick={updateUser}
-        disabled={status === "loading"}
+        disabled={updateStatus === "loading"}
       >
-        {status === "loading" ? (
+        {updateStatus === "loading" ? (
           <div>Updating</div>
-        ) : status === "failed" ? (
+        ) : updateStatus === "failed" ? (
           <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
             <FontAwesomeIcon icon={faArrowRotateRight} />
             <div>Try Again</div>
           </div>
-        ) : status === "succeeded" ? (
+        ) : updateStatus === "succeeded" ? (
           <div>Updated!</div>
         ) : (
           <div>Update</div>

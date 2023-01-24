@@ -23,6 +23,7 @@ function urlBase64ToUint8Array(base64String) {
 
 const RequestPermission = () => {
   const [reqNotiPermission, setReqNotiPermission] = useState(false);
+  const restaurantId = useSelector((state) => state.user.userData.restaurantId);
 
   const dispatch = useDispatch();
 
@@ -37,9 +38,7 @@ const RequestPermission = () => {
     //console.log("permission", permission);
     if (permission === "granted") {
       try {
-        const registeration = await navigator.serviceWorker.register(
-          "/service-worker.js"
-        );
+        const registeration = await navigator.serviceWorker.ready;
         //console.log("registeration", registeration);
         const subscribeOptions = {
           userVisibleOnly: true,
@@ -50,7 +49,8 @@ const RequestPermission = () => {
         const PushSubscription = await registeration.pushManager.subscribe(
           subscribeOptions
         );
-        console.log(PushSubscription);
+        //console.log(PushSubscription);
+        localStorage.setItem("LastSubscribedRestaurantId", restaurantId);
         dispatch(saveSubscriptionToRestaurant(PushSubscription));
       } catch (error) {
         console.log(error);
@@ -63,12 +63,20 @@ const RequestPermission = () => {
     const checkSubAndReq = async () => {
       const registeration = await navigator.serviceWorker.ready;
       const subscription = await registeration.pushManager.getSubscription();
-      if (subscription) {
+      const LastSubscribedRestaurantId = localStorage.getItem(
+        "LastSubscribedRestaurantId"
+      );
+      //console.log("LastSubscribedRestaurantId", LastSubscribedRestaurantId);
+      //console.log("sublc ption", subscription);
+      if (
+        restaurantId === LastSubscribedRestaurantId &&
+        LastSubscribedRestaurantId
+      ) {
         //already subcribe
-        console.log(subscription);
+        //console.log(subscription);
         return;
       }
-      console.log("sub not exist");
+      //console.log("sub not exist");
       //not subcribed yet
       const lastReqPermissionDate = localStorage.getItem(
         "lastReqPermissionDate"
@@ -81,22 +89,7 @@ const RequestPermission = () => {
       }
     };
     checkSubAndReq();
-    //
-    // navigator.serviceWorker.ready.then((reg) => {
-    //   reg.pushManager.getSubscription().then((subscription) => {
-    //     subscription
-    //       .unsubscribe()
-    //       .then((successful) => {
-    //         console.log(successful);
-    //         // You've successfully unsubscribed
-    //       })
-    //       .catch((e) => {
-    //         console.log(e);
-    //         // Unsubscribing failed
-    //       });
-    //   });
-    // });
-  }, []);
+  }, [restaurantId]);
   return (
     <div
       className={

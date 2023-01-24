@@ -37,7 +37,7 @@ const resizeProfile = (file) =>
 const Profile = () => {
   const error = useSelector((state) => state.user.error);
   const userData = useSelector((state) => state.user.userData);
-  const status = useSelector((state) => state.user.status);
+  const updateStatus = useSelector((state) => state.user.updateStatus);
 
   const [formValues, setFormValues] = useState({
     ...userData,
@@ -94,7 +94,7 @@ const Profile = () => {
         onChangeProfile={onChangeProfile}
         removeProfile={removeProfile}
         profileImage={formValues.profileImage}
-        disabled={status === "loading"}
+        disabled={updateStatus === "loading"}
         isOwner={true}
       />
       <RegisterInfoContainer>
@@ -102,7 +102,7 @@ const Profile = () => {
           name={formValues.name}
           onChangeInput={onChangeInput}
           nameError={formErrors.nameError}
-          disabled={status === "loading"}
+          disabled={updateStatus === "loading"}
         />
         <Phone
           phone={formValues.phone}
@@ -110,22 +110,22 @@ const Profile = () => {
           phoneError={
             formErrors.phoneError || (error.serverError && "Unavailable")
           } //error is reply from server
-          disabled={status === "loading"}
+          disabled={updateStatus === "loading"}
         />
         <Address
           onChangeInput={onChangeInput}
           address={formValues.address}
-          disabled={status === "loading"}
+          disabled={updateStatus === "loading"}
         />
         <Email
           onChangeInput={onChangeInput}
           email={formValues.email}
-          disabled={status === "loading"}
+          disabled={updateStatus === "loading"}
         />
         <ExtraPhone
           onChangeInput={onChangeInput}
           extraPhone={formValues.extraPhone}
-          disabled={status === "loading"}
+          disabled={updateStatus === "loading"}
         />
       </RegisterInfoContainer>
       <ProfileBtnGroup updateUser={updateUser} />

@@ -6,7 +6,9 @@ const initializeFun = () => {
     localStorage.getItem("user") !== null
       ? JSON.parse(localStorage.getItem("user"))
       : {};
-  const status = "idle" || "loading" || "succeeded" || "failed";
+  const updateStatus = "idle" || "loading" || "succeeded" || "failed";
+  const loginStatus = "idle";
+  const registerStatus = "idle";
   const error = "";
   const online = false;
 
@@ -26,7 +28,9 @@ const initializeFun = () => {
   }
 
   return {
-    status,
+    updateStatus,
+    loginStatus,
+    registerStatus,
     online,
     isLoggedIn,
     error,
@@ -168,7 +172,7 @@ const userSlice = createSlice({
       state.online = false;
     },
     resetStatusAndError: (state) => {
-      state.status = "idle";
+      state.updateStatus = "idle";
       state.error = "";
     },
     updateUserRestaurantId: (state, action) => {
@@ -178,44 +182,44 @@ const userSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(registerUser.pending, (state, action) => {
-        state.status = "loading";
+        state.registerStatus = "loading";
         state.error = "";
       })
       .addCase(registerUser.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.registerStatus = "succeeded";
         state.userData = action.payload;
         state.isLoggedIn = true;
       })
       .addCase(registerUser.rejected, (state, action) => {
-        state.status = "failed";
+        state.registerStatus = "failed";
         state.error = action.payload;
       })
 
       .addCase(loginUser.pending, (state, action) => {
-        state.status = "loading";
+        state.loginStatus = "loading";
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.loginStatus = "succeeded";
         // Add any fetched posts to the array
         state.userData = action.payload.user;
         state.token = action.payload.token;
         state.isLoggedIn = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
-        state.status = "failed";
+        state.loginStatus = "failed";
         state.error = action.payload;
       })
 
       .addCase(updateUser.pending, (state, action) => {
-        state.status = "loading";
+        state.updateStatus = "loading";
         state.error = "";
       })
       .addCase(updateUser.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.updateStatus = "succeeded";
         state.userData = action.payload;
       })
       .addCase(updateUser.rejected, (state, action) => {
-        state.status = "failed";
+        state.updateStatus = "failed";
         state.error = action.payload;
       });
   },

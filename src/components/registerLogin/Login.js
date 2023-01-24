@@ -13,7 +13,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  const status = useSelector((state) => state.user.status);
+  const loginStatus = useSelector((state) => state.user.loginStatus);
 
   //Only navigate after rendering login component
   useEffect(() => {
@@ -50,7 +50,7 @@ const Login = () => {
           type="number"
           placeholder="9xxxxxxxxx"
           className={
-            status === "failed"
+            loginStatus === "failed"
               ? "login-phone-input login-error"
               : "login-phone-input"
           }
@@ -90,14 +90,14 @@ const Login = () => {
         </span>
       </div>
       <div className="login-error-msg">
-        {status === "failed" ? "wrong password or phone number" : ""}
+        {loginStatus === "failed" ? "wrong password or phone number" : ""}
       </div>
       <button
         className="login-bottom"
         onClick={() => dispatch(loginUser(formValues))}
-        disabled={status === "loading"}
+        disabled={loginStatus === "loading"}
       >
-        {status === "loading" ? "Logging In" : "Login"}
+        {loginStatus === "loading" ? "Logging In" : "Login"}
       </button>
       <div className="dont-have-account">
         <p>Don't have an account?</p>

@@ -31,9 +31,9 @@ const NavLinks = ({ navbar, closeNavbar }) => {
     },
     {
       newOrderCount: 0,
-      orderServingCount: 30,
-      recycleBinOrderCount: 2,
-      completedOrderCount: 20,
+      orderServingCount: 0,
+      recycleBinOrderCount: 0,
+      completedOrderCount: 0,
     }
   );
 

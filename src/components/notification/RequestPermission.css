@@ -3,6 +3,7 @@
   bottom: 10vh;
   left: 15px;
   transition: transform 1s ease-in-out;
+  border-radius: 0.5rem;
 }
 
 .noti-permission-outer-container-hide {
@@ -16,6 +17,7 @@
   padding: 10px 5px;
   border: 2px solid white;
   border-radius: 0.5rem;
+  background-color: white;
 }
 
 .noti-permission-container h3 {
