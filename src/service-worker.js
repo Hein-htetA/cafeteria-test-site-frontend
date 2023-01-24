@@ -74,46 +74,48 @@ self.addEventListener("message", (event) => {
 
 //console.log("Service Worker Loaded...");
 
-self.addEventListener("push", async function (event) {
-  const windowClients = await self.clients.matchAll({
-    type: "window",
-    includeUncontrolled: true,
-  });
+self.addEventListener("push", function (event) {
+  const handlePushEvent = async () => {
+    const windowClients = await self.clients.matchAll({
+      type: "window",
+      includeUncontrolled: true,
+    });
 
-  let visibilityState = false;
-  //console.log("window clients", windowClients);
+    let visibilityState = false;
+    //console.log("window clients", windowClients);
 
-  for (let i = 0; i < windowClients.length; i++) {
-    //console.log("in for loop");
-    const windowClient = windowClients[i];
-    //console.log(windowClient);
-    if (windowClient.visibilityState) {
-      visibilityState = true;
-      break;
+    for (let i = 0; i < windowClients.length; i++) {
+      //console.log("in for loop");
+      const windowClient = windowClients[i];
+      //console.log(windowClient);
+      if (windowClient.visibilityState) {
+        visibilityState = true;
+        break;
+      }
     }
-  }
 
-  if (visibilityState) return;
-  const options = {
-    body: "You have 1 new order waiting.",
-    icon: "/android-chrome-192x192.png",
-    badge: "/apple-touch-icon.png",
-    timestamp: Date.parse("01 Jan 2000 00:00:00"),
-    data: {
-      count: 1,
-    },
-    tag: "x",
-    renotify: true,
+    if (visibilityState) return;
+    const options = {
+      body: "You have 1 new order waiting.",
+      icon: "/android-chrome-192x192.png",
+      badge: "/apple-touch-icon.png",
+      data: {
+        count: 1,
+      },
+      tag: "x",
+      renotify: true,
+    };
+    const title = "New Order!";
+    const notifications = await self.registration.getNotifications();
+    const currentNotification = notifications[0];
+    if (currentNotification) {
+      const currentCount = currentNotification.data.count;
+      options.data.count = currentCount + 1;
+      options.body = "You have " + options.data.count + " new orders waiting!";
+    }
+    return self.registration.showNotification(title, options);
   };
-  const title = "New Order!";
-  const notifications = await self.registration.getNotifications();
-  const currentNotification = notifications[0];
-  if (currentNotification) {
-    const currentCount = currentNotification.data.count;
-    options.data.count = currentCount + 1;
-    options.body = "You have " + options.data.count + " new orders waiting!";
-  }
-  const promiseChain = await self.registration.showNotification(title, options);
+  event.waitUntil(handlePushEvent());
 });
 
 self.addEventListener("notificationclick", (event) => {

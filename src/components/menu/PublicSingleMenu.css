@@ -31,7 +31,6 @@
   height: 50px;
   overflow: hidden;
   background-color: white;
-  border-top: 2px solid rgb(238, 94, 118);
   bottom: 0;
   width: 100%;
 }
@@ -78,25 +77,22 @@
 .public-item-btn-container {
   display: flex;
   position: absolute;
-  bottom: 0;
+  bottom: 5px;
   width: 100%;
   justify-content: center;
 }
 
 .public-item-btn-container button {
-  width: 50%;
-  color: rgb(238, 94, 118);
-  padding: 3px;
-  opacity: 0.8;
+  width: 60%;
+  padding: 5px;
   border: none;
   font-weight: bold;
+  color: rgb(238, 94, 118);
+  border-radius: 5px;
 }
 
 .public-item-btn-container .public-add-to-cart-btn {
-  border-right: 2px solid rgb(238, 94, 118);
-  border-top: 2px solid rgb(238, 94, 118);
-  border-top-right-radius: 0.5rem;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.822);
 }
 
 .public-item-btn-container .detail-btn {

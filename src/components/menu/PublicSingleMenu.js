@@ -39,18 +39,20 @@ const PublicSingleMenu = (props) => {
   return (
     <>
       <div className="public-item-image-container">
-        <img
-          src={menuPhotoUrl || defaultImageUrl}
-          alt="menu"
-          className="menu-photo"
-        />
-        {outOfStock && (
+        <div onClick={viewDetail}>
           <img
-            src={outOfStockSmall}
-            alt="out-of-stock"
-            className="outOfStock-img"
+            src={menuPhotoUrl || defaultImageUrl}
+            alt="menu"
+            className="menu-photo"
           />
-        )}
+          {outOfStock && (
+            <img
+              src={outOfStockSmall}
+              alt="out-of-stock"
+              className="outOfStock-img"
+            />
+          )}
+        </div>
         <div className="public-item-btn-container">
           {restaurant.status === "open" && (
             <button
@@ -67,9 +69,6 @@ const PublicSingleMenu = (props) => {
               Cart
             </button>
           )}
-          <button className="detail-btn" onClick={viewDetail}>
-            Detail
-          </button>
         </div>
       </div>
       <div className="public-item-info-container">

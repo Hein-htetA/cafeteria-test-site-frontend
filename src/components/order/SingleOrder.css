@@ -205,10 +205,6 @@ option:not(:checked) {
   color: gray;
   font-size: 0.8rem;
   font-weight: bold;
-  /* padding: 3px 3px;
-  border: none;
-  border-left: 2px solid rgb(236, 35, 35);
-  border-right: 2px solid rgb(236, 35, 35); */
 }
 
 .status-time span {
@@ -295,14 +291,6 @@ select:hover {
   align-items: center;
 }
 
-/* .remove-btn-container {
-  margin-left: 10px;
-}
-
-.save-cancel-container {
-  margin-right: 10px;
-} */
-
 .recycle-bin-btn {
   border-radius: 5px;
   border: 2px solid rgb(124, 86, 236);
@@ -320,27 +308,6 @@ select:hover {
 .button-hide {
   visibility: hidden;
 }
-
-/* .save-cancel-container button{
-  border-radius: 5px;
-  border: 2px solid rgb(124, 86, 236);
-  background-color: white;
-  color: rgb(124, 86, 236);
-  padding: 5px;
-  font-weight: bold;
-  text-transform: capitalize;
-  width: 80px;
-}
-
-.save-cancel-container button:hover {
-  cursor: pointer;
-  background-color: rgb(124, 86, 236);
-  color: white;
-}
-
-.save-change-btn {
-  margin-right: 10px;
-} */
 
 .toggle-detail-btn {
   display: flex;

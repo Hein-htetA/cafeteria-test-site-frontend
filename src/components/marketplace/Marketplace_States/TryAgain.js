@@ -15,7 +15,6 @@ const TryAgain = () => {
       >
         Try again ?
       </button>
-      ;
     </>
   );
 };

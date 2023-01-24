@@ -61,8 +61,8 @@ const RequestPermission = () => {
   useEffect(() => {
     if (Notification.permission === "denied") return;
     const checkSubAndReq = async () => {
-      const registeration = await navigator.serviceWorker.ready;
-      const subscription = await registeration.pushManager.getSubscription();
+      //const registeration = await navigator.serviceWorker.ready;
+      //const subscription = await registeration.pushManager.getSubscription();
       const LastSubscribedRestaurantId = localStorage.getItem(
         "LastSubscribedRestaurantId"
       );
@@ -88,7 +88,11 @@ const RequestPermission = () => {
         setReqNotiPermission(true);
       }
     };
-    checkSubAndReq();
+    try {
+      checkSubAndReq();
+    } catch (error) {
+      console.log(error);
+    }
   }, [restaurantId]);
   return (
     <div

@@ -87,17 +87,17 @@ const SingleOrder = (props) => {
               </li>
             );
           })}
-          <li className="message-container">
+          <li>
             <div>Message</div>
             <div>:</div>
-            <div className={"order-message-box"}>
-              <div className={"message-text"}>{message}</div>
+            <div>
+              <div>{message}</div>
             </div>
           </li>
           <li>
             <div>Status</div>
             <div>:</div>
-            <div className={"status-select"}>
+            <div>
               <select
                 className={
                   orderState === "newOrder"
@@ -141,10 +141,8 @@ const SingleOrder = (props) => {
             <li>
               <div>Address</div>
               <div>:</div>
-              <div className="address-box">
-                <div className={"address-text"}>
-                  {requestDelivery ? <div>Pick-up at restaurant</div> : address}
-                </div>
+              <div>
+                {requestDelivery ? address : <div>Pick-up at restaurant</div>}
               </div>
             </li>
             <li>
