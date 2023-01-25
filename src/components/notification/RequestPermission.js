@@ -35,11 +35,9 @@ const RequestPermission = () => {
   const requestPermission = async () => {
     setReqNotiPermission(false);
     const permission = await Notification.requestPermission();
-    //console.log("permission", permission);
     if (permission === "granted") {
       try {
         const registeration = await navigator.serviceWorker.ready;
-        //console.log("registeration", registeration);
         const subscribeOptions = {
           userVisibleOnly: true,
           applicationServerKey: urlBase64ToUint8Array(
@@ -83,7 +81,7 @@ const RequestPermission = () => {
       );
       if (
         !lastReqPermissionDate ||
-        Date.now() - JSON.parse(lastReqPermissionDate) > 5000
+        Date.now() - JSON.parse(lastReqPermissionDate) > 60 * 60 * 1000
       ) {
         setReqNotiPermission(true);
       }

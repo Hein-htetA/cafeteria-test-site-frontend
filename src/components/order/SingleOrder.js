@@ -97,7 +97,7 @@ const SingleOrder = (props) => {
           <li>
             <div>Status</div>
             <div>:</div>
-            <div>
+            <div className="status-select">
               <select
                 className={
                   orderState === "newOrder"

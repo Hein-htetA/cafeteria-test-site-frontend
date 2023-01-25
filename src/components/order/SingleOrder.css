@@ -45,6 +45,10 @@
   margin-bottom: 7px;
 }
 
+.order-ul div {
+  max-height: 10000px;
+}
+
 .order-ul .name-count-container {
   display: grid;
   grid-template-columns: auto auto;

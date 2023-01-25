@@ -38,14 +38,12 @@ const MainSharedLayout = () => {
 
     if (isLoggedIn) {
       //dont need restaurantId to order from other restaurant
-      updateOrderSSE.onopen = () => {
+      updateOrderSSE.onopen = (e) => {
         if (updateOrderSSEOnError.current) {
-          //fetch order ajax if error occured
           dispatch(fetchOrder());
         }
       };
       updateOrderSSE.onmessage = (e) => {
-        // console.log("updateOrderSSE on message");
         const {
           _id: orderId,
           orderState,
@@ -76,7 +74,7 @@ const MainSharedLayout = () => {
     if (isLoggedIn && restaurantId) {
       //restaurantId is available only after user logged in
       dispatch(fetchInitialOrders(restaurantId));
-      newOrderSSE.onopen = () => {
+      newOrderSSE.onopen = (e) => {
         dispatch(setOnline());
         if (newOrderSSEOnError.current) {
           //fetch order ajax if error occured

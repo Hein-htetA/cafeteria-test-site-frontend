@@ -8,6 +8,10 @@
   box-shadow: 0px 0px 6px 5px rgb(238 94 118 / 24%)
 }
 
+.cart-order-container div {
+  max-height: 99999px;
+}
+
 .cart-order-container-received {
   box-shadow: 0px 0px 6px 5px #c138b83b
 }
@@ -27,4 +31,6 @@
 .cart-order-container-recycleBin {
   box-shadow: 0px 0px 6px 5px #be0c0c2e;
 }
+
+
 
