@@ -29,6 +29,7 @@ const Order = () => {
   const orderReceivedRef = useRef(null);
   const orderAcceptedRef = useRef(null);
   const onDeliveryRef = useRef(null);
+
   const onClick1 = () => {
     window.scrollTo(0, orderAcceptedRef.current.offsetTop);
   };
