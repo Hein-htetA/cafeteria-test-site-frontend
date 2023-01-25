@@ -284,6 +284,10 @@ const restaurantSlice = createSlice({
         state.addNewMenuStatus = "idle";
       }
     },
+    clearRestaurantDataMenu: (state) => {
+      state.restaurantData = {};
+      state.menuData = [];
+    },
   },
   extraReducers(builder) {
     builder
@@ -391,6 +395,7 @@ export const {
   resetUpdateRestaurantStatus,
   resetAddNewMenuStatus,
   resetUpdateMenuStatus,
+  clearRestaurantDataMenu,
 } = restaurantSlice.actions;
 
 export default restaurantSlice.reducer;

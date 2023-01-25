@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userSlice from "./features/userSlice";
 import orderSlice from "./features/orderSlice";
-import { handleLocalStorageMiddleware } from "./middleware/handleLocalStorage";
+import handleLogoutMiddleware from "./middleware/handleLogoutMiddleware";
 import restaurantSlice from "./features/restaurantSlice";
 import publicDataSlice from "./features/publicDataSlice";
 import cartSlice from "./features/cartSlice";
@@ -21,16 +21,15 @@ const store = configureStore({
     cart: cartSlice,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware()
-      .prepend(
-        calculateTotalMiddleware.middleware,
-        cartStorageMiddleware.middleware,
-        checkoutStorageMiddleware.middleware,
-        menuStorageMiddleware.middleware,
-        restaurantStorageMiddleware.middleware,
-        publicRestaurantsStorageMiddleware.middleware
-      )
-      .concat(handleLocalStorageMiddleware),
+    getDefaultMiddleware().prepend(
+      calculateTotalMiddleware.middleware,
+      cartStorageMiddleware.middleware,
+      checkoutStorageMiddleware.middleware,
+      menuStorageMiddleware.middleware,
+      restaurantStorageMiddleware.middleware,
+      publicRestaurantsStorageMiddleware.middleware,
+      handleLogoutMiddleware.middleware
+    ),
 });
 
 export default store;
