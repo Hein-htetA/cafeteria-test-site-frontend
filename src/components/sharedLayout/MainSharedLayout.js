@@ -75,7 +75,6 @@ const MainSharedLayout = () => {
       //restaurantId is available only after user logged in
       dispatch(fetchInitialOrders(restaurantId));
       newOrderSSE.onopen = (e) => {
-        dispatch(setOnline());
         if (newOrderSSEOnError.current) {
           //fetch order ajax if error occured
           dispatch(fetchOrdersAfterSSEFailed(restaurantId));
@@ -94,10 +93,13 @@ const MainSharedLayout = () => {
   }, [isLoggedIn, restaurantId]);
 
   useEffect(() => {
+    if (navigator.onLine) {
+      dispatch(setOnline());
+    } else {
+      dispatch(setOffline());
+    }
     const handleVisibilityChange = () => {
-      console.log("Visibility changed");
       if (document.visibilityState === "visible") {
-        console.log("APP resumed");
         window.location.reload();
       }
     };

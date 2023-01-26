@@ -245,6 +245,9 @@ const orderSlice = createSlice({
       state.orderData[index].displayRejectConfirmationBox =
         !state.orderData[index].displayRejectConfirmationBox;
     },
+    clearOrderDataOnLogout: (state) => {
+      state.orderData = [];
+    },
   },
   extraReducers(builder) {
     builder
@@ -399,6 +402,7 @@ export const {
   setDetailContainerHeight,
   toggleDetailContainer,
   toggleRejectConfirmationBox,
+  clearOrderDataOnLogout,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

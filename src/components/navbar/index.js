@@ -69,20 +69,18 @@ const Navbar = () => {
               <span className="new-order-count">{newOrderCount}</span>
             </Link>
           </div>
-          {isLoggedIn && (
-            <div className="online-indicator">
-              <div className={online ? "circle-icon" : "circle-icon-offline"}>
-                .
-              </div>
-              <p
-                className={
-                  online ? "online-indicator-text" : "offline-indicator-text"
-                }
-              >
-                {online ? "ONLINE" : "OFFLINE"}
-              </p>
+          <div className="online-indicator">
+            <div className={online ? "circle-icon" : "circle-icon-offline"}>
+              .
             </div>
-          )}
+            <p
+              className={
+                online ? "online-indicator-text" : "offline-indicator-text"
+              }
+            >
+              {online ? "ONLINE" : "OFFLINE"}
+            </p>
+          </div>
         </div>
         <NavLinks navbar={navbar} closeNavbar={closeNavbar} />
       </nav>

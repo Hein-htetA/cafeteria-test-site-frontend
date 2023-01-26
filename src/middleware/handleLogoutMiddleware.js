@@ -1,4 +1,5 @@
 import { createListenerMiddleware, isAnyOf } from "@reduxjs/toolkit";
+import { clearOrderDataOnLogout } from "../features/orderSlice";
 import { clearRestaurantDataMenu } from "../features/restaurantSlice";
 import { logoutUser } from "../features/userSlice";
 
@@ -12,6 +13,7 @@ handleLogoutMiddleware.startListening({
     sessionStorage.removeItem("restaurant");
     sessionStorage.removeItem("menu");
     listenerApi.dispatch(clearRestaurantDataMenu());
+    listenerApi.dispatch(clearOrderDataOnLogout());
   },
 });
 
