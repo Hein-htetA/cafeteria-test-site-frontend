@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const LinkToLogin = ({ disabled }) => {
   const navigate = useNavigate();
   const directToLogin = () => {
-    navigate("/");
+    navigate("/login");
   };
   return (
     <div className="link-to-login-container">

@@ -125,6 +125,7 @@ const Register = () => {
         removeProfile={removeProfile}
         profileImage={formValues.profileImage}
         disabled={registerStatus === "loading"}
+        isOwner={true}
       />
       <RegisterInfoContainer>
         <Name

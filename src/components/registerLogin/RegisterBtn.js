@@ -4,18 +4,18 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const RegisterBtn = (props) => {
-  const status = useSelector((state) => state.user.status);
+  const registerStatus = useSelector((state) => state.user.registerStatus);
 
   const { handleRegister } = props;
   return (
     <button
       className="register-btn"
       onClick={handleRegister}
-      disabled={status === "loading"}
+      disabled={registerStatus === "loading"}
     >
-      {status === "loading" ? (
+      {registerStatus === "loading" ? (
         "Registering..."
-      ) : status === "failed" ? (
+      ) : registerStatus === "failed" ? (
         <>
           <FontAwesomeIcon icon={faArrowRotateRight} />
           <div>Try Again</div>
