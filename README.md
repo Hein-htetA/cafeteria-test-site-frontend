@@ -10,10 +10,13 @@ At the time of writing this description, it still lacks some vital features such
 
 ## Live Site - https://main.dpg72h128xqq7.amplifyapp.com/marketplace
 
+### Backend Repo - https://github.com/Hein-htetA/cafeteria-backend-test-site
+
 ## Technology Stack
 - React
 - Express.js
 - Node.js
 - MongoDB
 - Redux Toolkit
+- JSON Web Token
 - Vanilla CSS
