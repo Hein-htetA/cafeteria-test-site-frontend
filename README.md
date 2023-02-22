@@ -6,8 +6,6 @@ Besides, I also wanted to create a platform where students can trade their acces
 
 I started this project from scratch by myself. It initially use React Context + Reducer as a state management system. After first release, I refactored it to Redux Toolkit.
 
-At the time of writing this description, it still lacks some vital features such as Out of Stock option on menu, temporarily closing restaurant, searching restaurants by name or id, links to restaurant owner etc.
-
 ## Live Site - https://main.dpg72h128xqq7.amplifyapp.com/marketplace
 
 ### Backend Repo - https://github.com/Hein-htetA/cafeteria-backend-test-site
