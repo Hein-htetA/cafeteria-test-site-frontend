@@ -8,6 +8,8 @@ I started this project from scratch by myself. It initially use React Context + 
 
 At the time of writing this description, it still lacks some vital features such as Out of Stock option on menu, temporarily closing restaurant, searching restaurants by name or id, links to restaurant owner etc.
 
+## Live Site - https://main.dpg72h128xqq7.amplifyapp.com/marketplace
+
 ## Technology Stack
 - React
 - Express.js
